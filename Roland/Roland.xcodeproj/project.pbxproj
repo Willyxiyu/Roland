@@ -7,24 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */; };
 		3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400C271D1EA800F9092E /* AppDelegate.swift */; };
 		3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400E271D1EA800F9092E /* SceneDelegate.swift */; };
-		3F754011271D1EA800F9092E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754010271D1EA800F9092E /* ViewController.swift */; };
+		3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754010271D1EA800F9092E /* CardPageViewController.swift */; };
 		3F754014271D1EA800F9092E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F754012271D1EA800F9092E /* Main.storyboard */; };
 		3F754016271D1EAB00F9092E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F754015271D1EAB00F9092E /* Assets.xcassets */; };
 		3F754019271D1EAB00F9092E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F754017271D1EAB00F9092E /* LaunchScreen.storyboard */; };
+		3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754021271D556400F9092E /* UIColor+Extension.swift */; };
+		3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754024271D66DA00F9092E /* UIFont+Extension.swift */; };
+		3F754027271D671200F9092E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754026271D671200F9092E /* Int+Extension.swift */; };
+		3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754028271D672600F9092E /* UIScreen+Extension.swift */; };
+		3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7EED3E271E968D00DF151F /* TabBarViewController.swift */; };
 		D6596438BAECDA55039469BE /* Pods_Roland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FC399651CC73F0254EBF7B /* Pods_Roland.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardHomePageView.swift; path = Roland/View/CardPage/CardHomePageView.swift; sourceTree = SOURCE_ROOT; };
 		3F754009271D1EA800F9092E /* Roland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F75400C271D1EA800F9092E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F75400E271D1EA800F9092E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3F754010271D1EA800F9092E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3F754010271D1EA800F9092E /* CardPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPageViewController.swift; sourceTree = "<group>"; };
 		3F754013271D1EA800F9092E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F754015271D1EAB00F9092E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F754018271D1EAB00F9092E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F75401A271D1EAB00F9092E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F754021271D556400F9092E /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		3F754024271D66DA00F9092E /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		3F754026271D671200F9092E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		3F754028271D672600F9092E /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		3F7EED3E271E968D00DF151F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		8A7DA42E786D98BD14C5D2F8 /* Pods-Roland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.debug.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.debug.xcconfig"; sourceTree = "<group>"; };
 		92FC399651CC73F0254EBF7B /* Pods_Roland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAD7F5BDB85EF8B57F1EA229 /* Pods-Roland.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.release.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.release.xcconfig"; sourceTree = "<group>"; };
@@ -42,6 +54,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F06CDB1271D773000FFA4E9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3F7EED40271E969F00DF151F /* TabBar */,
+				3F06CDB2271D774700FFA4E9 /* CardPage */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3F06CDB2271D774700FFA4E9 /* CardPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F754010271D1EA800F9092E /* CardPageViewController.swift */,
+			);
+			path = CardPage;
+			sourceTree = "<group>";
+		};
+		3F06CDB3271D77B400FFA4E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F06CDB4271D77BD00FFA4E9 /* CardPage */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F06CDB4271D77BD00FFA4E9 /* CardPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */,
+			);
+			path = CardPage;
+			sourceTree = "<group>";
+		};
 		3F754000271D1EA800F9092E = {
 			isa = PBXGroup;
 			children = (
@@ -63,15 +108,36 @@
 		3F75400B271D1EA800F9092E /* Roland */ = {
 			isa = PBXGroup;
 			children = (
+				3F754023271D557300F9092E /* Extension */,
 				3F75400C271D1EA800F9092E /* AppDelegate.swift */,
 				3F75400E271D1EA800F9092E /* SceneDelegate.swift */,
-				3F754010271D1EA800F9092E /* ViewController.swift */,
+				3F06CDB1271D773000FFA4E9 /* Controller */,
+				3F06CDB3271D77B400FFA4E9 /* View */,
 				3F754012271D1EA800F9092E /* Main.storyboard */,
 				3F754015271D1EAB00F9092E /* Assets.xcassets */,
 				3F754017271D1EAB00F9092E /* LaunchScreen.storyboard */,
 				3F75401A271D1EAB00F9092E /* Info.plist */,
 			);
 			path = Roland;
+			sourceTree = "<group>";
+		};
+		3F754023271D557300F9092E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3F754026271D671200F9092E /* Int+Extension.swift */,
+				3F754021271D556400F9092E /* UIColor+Extension.swift */,
+				3F754024271D66DA00F9092E /* UIFont+Extension.swift */,
+				3F754028271D672600F9092E /* UIScreen+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		3F7EED40271E969F00DF151F /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				3F7EED3E271E968D00DF151F /* TabBarViewController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		67F32BDEF799B5BF57797722 /* Frameworks */ = {
@@ -207,9 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F754011271D1EA800F9092E /* ViewController.swift in Sources */,
+				3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */,
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
+				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
+				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,
+				3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */,
+				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
+				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
+				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
