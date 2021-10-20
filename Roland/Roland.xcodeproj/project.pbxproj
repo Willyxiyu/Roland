@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */; };
+		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
+		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400C271D1EA800F9092E /* AppDelegate.swift */; };
 		3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400E271D1EA800F9092E /* SceneDelegate.swift */; };
 		3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754010271D1EA800F9092E /* CardPageViewController.swift */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardHomePageView.swift; path = Roland/View/CardPage/CardHomePageView.swift; sourceTree = SOURCE_ROOT; };
+		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F754009271D1EA800F9092E /* Roland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F75400C271D1EA800F9092E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F75400E271D1EA800F9092E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +91,14 @@
 			path = CardPage;
 			sourceTree = "<group>";
 		};
+		3F387822271FE00E00203DD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F387823271FE0A300203DD6 /* UserInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3F754000271D1EA800F9092E = {
 			isa = PBXGroup;
 			children = (
@@ -111,12 +123,14 @@
 				3F754023271D557300F9092E /* Extension */,
 				3F75400C271D1EA800F9092E /* AppDelegate.swift */,
 				3F75400E271D1EA800F9092E /* SceneDelegate.swift */,
+				3F387822271FE00E00203DD6 /* Model */,
 				3F06CDB1271D773000FFA4E9 /* Controller */,
 				3F06CDB3271D77B400FFA4E9 /* View */,
 				3F754012271D1EA800F9092E /* Main.storyboard */,
 				3F754015271D1EAB00F9092E /* Assets.xcassets */,
 				3F754017271D1EAB00F9092E /* LaunchScreen.storyboard */,
 				3F75401A271D1EAB00F9092E /* Info.plist */,
+				3F387825271FE84F00203DD6 /* GoogleService-Info.plist */,
 			);
 			path = Roland;
 			sourceTree = "<group>";
@@ -218,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F754019271D1EAB00F9092E /* LaunchScreen.storyboard in Resources */,
+				3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */,
 				3F754016271D1EAB00F9092E /* Assets.xcassets in Resources */,
 				3F754014271D1EA800F9092E /* Main.storyboard in Resources */,
 			);
@@ -281,6 +296,7 @@
 				3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */,
 				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
+				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
