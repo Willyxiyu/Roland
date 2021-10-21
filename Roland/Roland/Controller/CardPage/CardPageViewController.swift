@@ -14,23 +14,27 @@ class CardPageViewController: UIViewController {
         super.viewDidLoad()
         setupCardHomePageView()
         setupCardImageView()
-        cardImageView.alpha = 1
-        setupCardIconImage()
         setupNameLabel()
         setupAgeLabel()
         setupResidenceLabel()
         setupIntroductionLabel()
         cardImageView.isUserInteractionEnabled = true
         cardImageView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
+        setupCardIconImage()
         // Do any additional setup after loading the view.
     }
-    private let cardImageView = CardImageView(frame: .zero, cardImage: UIImage(named: "photo")!)
+    private let cardImageView = CardImageView(frame: .zero)
     private let nameLabel = CardInfoLabel(frame: .zero, labelText: "Willyboy", labelFont: .systemFont(ofSize: 40, weight: .heavy))
     private let ageLabel = CardInfoLabel(frame: .zero, labelText: "26", labelFont: .systemFont(ofSize: 40, weight: .heavy))
     private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "台北, 萬華", labelFont: .systemFont(ofSize: 20, weight: .regular))
     private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "在台灣過60秒，非洲就過了一分鐘", labelFont: .systemFont(ofSize: 20, weight: .regular))
-    private var cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "heart")!)
     
+    private lazy var cardIconImage: UIImageView = {
+        let cardIconImage = UIImageView()
+        cardIconImage.image = UIImage(named: "heart")
+        cardIconImage.alpha = 0
+        return cardIconImage
+    }()
     private func setupCardHomePageView() {
         cardHomePageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cardHomePageView)
@@ -88,7 +92,6 @@ class CardPageViewController: UIViewController {
         NSLayoutConstraint.activate([
             residenceLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             residenceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15),
-            residenceLabel.heightAnchor.constraint(equalToConstant: 30),
             residenceLabel.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
@@ -97,7 +100,7 @@ class CardPageViewController: UIViewController {
             cardImageView.addSubview(introductionLabel)
             NSLayoutConstraint.activate([
                 introductionLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor),
-                introductionLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor, constant: 5),
+                introductionLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor),
                 introductionLabel.widthAnchor.constraint(equalToConstant: 200)
             ])
         }
@@ -107,15 +110,12 @@ class CardPageViewController: UIViewController {
         let yFromBottom = self.view.frame.height - cardImageView.center.y
         cardImageView.center = CGPoint(x: self.view.center.x + point.x, y: self.view.center.y + point.y)
         cardImageView.transform = CGAffineTransform(rotationAngle: atan(xFromCenter / yFromBottom))
-        if xFromCenter > 0 {
-            cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "heart")!)
-            cardIconImage.alpha = 1
-            
-        } else {
-            cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "no")!)
-            cardIconImage.alpha = 1
-        }
         cardIconImage.alpha = abs(xFromCenter) / self.view.center.x
+        if xFromCenter > 0 {
+            cardIconImage.image = UIImage(named: "heart")
+        } else {
+            cardIconImage.image = UIImage(named: "no")
+        }
         if gesture.state == .ended {
             if  cardImageView.center.x < 75 {
                 // Move off to the left side

@@ -8,13 +8,12 @@
 import UIKit
 
 class CardImageView: UIImageView {
-    init(frame: CGRect, cardImage: UIImage) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         layer.cornerRadius = 10
         contentMode = .scaleAspectFill
-        image = cardImage
+        image = UIImage(named: "photo")
         clipsToBounds = true
-        alpha = 0
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
