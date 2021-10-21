@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+//臨時按鍵，之後不需要
 class CardHomePageView: UIView {
     // MARK: - UIProperties
     lazy var rolandLabel: UILabel = {
@@ -43,7 +43,6 @@ class CardHomePageView: UIView {
         }
     }
     
-
     // MARK: - init
     init() {
         super.init(frame: .zero)

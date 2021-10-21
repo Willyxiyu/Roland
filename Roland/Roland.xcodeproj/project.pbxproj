@@ -12,6 +12,8 @@
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
 		3F38782A271FF7BB00203DD6 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387829271FF7BB00203DD6 /* Firebase.swift */; };
+		3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38782B27219A5500203DD6 /* CardInfoLabel.swift */; };
+		3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38782D27219F2A00203DD6 /* CardImageView.swift */; };
 		3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400C271D1EA800F9092E /* AppDelegate.swift */; };
 		3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400E271D1EA800F9092E /* SceneDelegate.swift */; };
 		3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754010271D1EA800F9092E /* CardPageViewController.swift */; };
@@ -32,6 +34,8 @@
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
 		3F387829271FF7BB00203DD6 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		3F38782B27219A5500203DD6 /* CardInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoLabel.swift; sourceTree = "<group>"; };
+		3F38782D27219F2A00203DD6 /* CardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageView.swift; sourceTree = "<group>"; };
 		3F754009271D1EA800F9092E /* Roland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F75400C271D1EA800F9092E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F75400E271D1EA800F9092E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */,
+				3F38782B27219A5500203DD6 /* CardInfoLabel.swift */,
+				3F38782D27219F2A00203DD6 /* CardImageView.swift */,
 			);
 			path = CardPage;
 			sourceTree = "<group>";
@@ -314,6 +320,7 @@
 			files = (
 				3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */,
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
+				3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
 				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,
@@ -323,6 +330,7 @@
 				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
+				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

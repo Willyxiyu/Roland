@@ -6,49 +6,31 @@
 // closure 記得加[weak self]
 
 import UIKit
+import FirebaseFirestore
 
 class CardPageViewController: UIViewController {
     var cardHomePageView = CardHomePageView()
     override func viewDidLoad() {
         super.viewDidLoad()
-        cardHomePageView.backgroundColor = .white
         setupCardHomePageView()
-        setupCardView()
-        setupCardIcon()
+        setupCardImageView()
+        cardImageView.alpha = 1
+        setupCardIconImage()
         setupNameLabel()
-        setupBirthLabel()
-        cardView.isUserInteractionEnabled = true
-        cardView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
+        setupAgeLabel()
+        setupResidenceLabel()
+        setupIntroductionLabel()
+        cardImageView.isUserInteractionEnabled = true
+        cardImageView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
         // Do any additional setup after loading the view.
     }
-    lazy var cardView: UIImageView = {
-        let cardView = UIImageView()
-        cardView.image = UIImage(named: "photo")
-        cardView.contentMode = .scaleAspectFill
-        cardView.clipsToBounds = true
-        cardView.layer.cornerRadius = 15
-        return cardView
-    }()
-    lazy var nameLabel: UILabel = {
-        let nameLabel = UILabel()
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        nameLabel.textColor = UIColor.white
-        nameLabel.text = "WillyBoy"
-        return nameLabel
-    }()
-    lazy var birthLabel: UILabel = {
-        let birthLabel = UILabel()
-        birthLabel.font = UIFont.medium(size: 20)
-        birthLabel.textColor = UIColor.white
-        birthLabel.text = "26"
-        return birthLabel
-    }()
-    lazy var cardIcon: UIImageView = {
-        let cardIcon = UIImageView()
-        cardIcon.image = UIImage(named: "heart")
-        cardIcon.alpha = 0
-        return cardIcon
-    }()
+    private let cardImageView = CardImageView(frame: .zero, cardImage: UIImage(named: "photo")!)
+    private let nameLabel = CardInfoLabel(frame: .zero, labelText: "Willyboy", labelFont: .systemFont(ofSize: 40, weight: .heavy))
+    private let ageLabel = CardInfoLabel(frame: .zero, labelText: "26", labelFont: .systemFont(ofSize: 40, weight: .heavy))
+    private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "台北, 萬華", labelFont: .systemFont(ofSize: 20, weight: .regular))
+    private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "在台灣過60秒，非洲就過了一分鐘", labelFont: .systemFont(ofSize: 20, weight: .regular))
+    private var cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "heart")!)
+    
     private func setupCardHomePageView() {
         cardHomePageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cardHomePageView)
@@ -59,92 +41,112 @@ class CardPageViewController: UIViewController {
             cardHomePageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
-    private func setupCardIcon() {
-        cardIcon.translatesAutoresizingMaskIntoConstraints = false
-        cardView.addSubview(cardIcon)
+    private func setupCardImageView() {
+        cardImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(cardImageView)
         NSLayoutConstraint.activate([
-            cardIcon.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
-            cardIcon.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            cardIcon.widthAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: 0.3),
-            cardIcon.heightAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: 0.3)
+            cardImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            cardImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            cardImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            cardImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            cardImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7)
+        ])
+    }
+    private func setupCardIconImage() {
+        cardIconImage.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(cardIconImage)
+        NSLayoutConstraint.activate([
+            cardIconImage.centerXAnchor.constraint(equalTo: cardImageView.centerXAnchor),
+            cardIconImage.centerYAnchor.constraint(equalTo: cardImageView.centerYAnchor),
+            cardIconImage.widthAnchor.constraint(equalTo: cardImageView.widthAnchor, multiplier: 0.3),
+            cardIconImage.heightAnchor.constraint(equalTo: cardImageView.widthAnchor, multiplier: 0.3)
         ])
     }
     private func setupNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardView.addSubview(nameLabel)
+        cardImageView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 50),
-            nameLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -100),
-            nameLabel.widthAnchor.constraint(equalToConstant: 100),
+            nameLabel.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 10),
+            nameLabel.bottomAnchor.constraint(equalTo: cardImageView.bottomAnchor, constant: -150),
+            nameLabel.widthAnchor.constraint(equalToConstant: 180),
             nameLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    private func setupBirthLabel() {
-        birthLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardView.addSubview(birthLabel)
+    private func setupAgeLabel() {
+        ageLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(ageLabel)
         NSLayoutConstraint.activate([
-            birthLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            birthLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
-            birthLabel.widthAnchor.constraint(equalToConstant: 50),
-            birthLabel.heightAnchor.constraint(equalToConstant: 50)
+            ageLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
+            ageLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
+            ageLabel.widthAnchor.constraint(equalToConstant: 75),
+            ageLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    private func setupCardView() {
-        cardView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(cardView)
+    private func setupResidenceLabel() {
+        residenceLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(residenceLabel)
         NSLayoutConstraint.activate([
-            cardView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            cardView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            cardView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            cardView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
-            cardView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7)
+            residenceLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            residenceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15),
+            residenceLabel.heightAnchor.constraint(equalToConstant: 30),
+            residenceLabel.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
+        private func setupIntroductionLabel() {
+            introductionLabel.translatesAutoresizingMaskIntoConstraints = false
+            cardImageView.addSubview(introductionLabel)
+            NSLayoutConstraint.activate([
+                introductionLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor),
+                introductionLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor, constant: 5),
+                introductionLabel.widthAnchor.constraint(equalToConstant: 200)
+            ])
+        }
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         let point = gesture.translation(in: self.view)
-        let xFromCenter = cardView.center.x - self.view.center.x
-        let yFromBottom = self.view.frame.height - cardView.center.y
-        cardView.center = CGPoint(x: self.view.center.x + point.x, y: self.view.center.y + point.y)
-        cardView.transform = CGAffineTransform(rotationAngle: atan(xFromCenter / yFromBottom))
+        let xFromCenter = cardImageView.center.x - self.view.center.x
+        let yFromBottom = self.view.frame.height - cardImageView.center.y
+        cardImageView.center = CGPoint(x: self.view.center.x + point.x, y: self.view.center.y + point.y)
+        cardImageView.transform = CGAffineTransform(rotationAngle: atan(xFromCenter / yFromBottom))
         if xFromCenter > 0 {
-            cardIcon.image = UIImage(named: "heart")
+            cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "heart")!)
+            cardIconImage.alpha = 1
+            
         } else {
-            cardIcon.image = UIImage(named: "no")
+            cardIconImage = CardImageView(frame: .zero, cardImage: UIImage(named: "no")!)
+            cardIconImage.alpha = 1
         }
-        cardIcon.alpha = abs(xFromCenter) / self.view.center.x
+        cardIconImage.alpha = abs(xFromCenter) / self.view.center.x
         if gesture.state == .ended {
-            if  cardView.center.x < 75 {
+            if  cardImageView.center.x < 75 {
                 // Move off to the left side
                 UIView.animate(withDuration: 0.3, animations: { [self] in
-                    cardView.center = CGPoint(x: cardView.center.x - 200, y: cardView.center.y)
-                    self.cardView.alpha = 0
+                    cardImageView.center = CGPoint(x: cardImageView.center.x - 200, y: cardImageView.center.y)
+                    self.cardImageView.alpha = 0
                 }) { (finish) in
                     UIView.animate(withDuration: 0.1, animations: {
-                        
-                        self.cardView.image = nil
-                        //                        self.cardHomePageView.cardView = nil
-                        self.cardView.removeFromSuperview()
-                        print(self.cardView.image as Any)
-                        print(self.cardView)
+                        self.cardImageView.image = nil
+                        self.cardImageView.removeFromSuperview()
+                        print(self.cardImageView.image as Any)
+                        print(self.cardImageView)
                     })
                 }
                 return
-            } else if cardView.center.x > (UIScreen.width - 75) {
+            } else if cardImageView.center.x > (UIScreen.width - 75) {
                 // Move off to the right side
                 UIView.animate(withDuration: 0.3, animations: { [self] in
-                    self.cardView.center = CGPoint(x: cardView.center.x + 200, y: cardView.center.y)
-                    self.cardView.alpha = 0
+                    self.cardImageView.center = CGPoint(x: cardImageView.center.x + 200, y: cardImageView.center.y)
+                    self.cardImageView.alpha = 0
                 }) { (finish) in
                     UIView.animate(withDuration: 0.1, animations: {
-                        self.cardView.image = nil
+                        self.cardImageView.image = nil
                     })
                 }
                 return
             }
             UIView.animate(withDuration: 0.2, animations: {
-                self.cardView.center = self.view.center
-                self.cardIcon.alpha = 0
-                self.cardView.transform = CGAffineTransform(rotationAngle: 0)
+                self.cardImageView.center = self.view.center
+                self.cardIconImage.alpha = 0
+                self.cardImageView.transform = CGAffineTransform(rotationAngle: 0)
             })
         }
     }

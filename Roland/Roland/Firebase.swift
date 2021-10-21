@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 
 class FirebaseManger {
     static let shared = FirebaseManger()
+    var users = [UserInfo]()
     lazy var database = Firestore.firestore()
     func addUserInfo() {
         let ref = database.collection("UserInfo")
@@ -38,15 +39,15 @@ class FirebaseManger {
 //                print(error)
                 completion(.failure(error))
             } else {
-                var userInfoArray = [UserInfo]()
+                var users = [UserInfo]()
                 
                 for document in querySnapshot!.documents {
                     
                     do {
                         if let userInfo = try document.data(as: UserInfo.self) {
-                            userInfoArray.append(userInfo)
+                            users.append(userInfo)
 //                            print(userInfo)
-                            print(userInfoArray)
+                            print(users)
                         }
 
                     } catch {
