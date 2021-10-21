@@ -19,7 +19,7 @@ class FirebaseManger {
         let userInfo: [String: Any] = [
             "name": "當男人戀愛時",
             "gender": "遊戲Boy",
-            "birth": "1994.12.13",
+            "birth": "26",
             "phoneNumber": 0910921921,
             "userId": docId,
             "createTime": Timestamp(date: Date())
@@ -32,10 +32,10 @@ class FirebaseManger {
             }
         }
     }
-    func getUserInfo(completion: @escaping (Result<[UserInfo], Error>) -> Void) { // only needs name, birth, gender
+    func getUserInfo(completion: @escaping (Result<[UserInfo], Error>) -> Void) { // only needs name, birth
         database.collection("UserInfo").whereField("gender", isEqualTo: "遊戲Boy").getDocuments { (querySnapshot, error) in
             if let error = error {
-                print(error)
+//                print(error)
                 completion(.failure(error))
             } else {
                 var userInfoArray = [UserInfo]()
@@ -45,7 +45,7 @@ class FirebaseManger {
                     do {
                         if let userInfo = try document.data(as: UserInfo.self) {
                             userInfoArray.append(userInfo)
-                            print(userInfo)
+//                            print(userInfo)
                             print(userInfoArray)
                         }
 
