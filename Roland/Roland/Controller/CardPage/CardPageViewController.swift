@@ -27,7 +27,7 @@ class CardPageViewController: UIViewController {
             cardHomePageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
-    @objc func handlePanGesture(_ gesture:UIPanGestureRecognizer) {
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         let point = gesture.translation(in: self.view)
         let xFromCenter = cardHomePageView.cardView.center.x - self.view.center.x
         let yFromBottom = self.view.frame.height - cardHomePageView.cardView.center.y
@@ -41,14 +41,14 @@ class CardPageViewController: UIViewController {
         cardHomePageView.cardIcon.alpha = abs(xFromCenter) / self.view.center.x
         if gesture.state == .ended {
             if  cardHomePageView.cardView.center.x < 75 {
-                //Move off to the left side
+                // Move off to the left side
                 UIView.animate(withDuration: 0.3, animations: { [self] in
                     self.cardHomePageView.cardView.center = CGPoint(x: cardHomePageView.cardView.center.x - 200, y: cardHomePageView.cardView.center.y)
                     self.cardHomePageView.cardView.alpha = 0
                 })
                 return
             } else if cardHomePageView.cardView.center.x > (UIScreen.width - 75) {
-                //Move off to the right side
+                // Move off to the right side
                 UIView.animate(withDuration: 0.3, animations: { [self] in
                     self.cardHomePageView.cardView.center = CGPoint(x: cardHomePageView.cardView.center.x + 200, y: cardHomePageView.cardView.center.y)
                     self.cardHomePageView.cardView.alpha = 0

@@ -7,4 +7,6 @@ target 'Roland' do
 
   # Pods for Roland
     pod 'SwiftLint'
+    pod 'Firebase/Firestore'
+    pod 'FirebaseFirestoreSwift'
 end

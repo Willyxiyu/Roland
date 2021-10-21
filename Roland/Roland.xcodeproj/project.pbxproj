@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */; };
+		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
+		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
+		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
+		3F38782A271FF7BB00203DD6 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387829271FF7BB00203DD6 /* Firebase.swift */; };
 		3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400C271D1EA800F9092E /* AppDelegate.swift */; };
 		3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F75400E271D1EA800F9092E /* SceneDelegate.swift */; };
 		3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754010271D1EA800F9092E /* CardPageViewController.swift */; };
@@ -24,6 +28,10 @@
 
 /* Begin PBXFileReference section */
 		3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardHomePageView.swift; path = Roland/View/CardPage/CardHomePageView.swift; sourceTree = SOURCE_ROOT; };
+		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
+		3F387829271FF7BB00203DD6 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
 		3F754009271D1EA800F9092E /* Roland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F75400C271D1EA800F9092E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F75400E271D1EA800F9092E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +95,15 @@
 			path = CardPage;
 			sourceTree = "<group>";
 		};
+		3F387822271FE00E00203DD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F387823271FE0A300203DD6 /* UserInfo.swift */,
+				3F387827271FF02200203DD6 /* ScalingCard.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3F754000271D1EA800F9092E = {
 			isa = PBXGroup;
 			children = (
@@ -108,15 +125,18 @@
 		3F75400B271D1EA800F9092E /* Roland */ = {
 			isa = PBXGroup;
 			children = (
-				3F754023271D557300F9092E /* Extension */,
 				3F75400C271D1EA800F9092E /* AppDelegate.swift */,
 				3F75400E271D1EA800F9092E /* SceneDelegate.swift */,
+				3F754023271D557300F9092E /* Extension */,
+				3F387829271FF7BB00203DD6 /* Firebase.swift */,
+				3F387822271FE00E00203DD6 /* Model */,
 				3F06CDB1271D773000FFA4E9 /* Controller */,
 				3F06CDB3271D77B400FFA4E9 /* View */,
 				3F754012271D1EA800F9092E /* Main.storyboard */,
 				3F754015271D1EAB00F9092E /* Assets.xcassets */,
 				3F754017271D1EAB00F9092E /* LaunchScreen.storyboard */,
 				3F75401A271D1EAB00F9092E /* Info.plist */,
+				3F387825271FE84F00203DD6 /* GoogleService-Info.plist */,
 			);
 			path = Roland;
 			sourceTree = "<group>";
@@ -165,10 +185,11 @@
 			buildConfigurationList = 3F75401D271D1EAB00F9092E /* Build configuration list for PBXNativeTarget "Roland" */;
 			buildPhases = (
 				671548C99FCBAF467F23EFD1 /* [CP] Check Pods Manifest.lock */,
-				3F754020271D1FF500F9092E /* Run SwiftLint */,
+				3F754020271D1FF500F9092E /* Run Script */,
 				3F754005271D1EA800F9092E /* Sources */,
 				3F754006271D1EA800F9092E /* Frameworks */,
 				3F754007271D1EA800F9092E /* Resources */,
+				876CE803CB6CEB4F3798724F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -218,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F754019271D1EAB00F9092E /* LaunchScreen.storyboard in Resources */,
+				3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */,
 				3F754016271D1EAB00F9092E /* Assets.xcassets in Resources */,
 				3F754014271D1EA800F9092E /* Main.storyboard in Resources */,
 			);
@@ -226,7 +248,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3F754020271D1FF500F9092E /* Run SwiftLint */ = {
+		3F754020271D1FF500F9092E /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -235,7 +257,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Run SwiftLint";
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -266,6 +288,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		876CE803CB6CEB4F3798724F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roland/Pods-Roland-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roland/Pods-Roland-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Roland/Pods-Roland-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -278,9 +317,12 @@
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
 				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,
+				3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */,
+				3F38782A271FF7BB00203DD6 /* Firebase.swift in Sources */,
 				3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */,
 				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
+				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +386,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -432,6 +475,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roland/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
