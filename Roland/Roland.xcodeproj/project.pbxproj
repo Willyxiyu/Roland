@@ -25,6 +25,7 @@
 		3F754027271D671200F9092E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754026271D671200F9092E /* Int+Extension.swift */; };
 		3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754028271D672600F9092E /* UIScreen+Extension.swift */; };
 		3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7EED3E271E968D00DF151F /* TabBarViewController.swift */; };
+		3F9547AE2722D360004E8249 /* ChatroomlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */; };
 		3FF3676727228A8D00F36D74 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3676627228A8D00F36D74 /* CardView.swift */; };
 		D6596438BAECDA55039469BE /* Pods_Roland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FC399651CC73F0254EBF7B /* Pods_Roland.framework */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		3F754026271D671200F9092E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		3F754028271D672600F9092E /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		3F7EED3E271E968D00DF151F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatroomlistViewController.swift; sourceTree = "<group>"; };
 		3FF3676627228A8D00F36D74 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8A7DA42E786D98BD14C5D2F8 /* Pods-Roland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.debug.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.debug.xcconfig"; sourceTree = "<group>"; };
 		92FC399651CC73F0254EBF7B /* Pods_Roland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +73,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F9547AC2722D34E004E8249 /* ChatroomlistPage */,
 				3F7EED40271E969F00DF151F /* TabBar */,
 				3F06CDB2271D774700FFA4E9 /* CardPage */,
 			);
@@ -167,6 +170,14 @@
 				3F7EED3E271E968D00DF151F /* TabBarViewController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		3F9547AC2722D34E004E8249 /* ChatroomlistPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */,
+			);
+			path = ChatroomlistPage;
 			sourceTree = "<group>";
 		};
 		67F32BDEF799B5BF57797722 /* Frameworks */ = {
@@ -327,6 +338,7 @@
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
 				3FF3676727228A8D00F36D74 /* CardView.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
+				3F9547AE2722D360004E8249 /* ChatroomlistViewController.swift in Sources */,
 				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,
 				3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */,
 				3F38782A271FF7BB00203DD6 /* Firebase.swift in Sources */,

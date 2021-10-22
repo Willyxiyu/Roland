@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="138.61607142857142"/>
         </scene>
-        <!--View Controller-->
+        <!--Chatroomlist View Controller-->
         <scene sceneID="sMI-BT-nOM">
             <objects>
-                <viewController id="72G-hf-oEp" sceneMemberID="viewController">
+                <viewController id="72G-hf-oEp" customClass="ChatroomlistViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="l2l-gx-wjL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
