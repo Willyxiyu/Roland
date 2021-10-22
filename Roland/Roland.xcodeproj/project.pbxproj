@@ -25,6 +25,7 @@
 		3F754027271D671200F9092E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754026271D671200F9092E /* Int+Extension.swift */; };
 		3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754028271D672600F9092E /* UIScreen+Extension.swift */; };
 		3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7EED3E271E968D00DF151F /* TabBarViewController.swift */; };
+		3FF3676727228A8D00F36D74 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3676627228A8D00F36D74 /* CardView.swift */; };
 		D6596438BAECDA55039469BE /* Pods_Roland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FC399651CC73F0254EBF7B /* Pods_Roland.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		3F754026271D671200F9092E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		3F754028271D672600F9092E /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		3F7EED3E271E968D00DF151F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		3FF3676627228A8D00F36D74 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8A7DA42E786D98BD14C5D2F8 /* Pods-Roland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.debug.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.debug.xcconfig"; sourceTree = "<group>"; };
 		92FC399651CC73F0254EBF7B /* Pods_Roland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAD7F5BDB85EF8B57F1EA229 /* Pods-Roland.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.release.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */,
 				3F38782B27219A5500203DD6 /* CardInfoLabel.swift */,
 				3F38782D27219F2A00203DD6 /* CardImageView.swift */,
+				3FF3676627228A8D00F36D74 /* CardView.swift */,
 			);
 			path = CardPage;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
 				3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
+				3FF3676727228A8D00F36D74 /* CardView.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
 				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,
 				3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */,

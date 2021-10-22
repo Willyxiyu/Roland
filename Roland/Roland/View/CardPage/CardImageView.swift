@@ -8,8 +8,8 @@
 import UIKit
 
 class CardImageView: UIImageView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+   init() {
+       super.init(frame: .zero)
         layer.cornerRadius = 10
         contentMode = .scaleAspectFill
         image = UIImage(named: "photo")

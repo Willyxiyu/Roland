@@ -33,12 +33,15 @@ class FirebaseManger {
             }
         }
     }
-    func getUserInfo(completion: @escaping (Result<[UserInfo], Error>) -> Void) { // only needs name, birth
-        database.collection("UserInfo").whereField("gender", isEqualTo: "遊戲Boy").getDocuments { (querySnapshot, error) in
+    func getUserInfoFromFirestore(completion: @escaping ([UserInfo]) -> Void) { // only needs name, birth
+        database.collection("UserInfo").getDocuments { (querySnapshot, error) in
             if let error = error {
-//                print(error)
-                completion(.failure(error))
+                print(error)
+                
+               return
+                
             } else {
+                
                 var users = [UserInfo]()
                 
                 for document in querySnapshot!.documents {
@@ -46,13 +49,15 @@ class FirebaseManger {
                     do {
                         if let userInfo = try document.data(as: UserInfo.self) {
                             users.append(userInfo)
-//                            print(userInfo)
                             print(users)
                         }
-
+                        
                     } catch {
+                        
                     }
                 }
+                
+                completion(users)
             }
         }
     }
