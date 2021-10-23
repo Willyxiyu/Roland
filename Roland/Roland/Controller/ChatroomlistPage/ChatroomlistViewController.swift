@@ -17,7 +17,13 @@ class ChatroomlistViewController: UIViewController {
         setupChatRoomListTableView()
         setupNoConversationLabel()
         fetchConversation()
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
+    }
+    
+    @objc private func didTapComposeButton() {
+        let newConversationViewController = NewConversationViewController()
+        let navVC = UINavigationController(rootViewController: newConversationViewController)
+        present(navVC, animated: true)
     }
     
     private lazy var chatRoomListTableView: UITableView = {
