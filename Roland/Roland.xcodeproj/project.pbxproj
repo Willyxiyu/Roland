@@ -30,6 +30,7 @@
 		3FB49E6A2724177B00B9809D /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E692724177B00B9809D /* ChatRoomViewController.swift */; };
 		3FB49E6C27241A0100B9809D /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6B27241A0100B9809D /* ChatRoomTableViewCell.swift */; };
 		3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6D2724375400B9809D /* NewConversationViewController.swift */; };
+		3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */; };
 		3FF3676727228A8D00F36D74 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3676627228A8D00F36D74 /* CardView.swift */; };
 		D6596438BAECDA55039469BE /* Pods_Roland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FC399651CC73F0254EBF7B /* Pods_Roland.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		3FB49E692724177B00B9809D /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		3FB49E6B27241A0100B9809D /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		3FB49E6D2724375400B9809D /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewConversationViewController.swift; path = Roland/Controller/NewConversationViewController.swift; sourceTree = SOURCE_ROOT; };
+		3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		3FF3676627228A8D00F36D74 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8A7DA42E786D98BD14C5D2F8 /* Pods-Roland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.debug.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.debug.xcconfig"; sourceTree = "<group>"; };
 		92FC399651CC73F0254EBF7B /* Pods_Roland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Roland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 				3F7EED40271E969F00DF151F /* TabBar */,
 				3F06CDB2271D774700FFA4E9 /* CardPage */,
 				3FB49E692724177B00B9809D /* ChatRoomViewController.swift */,
+				3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */,
 				3FB49E6D2724375400B9809D /* NewConversationViewController.swift */,
 			);
 			path = Controller;
@@ -361,6 +364,7 @@
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
+				3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */,
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FB49E6A2724177B00B9809D /* ChatRoomViewController.swift in Sources */,

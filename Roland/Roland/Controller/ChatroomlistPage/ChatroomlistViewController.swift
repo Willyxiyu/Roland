@@ -11,7 +11,8 @@ import JGProgressHUD
 class ChatroomlistViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
-    var nameList = ["Willy Boy", "Mike", "Jack"]
+    
+    var nameList = ["Willy Boy"]
     
     override func viewDidLoad() {
         setupChatRoomListTableView()
@@ -22,8 +23,25 @@ class ChatroomlistViewController: UIViewController {
     
     @objc private func didTapComposeButton() {
         let newConversationViewController = NewConversationViewController()
+        newConversationViewController.completion = { [weak self] result in
+            print("\(result)")
+            self?.createNewConversation(result: result)
+        }
+        
         let navVC = UINavigationController(rootViewController: newConversationViewController)
         present(navVC, animated: true)
+    }
+    private func createNewConversation(result: [String: String]) {
+        
+        guard let name = result["name"],
+        let email = result["email"] else {
+            return
+        }
+        let chatRoomViewController = ChatRoomViewController(with: email)
+        chatRoomViewController.isNewConversation = true
+        chatRoomViewController.title = name
+        chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
     private lazy var chatRoomListTableView: UITableView = {
@@ -101,7 +119,7 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatRoomListTableView.deselectRow(at: indexPath, animated: true)
         
-        let chatRoomViewController = ChatRoomViewController()
+        let chatRoomViewController = ChatRoomViewController(with: "willy@gmail.com")
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }

@@ -148,6 +148,7 @@ class CardView: UIView {
             nameLabel.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 10),
             nameLabel.bottomAnchor.constraint(equalTo: cardImageView.bottomAnchor, constant: -150)
         ])
+        nameLabel.text = user.name
     }
     private func setupAgeLabel(user: UserInfo) {
         ageLabel.translatesAutoresizingMaskIntoConstraints = false
