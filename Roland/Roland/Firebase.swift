@@ -12,8 +12,14 @@ import FirebaseFirestoreSwift
 
 class FirebaseManger {
     static let shared = FirebaseManger()
-    var users = [UserInfo]()
     lazy var database = Firestore.firestore()
+    
+    var users = [UserInfo]()
+    var chatRoomList = [ChatRoomList]()
+    var message = ""
+    var senderId = ""
+    var accepterId = ""
+    
     func addUserInfo() {
         let ref = database.collection("UserInfo")
         let docId = ref.document().documentID
@@ -38,7 +44,7 @@ class FirebaseManger {
             if let error = error {
                 print(error)
                 
-               return
+                return
                 
             } else {
                 
@@ -49,7 +55,7 @@ class FirebaseManger {
                     do {
                         if let userInfo = try document.data(as: UserInfo.self) {
                             users.append(userInfo)
-                            print(users)
+                            //                            print(users)
                         }
                         
                     } catch {
@@ -67,14 +73,117 @@ class FirebaseManger {
 extension FirebaseManger {
     
     /// Creates a new conversation with target user email and first message sent
-    public func createNewChatRoom(with otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
+    public func createNewChatRoom(firstMessage: Message, completion: @escaping (Bool) -> Void) {
+        
+        let ref = database.collection("ChatRoomList")
+        let docId = ref.document().documentID
+        let messageDate = firstMessage.sentDate
+        guard let dateString = ChatRoomViewController.dateFormatter.string(for: messageDate) else {
+            return
+        }
+        switch firstMessage.kind {
+            
+        case .text(let messageText):
+            message = messageText
+        case .attributedText(_):
+            break
+        case .photo(_):
+            break
+        case .video(_):
+            break
+        case .location(_):
+            break
+        case .emoji(_):
+            break
+        case .audio(_):
+            break
+        case .contact(_):
+            break
+        case .linkPreview(_):
+            break
+        case .custom(_):
+            break
+        }
+        
+        let newChatRoomList: [String: Any] = [
+            "chatRoomId": "ChatRoom_\(firstMessage.messageId)",
+            "userId": [senderId, accepterId],
+            "isBlock": false,
+            "isDelete": false,
+            "isTurnOn": true,
+            "latestMessage": [
+                "date ": dateString,
+                "isRead": true,
+                "latestMessage": message
+            ]
+        ]
+        
+        ref.whereField("userId", in: [[senderId], [accepterId]])
+        
+        // if senderId & accepterId 都有 {
+        // { 直接開原有的聊天室
+        // } else { 開新的聊天室
+        
+        ref.document(docId).setData(newChatRoomList) { (error) in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document data: \(newChatRoomList)")
+            }
+        }
     }
     /// Fetches and returns all conversation for the users with passed in email
-    public func getAllChatRoom(for email: String, completion: @escaping(Result<String, Error>) -> Void) {
+    public func getAllChatRoom(completion: @escaping([ChatRoomList]) -> Void) {
+        
+        database.collection("ChatRoomList").whereField("userId", in: [[senderId], [accepterId]])
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print(error)
+                    
+                    return
+                } else {
+                    var chatRoomList = [ChatRoomList]()
+                    
+                    for document in querySnapshot!.documents {
+                        
+                        do {
+                            if let chatroom = try document.data(as: ChatRoomList.self) {
+                                chatRoomList.append(chatroom)
+                            }
+                        } catch {
+                            
+                        }
+                    }
+                    
+                    completion(chatRoomList)
+                }
+            }
     }
     
     /// Gets all messages for a given conversation
-    public func getAllMessagesForChatRoom(with id: String, completion: @escaping(Result<String, Error>) -> Void) {
+    public func getAllMessagesForChatRoom(chatRoomId: String, completion: @escaping(Result<String, Error>) -> Void) {
+//        database.collection("ChatRoomList").document(chatRoomId).collection("message")
+//            .getDocuments { querySnapshot, error in
+//                if let error = error {
+//                    print(error)
+//                    return
+//                } else {
+////                    var messages = [message]()
+//
+//                    for document in querySnapshot!.documents {
+//
+//                        do {
+//                            if let chatroom = try document.data(as: ChatRoomList.self) {
+//                                message.append(messages)
+//                            }
+//                        } catch {
+//
+//                        }
+//                    }
+//
+//                    completion(messages)
+//                }
+//            }
     }
     
     /// Sends a message with target conversation and message

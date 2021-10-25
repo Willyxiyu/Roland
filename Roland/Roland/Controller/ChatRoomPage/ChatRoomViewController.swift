@@ -16,38 +16,38 @@ struct Message: MessageType {
     public var kind: MessageKind
 }
 
-// extension MessageKind {
-//    var messageKindString: String {
-//        switch self {
-//        case .text(_):
-//            return "text"
-//        case .attributedText(_):
-//            return "attributed_text"
-//        case .photo(_):
-//            return "photo"
-//        case .video(_):
-//            return "video"
-//        case .location(_):
-//            return "location"
-//        case .emoji(_):
-//            return "emoji"
-//        case .audio(_):
-//            return "emoji"
-//        case .contact(_):
-//            return "contact"
-//        case .custom(_):
-//            return "custom"
-//        case .linkPreview(_):
-//            return "linkPreview"
-//        }
-//    }
-// }
-
 struct Sender: SenderType {
     public var photoURL: String
     public var senderId: String
     public var displayName: String
 }
+
+ extension MessageKind {
+    var messageKindString: String {
+        switch self {
+        case .text(_):
+            return "text"
+        case .attributedText(_):
+            return "attributed_text"
+        case .photo(_):
+            return "photo"
+        case .video(_):
+            return "video"
+        case .location(_):
+            return "location"
+        case .emoji(_):
+            return "emoji"
+        case .audio(_):
+            return "emoji"
+        case .contact(_):
+            return "contact"
+        case .custom(_):
+            return "custom"
+        case .linkPreview(_):
+            return "linkPreview"
+        }
+    }
+ }
 
 class ChatRoomViewController: MessagesViewController {
     
@@ -61,22 +61,22 @@ class ChatRoomViewController: MessagesViewController {
     
     public var isNewConversation = false
     
-    public let otherUserEmail: String
+    public let accepterId: String
     
     private var messages = [Message]()
     
     private var selfSender: Sender? {
         // use email to fetch user , also can change later with userId
-        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
+        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
             return nil
         }
         return Sender(photoURL: "",
-                      senderId: email,
+                      senderId: currentUserId,
                       displayName: "Willy Boy")
     }
     
-    init(with email: String) {
-        self.otherUserEmail = email
+    init(with userId: String) {
+        self.accepterId = userId
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,6 +103,15 @@ class ChatRoomViewController: MessagesViewController {
 //            listenForMesa
 //        }
     }
+    
+    private func listenForMessages(id: String, shouldScrollToBottom: Bool) {
+        
+    }
+    
+    
+    
+    
+    
     private func setupInputButton() {
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
@@ -215,9 +224,11 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
     func currentSender() -> SenderType {
         
         if let sender = selfSender {
+            
             return sender
         }
         fatalError("Self Sender is nil, email should be catched ")
+        
         return Sender(photoURL: "", senderId: "123", displayName: "")
     }
     
@@ -249,7 +260,7 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
                                   sentDate: Date(),
                                   kind: .text(text))
             
-            FirebaseManger.shared.createNewChatRoom(with: otherUserEmail, firstMessage: message, completion: { success in
+            FirebaseManger.shared.createNewChatRoom(firstMessage: message, completion: { success in
                 if success {
                     print("message sent")
                 } else {
@@ -271,7 +282,7 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
         let dateString = Self.dateFormatter.string(from: Date())
         
-        let newIdentifier = "\(otherUserEmail)_\(currentUserEmail)_\(dateString)"
+        let newIdentifier = "\(accepterId)_\(currentUserEmail)_\(dateString)"
         print("create message id: \(newIdentifier)")
         return newIdentifier
         

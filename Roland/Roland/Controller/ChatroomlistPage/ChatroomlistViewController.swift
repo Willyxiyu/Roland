@@ -8,9 +8,12 @@
 import UIKit
 import JGProgressHUD
 
+
 class ChatroomlistViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
+    
+    private var chatRoomList = [ChatRoomList]()
     
     var nameList = ["Willy Boy"]
     
@@ -18,6 +21,7 @@ class ChatroomlistViewController: UIViewController {
         setupChatRoomListTableView()
         setupNoConversationLabel()
         fetchConversation()
+        startListeningForChatRoom()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
     }
     
@@ -34,9 +38,9 @@ class ChatroomlistViewController: UIViewController {
     private func createNewConversation(result: [String: String]) {
         
         guard let name = result["name"],
-        let email = result["email"] else {
-            return
-        }
+              let email = result["email"] else {
+                  return
+              }
         let chatRoomViewController = ChatRoomViewController(with: email)
         chatRoomViewController.isNewConversation = true
         chatRoomViewController.title = name
@@ -44,9 +48,12 @@ class ChatroomlistViewController: UIViewController {
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
+    private func startListeningForChatRoom() {
+        
+    }
     private lazy var chatRoomListTableView: UITableView = {
         let chatRoomListTableView = UITableView()
-//        chatRoomListTableView.isHidden = true
+        //        chatRoomListTableView.isHidden = true
         // once the user doesn't has any conversation do not show the tableview instead, shows the label say 'no conversation'
         return chatRoomListTableView
     }()
@@ -66,7 +73,7 @@ class ChatroomlistViewController: UIViewController {
         noConversationLabel.textColor = UIColor.white
         noConversationLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         noConversationLabel.isHidden = true
-       return noConversationLabel
+        return noConversationLabel
     }()
     
     private func setupChatRoomListTableView() {
@@ -108,8 +115,8 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-    guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatRoomTableViewCell.self)"),
-        for: indexPath) as? ChatRoomTableViewCell else { fatalError("No cell") }
+        guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatRoomTableViewCell.self)"),
+                                                                   for: indexPath) as? ChatRoomTableViewCell else { fatalError("No cell") }
         cell.cellLabel.text = nameList[indexPath.row]
         cell.deleteButton.tag = indexPath.row
         return cell
@@ -122,13 +129,13 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
-// headerView want to put the searchBar
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        <#code#>
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        <#code#>
-//    }
+    // headerView want to put the searchBar
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        <#code#>
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    //        <#code#>
+    //    }
     
 }
