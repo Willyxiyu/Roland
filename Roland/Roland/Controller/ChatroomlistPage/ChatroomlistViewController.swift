@@ -58,7 +58,6 @@ class ChatroomlistViewController: UIViewController {
         searchTextField.setLeftPaddingPoints(10)
         return searchTextField
     }()
-    
     private lazy var noConversationLabel: UILabel = {
         let noConversationLabel = UILabel()
         noConversationLabel.text = "No Conversation!"

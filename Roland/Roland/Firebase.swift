@@ -66,19 +66,18 @@ class FirebaseManger {
 // MARK: - Sending messages / conversations
 extension FirebaseManger {
     
-    
     /// Creates a new conversation with target user email and first message sent
-    public func createNewConversation(with otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
+    public func createNewChatRoom(with otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
     }
     /// Fetches and returns all conversation for the users with passed in email
-    public func getAllConversations(for email: String, completion: @escaping(Result<String, Error>) -> Void) {
+    public func getAllChatRoom(for email: String, completion: @escaping(Result<String, Error>) -> Void) {
     }
     
     /// Gets all messages for a given conversation
-    public func getAllMessagesForConversation(with id: String, completion: @escaping(Result<String, Error>) -> Void) {
+    public func getAllMessagesForChatRoom(with id: String, completion: @escaping(Result<String, Error>) -> Void) {
     }
     
-    ///Sends a message with target conversation and message
+    /// Sends a message with target conversation and message
     public func sendMessage(to conversation: String, message: Message, completion: @escaping (Bool) -> Void) {
         
     }

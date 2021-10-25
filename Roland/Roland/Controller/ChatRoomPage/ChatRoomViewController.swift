@@ -66,7 +66,7 @@ class ChatRoomViewController: MessagesViewController {
     private var messages = [Message]()
     
     private var selfSender: Sender? {
-        // use email to fetch user , also can change later wuth userId
+        // use email to fetch user , also can change later with userId
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return nil
         }
@@ -249,7 +249,7 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
                                   sentDate: Date(),
                                   kind: .text(text))
             
-            FirebaseManger.shared.createNewConversation(with: otherUserEmail, firstMessage: message, completion: { success in
+            FirebaseManger.shared.createNewChatRoom(with: otherUserEmail, firstMessage: message, completion: { success in
                 if success {
                     print("message sent")
                 } else {
@@ -303,4 +303,4 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
 //            break
 //        }
 //    }
-//}
+// }
