@@ -6,24 +6,18 @@
 //
 
 import Foundation
+import Firebase
 
  struct ScalingCard: Codable {
-    let senderId: String
-    let accepterId: String
-    let state: Bool
-    let createTime: String
+    let senderId: String?
+    let accepterId: String?
+    let isLike: Bool?
+    let createTime: Timestamp?
+     
     enum CodingKeys: String, CodingKey {
         case senderId
         case accepterId
-        case state
+        case isLike
         case createTime
-    }
-    var toDict: [String: Any] {
-        return [
-            "senderId": senderId as Any,
-            "accepterId": accepterId as Any,
-            "state": state as Any,
-            "createTime": createTime as Any
-        ]
     }
 }

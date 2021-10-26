@@ -12,7 +12,7 @@ class CardImageView: UIImageView {
        super.init(frame: .zero)
         layer.cornerRadius = 10
         contentMode = .scaleAspectFill
-        image = UIImage(named: "photo")
+        image = UIImage(named: "PS5")
         clipsToBounds = true
     }
     required init?(coder: NSCoder) {
