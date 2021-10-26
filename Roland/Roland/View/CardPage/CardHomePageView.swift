@@ -52,7 +52,7 @@ class CardHomePageView: UIView {
         self.addSubview(addUserInfoButton)
         NSLayoutConstraint.activate([
             addUserInfoButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            addUserInfoButton.centerYAnchor.constraint(equalTo: rolandLabel.centerYAnchor),
+            addUserInfoButton.centerYAnchor.constraint(equalTo: rolandLabel.centerYAnchor)
         ])
     }
 }

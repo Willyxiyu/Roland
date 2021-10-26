@@ -9,5 +9,10 @@ target 'Roland' do
     pod 'SwiftLint'
     pod 'Firebase/Firestore'
     pod 'FirebaseFirestoreSwift'
+    pod 'MessageKit'
+    pod 'JGProgressHUD'
+    pod 'RealmSwift'
+    pod 'SDWebImage'
+
 
 end
