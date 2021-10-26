@@ -8,6 +8,7 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
+import Firebase
 
 struct Message: MessageType {
     public var sender: SenderType
@@ -22,7 +23,7 @@ struct Sender: SenderType {
     public var displayName: String
 }
 
- extension MessageKind {
+extension MessageKind {
     var messageKindString: String {
         switch self {
         case .text(_):
@@ -47,7 +48,7 @@ struct Sender: SenderType {
             return "linkPreview"
         }
     }
- }
+}
 
 class ChatRoomViewController: MessagesViewController {
     
@@ -61,56 +62,100 @@ class ChatRoomViewController: MessagesViewController {
     
     public var isNewConversation = false
     
-    public let accepterId: String
+    public let accepterId: String = ""
     
-    private var messages = [Message]()
+    private var messages = [Message]() {
+        didSet {
+            self.messagesCollectionView.reloadData()
+        }
+    }
     
     private var selfSender: Sender? {
-        // use email to fetch user , also can change later with userId
-        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
-            return nil
-        }
+      
+//        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
+//            return nil
+//        }
         return Sender(photoURL: "",
-                      senderId: currentUserId,
+                      senderId: "DoIscQXJzIbQfJDTnBVm",
                       displayName: "Willy Boy")
     }
-    
-    init(with userId: String) {
-        self.accepterId = userId
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.gray
-        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         //        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
+        
+//        FirebaseManger.shared.getAllMessagesForChatRoom(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
+//            results.forEach { result in
+//                print(result)
+//                guard let sentDate = result.createTime?.dateValue() else {
+//                    return
+//                }
+//
+//                guard let senderId = result.senderId else {
+//                    return
+//                }
+//
+//                guard let displayName = result.senderId else {
+//                    return
+//                }
+//                guard let resultText = result.text  else {
+//                    return
+//                }
+//                let kind = MessageKind.text(resultText)
+//
+//                let message = Message(sender: Sender(photoURL: "", senderId: senderId, displayName: displayName), messageId: "", sentDate: sentDate, kind: kind)
+//
+//                self.messages.append(message)
+//
+//                print(self.messages)
+//
+//                self.messagesCollectionView.reloadData()
+//
+//            }
+//
+//        }
+        
+        FirebaseManger.shared.messageListener(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
+            
+            self.messages.removeAll()
+            
+            results.forEach { result in
+                
+                print(result)
+                
+                guard let sentDate = result.createTime?.dateValue() else {
+                    return
+                }
+                
+                guard let senderId = result.senderId else {
+                    return
+                }
+                
+                guard let displayName = result.senderId else {
+                    return
+                }
+                guard let resultText = result.text  else {
+                    return
+                }
+                let kind = MessageKind.text(resultText)
+                
+                let message = Message(sender: Sender(photoURL: "", senderId: senderId, displayName: displayName), messageId: "", sentDate: sentDate, kind: kind)
+                
+                self.messages.append(message)
+                
+            }
+            
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         messageInputBar.inputTextView.becomeFirstResponder()
-//        if let conversationId = conversationId {
-//            listenForMesa
-//        }
     }
-    
-    private func listenForMessages(id: String, shouldScrollToBottom: Bool) {
-        
-    }
-    
-    
-    
-    
     
     private func setupInputButton() {
         let button = InputBarButtonItem()
@@ -206,13 +251,13 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        guard let messageId = createMessageId(),
-               let image =  info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-              let imageData = image.pngData() else {
-                  return
-              }
+    func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        picker.dismiss(animated: true, completion: nil)
+//        guard let messageId = createMessageId(),
+//              let image =  info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+//              let imageData = image.pngData() else {
+//                  return
+//              }
         // upload image
         
         // send Message
@@ -221,6 +266,7 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
 }
 
 extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
+    
     func currentSender() -> SenderType {
         
         if let sender = selfSender {
@@ -228,8 +274,8 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             return sender
         }
         fatalError("Self Sender is nil, email should be catched ")
+        return Sender(photoURL: "", senderId: "DoIscQXJzIbQfJDTnBVm", displayName: "Willy Boy")
         
-        return Sender(photoURL: "", senderId: "123", displayName: "")
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
@@ -244,35 +290,15 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        guard !text.replacingOccurrences(of: "", with: "").isEmpty,
-              let selfSender = self.selfSender,
-              let messageId = createMessageId() else {
-                  return
-              }
         
-        print("Sending: \(text)")
+        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("YEEE"))
         
-        // send Message
-        if isNewConversation {
-            // create conversation in firestore
-            let message = Message(sender: selfSender,
-                                  messageId: messageId,
-                                  sentDate: Date(),
-                                  kind: .text(text))
-            
-            FirebaseManger.shared.createNewChatRoom(firstMessage: message, completion: { success in
-                if success {
-                    print("message sent")
-                } else {
-                    print("failed to send")
-                }
-            })
-            
-        } else {
-            // append to existing conversation data
-        }
+        FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: message)
+        
+        self.messagesCollectionView.reloadData()
+        
     }
-    
+
     private func createMessageId() -> String? {
         // date, otherUserEmail, senderEmail, randomInt
         

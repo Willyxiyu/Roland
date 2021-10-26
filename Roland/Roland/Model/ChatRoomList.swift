@@ -10,42 +10,53 @@ import SwiftUI
 import MessageKit
 
 struct ChatRoomList: Codable {
-    let userId: [UserId]
+    let userId: [String]
     let isBlock: Bool?
     let isDelete: Bool?
     let isTurnOn: Bool?
-    let latestMessage: [LatestMessage]
-    let chatRoomId: String
+    let latestMessage: LatestMessage
+    let chatRoomId: String?
+    let messagelist: [Messagelist]?
     
     enum CodingKeys: String, CodingKey {
         case chatRoomId
         case isBlock
         case isDelete
         case isTurnOn
-        case latestMessage = "LatestMessage"
-        case userId
-    }
-}
-
-struct UserId: Codable {
-    let senderId: String?
-    let accepterId: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case senderId
-        case accepterId
-    }
-}
-
-// lateMessageId base on the ChatRoomID
-struct LatestMessage: Codable {
-    let date: String?
-    let isRead: Bool?
-    let latestMessage: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case date
-        case isRead
         case latestMessage
+        case userId
+        case messagelist
+    }
+}
+// lateMessage is for the chatlist label
+struct LatestMessage: Codable {
+    let createTime: Timestamp?
+    let isRead: Bool?
+    let text: String?
+    let accepterId: String?
+    let senderId: String?
+
+    enum CodingKeys: String, CodingKey {
+        case createTime
+        case isRead
+        case text
+        case accepterId
+        case senderId
+    }
+}
+// chat messagelist are collect in the Chatroomlist
+struct Messagelist: Codable {
+    let createTime: Timestamp?
+    let isRead: Bool?
+    let text: String?
+    let accepterId: String?
+    let senderId: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case createTime
+        case isRead
+        case text
+        case accepterId
+        case senderId
     }
 }

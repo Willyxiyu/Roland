@@ -8,20 +8,23 @@
 import UIKit
 import JGProgressHUD
 
-
 class ChatroomlistViewController: UIViewController {
+    
+    private let userID = "DoIscQXJzIbQfJDTnBVm"
     
     private let spinner = JGProgressHUD(style: .dark)
     
     private var chatRoomList = [ChatRoomList]()
-    
-    var nameList = ["Willy Boy"]
     
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
         fetchConversation()
         startListeningForChatRoom()
+        FirebaseManger.shared.getAllChatRoom(id: userID) { list in
+            self.chatRoomList = list
+            self.chatRoomListTableView.reloadData()
+        }
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
     }
     
@@ -37,11 +40,8 @@ class ChatroomlistViewController: UIViewController {
     }
     private func createNewConversation(result: [String: String]) {
         
-        guard let name = result["name"],
-              let email = result["email"] else {
-                  return
-              }
-        let chatRoomViewController = ChatRoomViewController(with: email)
+        guard let name = result["name"] else { return }
+        let chatRoomViewController = ChatRoomViewController()
         chatRoomViewController.isNewConversation = true
         chatRoomViewController.title = name
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
@@ -79,7 +79,7 @@ class ChatroomlistViewController: UIViewController {
     private func setupChatRoomListTableView() {
         chatRoomListTableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(chatRoomListTableView)
-        chatRoomListTableView.register(ChatRoomTableViewCell.self, forCellReuseIdentifier: String(describing: ChatRoomTableViewCell.self))
+        chatRoomListTableView.register(ChatroomListTableViewCell.self, forCellReuseIdentifier: String(describing: ChatroomListTableViewCell.self))
         chatRoomListTableView.dataSource = self
         chatRoomListTableView.delegate = self
         
@@ -110,32 +110,26 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return nameList.count
+        return chatRoomList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatRoomTableViewCell.self)"),
-                                                                   for: indexPath) as? ChatRoomTableViewCell else { fatalError("No cell") }
-        cell.cellLabel.text = nameList[indexPath.row]
-        cell.deleteButton.tag = indexPath.row
+        guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatroomListTableViewCell.self)"),
+                                                                   for: indexPath) as? ChatroomListTableViewCell else { fatalError("No cell") }
+        cell.userNameLabel.text = "WillyBoy"
+        cell.userMessageLabel.text = "Bao_Gan_Le"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatRoomListTableView.deselectRow(at: indexPath, animated: true)
         
-        let chatRoomViewController = ChatRoomViewController(with: "willy@gmail.com")
+        let chatRoomViewController = ChatRoomViewController()
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
-    // headerView want to put the searchBar
-    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        <#code#>
-    //    }
-    //
-    //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    //        <#code#>
-    //    }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
 }
