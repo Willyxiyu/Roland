@@ -11,6 +11,12 @@
 		3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */; };
 		3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */; };
 		3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */; };
+		3F0D2AF82728FAC700B90B4D /* GroupEventCEPENameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF72728FAC700B90B4D /* GroupEventCEPENameVC.swift */; };
+		3F0D2AFB2729267700B90B4D /* GroupEventCEPETimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AFA2729267700B90B4D /* GroupEventCEPETimeVC.swift */; };
+		3F0D2AFD2729283C00B90B4D /* GroupEventCEPELocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */; };
+		3F0D2AFF272929A300B90B4D /* GroupEventCEPEAoPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AFE272929A200B90B4D /* GroupEventCEPEAoPVC.swift */; };
+		3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0027292A4400B90B4D /* GroupEventCEPEIntroVC.swift */; };
+		3F0D2B0327292AC300B90B4D /* GroupEventCEPEPicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0227292AC300B90B4D /* GroupEventCEPEPicVC.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -45,6 +51,12 @@
 		3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupeventHomepageViewController.swift; sourceTree = "<group>"; };
 		3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupEventCollectionViewCell.swift; path = Roland/View/GroupEventHomePage/GroupEventCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		3F0D2AF72728FAC700B90B4D /* GroupEventCEPENameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPENameVC.swift; sourceTree = "<group>"; };
+		3F0D2AFA2729267700B90B4D /* GroupEventCEPETimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPETimeVC.swift; sourceTree = "<group>"; };
+		3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPELocationVC.swift; sourceTree = "<group>"; };
+		3F0D2AFE272929A200B90B4D /* GroupEventCEPEAoPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPEAoPVC.swift; sourceTree = "<group>"; };
+		3F0D2B0027292A4400B90B4D /* GroupEventCEPEIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPEIntroVC.swift; sourceTree = "<group>"; };
+		3F0D2B0227292AC300B90B4D /* GroupEventCEPEPicVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPEPicVC.swift; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -93,6 +105,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F0D2AF92728FACE00B90B4D /* GroupEventCEPage */,
 				3F0D2AF127284FB400B90B4D /* GroupEventHomePage */,
 				3FD82C5D27264E230055C33E /* ChatRoomPage */,
 				3F9547AC2722D34E004E8249 /* ChatroomlistPage */,
@@ -146,6 +159,19 @@
 				3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */,
 			);
 			path = GroupEventHomePage;
+			sourceTree = "<group>";
+		};
+		3F0D2AF92728FACE00B90B4D /* GroupEventCEPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F0D2AF72728FAC700B90B4D /* GroupEventCEPENameVC.swift */,
+				3F0D2AFA2729267700B90B4D /* GroupEventCEPETimeVC.swift */,
+				3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */,
+				3F0D2AFE272929A200B90B4D /* GroupEventCEPEAoPVC.swift */,
+				3F0D2B0027292A4400B90B4D /* GroupEventCEPEIntroVC.swift */,
+				3F0D2B0227292AC300B90B4D /* GroupEventCEPEPicVC.swift */,
+			);
+			path = GroupEventCEPage;
 			sourceTree = "<group>";
 		};
 		3F387822271FE00E00203DD6 /* Model */ = {
@@ -408,6 +434,8 @@
 				3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */,
 				3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
+				3F0D2AFD2729283C00B90B4D /* GroupEventCEPELocationVC.swift in Sources */,
+				3F0D2AFF272929A300B90B4D /* GroupEventCEPEAoPVC.swift in Sources */,
 				3FF3676727228A8D00F36D74 /* CardView.swift in Sources */,
 				3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
@@ -421,12 +449,16 @@
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
+				3F0D2B0327292AC300B90B4D /* GroupEventCEPEPicVC.swift in Sources */,
 				3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 				3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */,
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
+				3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */,
+				3F0D2AFB2729267700B90B4D /* GroupEventCEPETimeVC.swift in Sources */,
+				3F0D2AF82728FAC700B90B4D /* GroupEventCEPENameVC.swift in Sources */,
 				3FB49E6A2724177B00B9809D /* ChatRoomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

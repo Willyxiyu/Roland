@@ -10,6 +10,8 @@ import MapKit
 
 class GroupEventHomePageViewController: UIViewController {
     
+    let groupEventCEPViewController = GroupEventCEPENameVC()
+    
     let eventTitleList = ["wrtrt", "wrtwrtrr", "hyj7jtjf", "jrtjetheb", "aileure", "ewkuchewc", "wek.fuhefe", "ewkufhir4g", "ouri8y847yt9", "hyj7jtjf",
                           "jrtjetheb", "aileure", "hyj7jtjf", "jrtjetheb", "aileure", "hyj7jtjf", "jrtjetheb", "aileure"]
     let layout = UICollectionViewFlowLayout()
@@ -18,10 +20,11 @@ class GroupEventHomePageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        setupTopView()
         setupCategorySegmentedControl()
-        setupSearchTextField()
-        setupAddNewEventButton()
+//        setupSearchTextField()
+//        setupAddNewEventButton()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(createNewEvent))
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()
@@ -32,12 +35,6 @@ class GroupEventHomePageViewController: UIViewController {
       
         // Do any additional setup after loading the view.
     }
-    
-    private lazy var topView: UIView = {
-        let topView = UIView()
-        topView.backgroundColor = UIColor.white
-        return topView
-    }()
     
     private lazy var categorySegmentedControl: UISegmentedControl = {
         let categorySegmentedControl = UISegmentedControl(items: ["Top", "Recent"])
@@ -56,65 +53,61 @@ class GroupEventHomePageViewController: UIViewController {
         return searchTextField
     }()
     
-    private lazy var addNewEventButton: UIButton = {
-        let addNewEventButton = UIButton()
-        addNewEventButton.isEnabled = true
-        addNewEventButton.setImage(UIImage.init(systemName: "plus"), for: .normal)
-        addNewEventButton.tintColor = UIColor.themeColor
-        return addNewEventButton
-    }()
-    
-    private func setupTopView() {
-        topView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(topView)
-        NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            topView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            topView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            topView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15)
-        ])
+    @objc private func createNewEvent() {
+        navigationController?.pushViewController(groupEventCEPViewController, animated: true)
     }
+    
+//    private func setupTopView() {
+//        topView.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.addSubview(topView)
+//        NSLayoutConstraint.activate([
+//            topView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            topView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            topView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            topView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15)
+//        ])
+//    }
     
     private func setupCategorySegmentedControl() {
         categorySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(categorySegmentedControl)
+        self.view.addSubview(categorySegmentedControl)
         NSLayoutConstraint.activate([
-            categorySegmentedControl.leadingAnchor.constraint(equalTo: topView.leadingAnchor),
-            categorySegmentedControl.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
-            categorySegmentedControl.bottomAnchor.constraint(equalTo: topView.bottomAnchor),
-            categorySegmentedControl.heightAnchor.constraint(equalTo: topView.heightAnchor, multiplier: 0.3)
+            categorySegmentedControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            categorySegmentedControl.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            categorySegmentedControl.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            categorySegmentedControl.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05)
         ])
     }
+//
+//    private func setupSearchTextField() {
+//        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+//        topView.addSubview(searchTextField)
+//        NSLayoutConstraint.activate([
+//            searchTextField.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+//            searchTextField.bottomAnchor.constraint(equalTo: categorySegmentedControl.topAnchor, constant: -10),
+//            searchTextField.heightAnchor.constraint(equalTo: categorySegmentedControl.heightAnchor, multiplier: 0.7),
+//            searchTextField.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.7)
+//        ])
+//    }
     
-    private func setupSearchTextField() {
-        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(searchTextField)
-        NSLayoutConstraint.activate([
-            searchTextField.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
-            searchTextField.bottomAnchor.constraint(equalTo: categorySegmentedControl.topAnchor, constant: -10),
-            searchTextField.heightAnchor.constraint(equalTo: categorySegmentedControl.heightAnchor, multiplier: 0.7),
-            searchTextField.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.7)
-        ])
-    }
-    
-    private func setupAddNewEventButton() {
-        addNewEventButton.translatesAutoresizingMaskIntoConstraints = false
-        topView.addSubview(addNewEventButton)
-        NSLayoutConstraint.activate([
-            addNewEventButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
-            addNewEventButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: 5),
-            addNewEventButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -5)
-        ])
-    }
+//    private func setupAddNewEventButton() {
+//        addNewEventButton.translatesAutoresizingMaskIntoConstraints = false
+//        topView.addSubview(addNewEventButton)
+//        NSLayoutConstraint.activate([
+//            addNewEventButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
+//            addNewEventButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: 5),
+//            addNewEventButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -5)
+//        ])
+//    }
     
     private func setupGroupEventCollectionView() {
         groupEventCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(groupEventCollectionView)
         NSLayoutConstraint.activate([
-            groupEventCollectionView.topAnchor.constraint(equalTo: topView.bottomAnchor),
-            groupEventCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            groupEventCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            groupEventCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            groupEventCollectionView.topAnchor.constraint(equalTo: categorySegmentedControl.bottomAnchor),
+            groupEventCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            groupEventCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            groupEventCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
