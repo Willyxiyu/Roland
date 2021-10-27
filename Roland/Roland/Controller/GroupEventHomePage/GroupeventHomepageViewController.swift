@@ -21,8 +21,6 @@ class GroupEventHomePageViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setupCategorySegmentedControl()
-//        setupSearchTextField()
-//        setupAddNewEventButton()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(createNewEvent))
         configureCellSize()
@@ -57,17 +55,6 @@ class GroupEventHomePageViewController: UIViewController {
         navigationController?.pushViewController(groupEventCEPViewController, animated: true)
     }
     
-//    private func setupTopView() {
-//        topView.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.addSubview(topView)
-//        NSLayoutConstraint.activate([
-//            topView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            topView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            topView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            topView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15)
-//        ])
-//    }
-    
     private func setupCategorySegmentedControl() {
         categorySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(categorySegmentedControl)
@@ -78,28 +65,6 @@ class GroupEventHomePageViewController: UIViewController {
             categorySegmentedControl.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05)
         ])
     }
-//
-//    private func setupSearchTextField() {
-//        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-//        topView.addSubview(searchTextField)
-//        NSLayoutConstraint.activate([
-//            searchTextField.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
-//            searchTextField.bottomAnchor.constraint(equalTo: categorySegmentedControl.topAnchor, constant: -10),
-//            searchTextField.heightAnchor.constraint(equalTo: categorySegmentedControl.heightAnchor, multiplier: 0.7),
-//            searchTextField.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.7)
-//        ])
-//    }
-    
-//    private func setupAddNewEventButton() {
-//        addNewEventButton.translatesAutoresizingMaskIntoConstraints = false
-//        topView.addSubview(addNewEventButton)
-//        NSLayoutConstraint.activate([
-//            addNewEventButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
-//            addNewEventButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: 5),
-//            addNewEventButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -5)
-//        ])
-//    }
-    
     private func setupGroupEventCollectionView() {
         groupEventCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(groupEventCollectionView)

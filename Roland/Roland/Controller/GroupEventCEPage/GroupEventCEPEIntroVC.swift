@@ -14,7 +14,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .yellow
+        self.setBackgroundImage(imageName: "CEBGVertical")
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()

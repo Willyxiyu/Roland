@@ -13,7 +13,7 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .yellow
+        self.setBackgroundImage(imageName: "CEBGVertical")
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()

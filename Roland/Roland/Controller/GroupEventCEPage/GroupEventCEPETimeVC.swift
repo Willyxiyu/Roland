@@ -14,27 +14,32 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .yellow
+        self.setBackgroundImage(imageName: "CEBGVertical")
         setupQuestionView()
-        setUpTextFiled()
+        setupEventStartLabel()
+        setupEventEndLabel()
+        setupEventStartDatePicker()
+        setupEventEndDatePicker()
         setupContinueButton()
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        tabBarController?.tabBar.isHidden = false
-//    }
+    //    override func viewWillDisappear(_ animated: Bool) {
+    //        tabBarController?.tabBar.isHidden = false
+    //    }
     
     private lazy var questionView: UIView = {
         let questionView = UIView()
         questionView.backgroundColor = .white
         questionView.layer.cornerRadius = 10
+        questionView.setShadow()
         return questionView
     }()
     
@@ -52,7 +57,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "What's your event time?"
+        questionLabel.text = "活動時間?"
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
@@ -63,7 +68,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "So we can personalise your event."
+        introLabel.text = "提供夥伴們活動時間，以便安排行程"
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -71,12 +76,18 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         return introLabel
     }()
     
-    private lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Yeeee"
-        textField.borderStyle = .roundedRect
-        textField.setLeftPaddingPoints(10)
-        return textField
+    private lazy var eventStartLabel: UILabel = {
+        let eventStartLabel = UILabel()
+        eventStartLabel.text = "活動開始時間"
+        eventStartLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        return eventStartLabel
+    }()
+    
+    private lazy var eventEndLabel: UILabel = {
+        let eventEndLabel = UILabel()
+        eventEndLabel.text = "活動結束時間"
+        eventEndLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        return eventEndLabel
     }()
     
     private lazy var continueButton: UIButton = {
@@ -92,6 +103,38 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         navigationController?.pushViewController(groupEventCEPELocationVC, animated: true)
     }
     
+    private lazy var eventStartDatePicker: UIDatePicker = {
+        let eventStartDatePicker = UIDatePicker()
+        eventStartDatePicker.datePickerMode = .dateAndTime
+        eventStartDatePicker.minuteInterval = 15
+        eventStartDatePicker.date = Date()
+        let formatter = DateFormatter()
+        let fromDateTime = formatter.date(from: "1994-12-13 12:13")
+        eventStartDatePicker.minimumDate = fromDateTime
+        //        eventStartDatePicker.addTarget(self, action: #selector(pickDate), for: .valueChanged)
+        return eventStartDatePicker
+    }()
+    
+    //    @objc func pickDate() {
+    //
+    //    }
+    
+    private lazy var eventEndDatePicker: UIDatePicker = {
+        let eventEndDatePicker = UIDatePicker()
+        eventEndDatePicker.datePickerMode = .dateAndTime
+        eventEndDatePicker.minuteInterval = 15
+        eventEndDatePicker.date = Date()
+        let formatter = DateFormatter()
+        let fromDateTime = formatter.date(from: "1994-12-13 12:13")
+        eventEndDatePicker.minimumDate = fromDateTime
+        //        eventEndDatePicker.addTarget(self, action: #selector(pickDate), for: .valueChanged)
+        return eventEndDatePicker
+    }()
+    
+    //    @objc func pickDate() {
+    //
+    //    }
+    
     private func setupQuestionView() {
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)
@@ -102,24 +145,29 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         ])
     }
     
-    private func setUpTextFiled() {
-        
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(textField)
+    private func setupEventStartLabel() {
+        eventStartLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(eventStartLabel)
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
-            textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            textField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
-            textField.heightAnchor.constraint(equalToConstant: 40)
+            eventStartLabel.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 60),
+            eventStartLabel.leadingAnchor.constraint(equalTo: questionView.leadingAnchor)
         ])
-        textField.delegate = self
+    }
+    
+    private func setupEventEndLabel() {
+        eventEndLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(eventEndLabel)
+        NSLayoutConstraint.activate([
+            eventEndLabel.topAnchor.constraint(equalTo: eventStartLabel.bottomAnchor, constant: 30),
+            eventEndLabel.leadingAnchor.constraint(equalTo: eventStartLabel.leadingAnchor)
+        ])
     }
     
     private func setupContinueButton() {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(continueButton)
         NSLayoutConstraint.activate([
-            continueButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 100),
+            continueButton.topAnchor.constraint(equalTo: eventEndLabel.bottomAnchor, constant: 100),
             continueButton.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             continueButton.heightAnchor.constraint(equalToConstant: 40),
             continueButton.centerXAnchor.constraint(equalTo: questionView.centerXAnchor)
@@ -151,6 +199,26 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
             introLabel.leadingAnchor.constraint(equalTo: questionLabel.leadingAnchor),
             introLabel.trailingAnchor.constraint(equalTo: questionView.trailingAnchor, constant: -15),
             introLabel.bottomAnchor.constraint(equalTo: questionView.bottomAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupEventStartDatePicker() {
+        eventStartDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(eventStartDatePicker)
+        NSLayoutConstraint.activate([
+            eventStartDatePicker.centerYAnchor.constraint(equalTo: eventStartLabel.centerYAnchor),
+            eventStartDatePicker.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            eventStartDatePicker.heightAnchor.constraint(equalTo: eventStartLabel.heightAnchor)
+        ])
+    }
+    
+    private func setupEventEndDatePicker() {
+        eventEndDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(eventEndDatePicker)
+        NSLayoutConstraint.activate([
+            eventEndDatePicker.centerYAnchor.constraint(equalTo: eventEndLabel.centerYAnchor),
+            eventEndDatePicker.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            eventEndDatePicker.heightAnchor.constraint(equalTo: eventEndLabel.heightAnchor)
         ])
     }
 }

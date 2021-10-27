@@ -13,13 +13,14 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .yellow
+        self.setBackgroundImage(imageName: "CEBGVertical")
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
+        setupBottomLineView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,10 +31,17 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         tabBarController?.tabBar.isHidden = false
     }
     
+    private lazy var bottomLineView: UIView = {
+        let bottomLineView = UIView()
+        bottomLineView.backgroundColor = .lightGray
+        return bottomLineView
+    }()
+    
     private lazy var questionView: UIView = {
         let questionView = UIView()
         questionView.backgroundColor = .white
         questionView.layer.cornerRadius = 10
+        questionView.setShadow()
         return questionView
     }()
     
@@ -51,8 +59,8 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "What's your event name?"
-        questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        questionLabel.text = "親，你的活動名稱是什麼?"
+        questionLabel.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
         questionLabel.numberOfLines = 0
@@ -62,7 +70,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "So we can personalise your event."
+        introLabel.text = "如此一來，我們才能幫親～建立活動."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -73,7 +81,8 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Yeeee"
-        textField.borderStyle = .roundedRect
+        textField.backgroundColor = UIColor.clear
+        textField.layer.borderColor = UIColor.clear.cgColor
         textField.setLeftPaddingPoints(10)
         return textField
     }()
@@ -150,6 +159,17 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
             introLabel.leadingAnchor.constraint(equalTo: questionLabel.leadingAnchor),
             introLabel.trailingAnchor.constraint(equalTo: questionView.trailingAnchor, constant: -15),
             introLabel.bottomAnchor.constraint(equalTo: questionView.bottomAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupBottomLineView() {
+        bottomLineView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(bottomLineView)
+        NSLayoutConstraint.activate([
+            bottomLineView.topAnchor.constraint(equalTo: textField.bottomAnchor),
+            bottomLineView.centerXAnchor.constraint(equalTo: textField.centerXAnchor),
+            bottomLineView.widthAnchor.constraint(equalTo: textField.widthAnchor),
+            bottomLineView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
 }
