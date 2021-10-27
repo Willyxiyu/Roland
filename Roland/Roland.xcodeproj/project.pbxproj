@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */; };
+		3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */; };
+		3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */; };
+		3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardHomePageView.swift; path = Roland/View/CardPage/CardHomePageView.swift; sourceTree = SOURCE_ROOT; };
+		3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupeventHomepageViewController.swift; sourceTree = "<group>"; };
+		3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupEventCollectionViewCell.swift; path = Roland/View/GroupEventHomePage/GroupEventCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -87,6 +93,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F0D2AF127284FB400B90B4D /* GroupEventHomePage */,
 				3FD82C5D27264E230055C33E /* ChatRoomPage */,
 				3F9547AC2722D34E004E8249 /* ChatroomlistPage */,
 				3F06CDB2271D774700FFA4E9 /* CardPage */,
@@ -106,6 +113,7 @@
 		3F06CDB3271D77B400FFA4E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F0D2AF427285EF600B90B4D /* GroupEventHomePage */,
 				3FD82C6527271A410055C33E /* ChatroomlistPage */,
 				3FD82C64272719E90055C33E /* ChatRoomPage */,
 				3F06CDB4271D77BD00FFA4E9 /* CardPage */,
@@ -122,6 +130,22 @@
 				3FF3676627228A8D00F36D74 /* CardView.swift */,
 			);
 			path = CardPage;
+			sourceTree = "<group>";
+		};
+		3F0D2AF127284FB400B90B4D /* GroupEventHomePage */ = {
+			isa = PBXGroup;
+			children = (
+				3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */,
+			);
+			path = GroupEventHomePage;
+			sourceTree = "<group>";
+		};
+		3F0D2AF427285EF600B90B4D /* GroupEventHomePage */ = {
+			isa = PBXGroup;
+			children = (
+				3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */,
+			);
+			path = GroupEventHomePage;
 			sourceTree = "<group>";
 		};
 		3F387822271FE00E00203DD6 /* Model */ = {
@@ -175,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				3F754026271D671200F9092E /* Int+Extension.swift */,
+				3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */,
 				3F754021271D556400F9092E /* UIColor+Extension.swift */,
 				3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */,
 				3F754024271D66DA00F9092E /* UIFont+Extension.swift */,
@@ -379,9 +404,12 @@
 			files = (
 				3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */,
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
+				3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */,
+				3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */,
 				3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
 				3FF3676727228A8D00F36D74 /* CardView.swift in Sources */,
+				3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
 				3F9547AE2722D360004E8249 /* ChatroomlistViewController.swift in Sources */,
 				3F754027271D671200F9092E /* Int+Extension.swift in Sources */,

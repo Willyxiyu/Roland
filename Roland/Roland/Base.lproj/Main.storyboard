@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ENb-Ay-elO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -123,10 +124,10 @@
             </objects>
             <point key="canvasLocation" x="1048" y="1541"/>
         </scene>
-        <!--View Controller-->
+        <!--Group Event Home Page View Controller-->
         <scene sceneID="tDO-cX-bhl">
             <objects>
-                <viewController id="QVt-2H-h1h" sceneMemberID="viewController">
+                <viewController id="QVt-2H-h1h" customClass="GroupEventHomePageViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Wd-AR-9BL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -137,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UZx-CB-Mho" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="2259"/>
+            <point key="canvasLocation" x="468" y="2261"/>
         </scene>
     </scenes>
     <resources>
