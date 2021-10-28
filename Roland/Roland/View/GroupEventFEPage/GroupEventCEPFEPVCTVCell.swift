@@ -24,11 +24,14 @@ class GroupEventCEPFEPVCTVCell: UITableViewCell {
 // MARK: - PhotoCell
 class GEPhotoCell: UITableViewCell {
     
+    var addNewPhoto: (() -> Void)?
+    
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupPhotoImageView()
+        setupEventImageButton()
     }
     
     required init?(coder: NSCoder) {
@@ -43,6 +46,21 @@ class GEPhotoCell: UITableViewCell {
         return photoImageView
     }()
     
+    lazy var eventImageButton: UIButton = {
+        let eventImageButton = UIButton()
+        eventImageButton.setImage(UIImage.init(systemName: "photo.artframe"), for: .normal)
+        eventImageButton.backgroundColor = UIColor.lightGray
+        eventImageButton.layer.masksToBounds = true
+        eventImageButton.tintColor = .black
+        eventImageButton.addTarget(self, action: #selector(eventImageButtonTapped), for: .touchUpInside)
+        return eventImageButton
+    }()
+    
+    @objc func eventImageButtonTapped() {
+        print("YEEEEE")
+        addNewPhoto?()
+        
+    }
     private func setupPhotoImageView() {
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(photoImageView)
@@ -53,6 +71,15 @@ class GEPhotoCell: UITableViewCell {
             photoImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             photoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor),
             photoImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 3 / 4)
+        ])
+    }
+    
+    private func setupEventImageButton() {
+        eventImageButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(eventImageButton)
+        NSLayoutConstraint.activate([
+            eventImageButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
+            eventImageButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
         ])
     }
     
@@ -85,8 +112,8 @@ class GETitleCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
-            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         ])
     }

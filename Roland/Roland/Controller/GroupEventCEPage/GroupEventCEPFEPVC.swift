@@ -12,6 +12,12 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     
     let tableView = UITableView()
     
+    var eventPhoto = UIImage() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
 //    let groupEventCEPEIntroVC = GroupEventCEPEIntroVC()
     
     override func viewDidLoad() {
@@ -24,6 +30,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,12 +67,16 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPhotoCell.self)"), for: indexPath) as? GEPhotoCell else { fatalError("Error") }
-            cell.photoImageView.image = UIImage(named: "PS5")
+            cell.photoImageView.image = eventPhoto
+            cell.addNewPhoto = { [weak self] in
+                guard let self = self else { return }
+                self.showImagePickerControllerActionSheet()
+            }
             
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GETitleCell.self)"), for: indexPath) as? GETitleCell else { fatalError("Error") }
-            cell.titleLabel.text = "dilu3hif3jk3fnd"
+            cell.titleLabel.text = "活動主題"
             
             return cell
         case 2:
@@ -108,4 +119,49 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
+}
+
+extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerControllerActionSheet() {
+        let actionSheet = UIAlertController(title: "Attach Photo", message: "where would you like to attach a photo from", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+            
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+            
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            
+            eventPhoto = editedImage
+            
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            eventPhoto = originalImage
+
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
