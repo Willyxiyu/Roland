@@ -16,7 +16,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         super.viewDidLoad()
         self.setBackgroundImage(imageName: "CEBGVertical")
         setupQuestionView()
-        setUpTextFiled()
+        setupTextView()
         setupContinueButton()
         setupStepLabel()
         setupQuestionLabel()
@@ -35,6 +35,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         let questionView = UIView()
         questionView.backgroundColor = .white
         questionView.layer.cornerRadius = 10
+        questionView.setShadow()
         return questionView
     }()
     
@@ -52,7 +53,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "What's your event name?"
+        questionLabel.text = "活動簡介?"
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
@@ -63,7 +64,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "So we can personalise your event."
+        introLabel.text = "橫看成嶺側成峰 遠近高低各不同."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -71,12 +72,16 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         return introLabel
     }()
     
-    private lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Yeeee"
-        textField.borderStyle = .roundedRect
-        textField.setLeftPaddingPoints(10)
-        return textField
+    private lazy var textView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        textView.textAlignment = .left
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.isEditable = true
+        textView.isSelectable = true
+        return textView
     }()
     
     private lazy var continueButton: UIButton = {
@@ -102,24 +107,23 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         ])
     }
     
-    private func setUpTextFiled() {
+    private func setupTextView() {
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(textField)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(textView)
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
-            textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            textField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
-            textField.heightAnchor.constraint(equalToConstant: 40)
+            textView.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
+            textView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            textView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
+            textView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3)
         ])
-        textField.delegate = self
     }
     
     private func setupContinueButton() {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(continueButton)
         NSLayoutConstraint.activate([
-            continueButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 100),
+            continueButton.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 100),
             continueButton.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             continueButton.heightAnchor.constraint(equalToConstant: 40),
             continueButton.centerXAnchor.constraint(equalTo: questionView.centerXAnchor)

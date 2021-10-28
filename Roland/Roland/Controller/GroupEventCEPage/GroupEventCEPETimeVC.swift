@@ -68,7 +68,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "提供夥伴們活動時間，以便安排行程"
+        introLabel.text = "三更苦淚流，歲月幾時逢摯友"
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping

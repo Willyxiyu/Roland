@@ -35,6 +35,7 @@ class GroupEventCEPEPicVC: UIViewController, UITextViewDelegate, UITextFieldDele
         let questionView = UIView()
         questionView.backgroundColor = .white
         questionView.layer.cornerRadius = 10
+        questionView.setShadow()
         return questionView
     }()
     
@@ -52,8 +53,8 @@ class GroupEventCEPEPicVC: UIViewController, UITextViewDelegate, UITextFieldDele
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "What's your event name?"
-        questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        questionLabel.text = "為你的活動提供一張宣傳照吧！"
+        questionLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
         questionLabel.numberOfLines = 0
@@ -63,7 +64,7 @@ class GroupEventCEPEPicVC: UIViewController, UITextViewDelegate, UITextFieldDele
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "So we can personalise your event."
+        introLabel.text = "我不理會照相機如何看事物，我要它看到我看世界的方式."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping

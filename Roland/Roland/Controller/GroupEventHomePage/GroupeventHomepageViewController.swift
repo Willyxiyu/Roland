@@ -23,6 +23,7 @@ class GroupEventHomePageViewController: UIViewController {
         setupCategorySegmentedControl()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(createNewEvent))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()

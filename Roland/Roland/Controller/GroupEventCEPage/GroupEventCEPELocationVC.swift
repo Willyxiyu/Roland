@@ -20,6 +20,7 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
+        setupBottomLineView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,6 +35,7 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
         let questionView = UIView()
         questionView.backgroundColor = .white
         questionView.layer.cornerRadius = 10
+        questionView.setShadow()
         return questionView
     }()
     
@@ -51,7 +53,7 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "What's your event name?"
+        questionLabel.text = "活動地點?"
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
@@ -62,7 +64,7 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "So we can personalise your event."
+        introLabel.text = "一曲肝腸斷，天涯何處覓知音."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -73,9 +75,15 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Yeeee"
-        textField.borderStyle = .roundedRect
+        textField.backgroundColor = UIColor.clear
+        textField.layer.borderColor = UIColor.clear.cgColor
         textField.setLeftPaddingPoints(10)
         return textField
+    }()
+    private lazy var bottomLineView: UIView = {
+        let bottomLineView = UIView()
+        bottomLineView.backgroundColor = .lightGray
+        return bottomLineView
     }()
     
     private lazy var continueButton: UIButton = {
@@ -150,6 +158,16 @@ class GroupEventCEPELocationVC: UIViewController, UITextViewDelegate, UITextFiel
             introLabel.leadingAnchor.constraint(equalTo: questionLabel.leadingAnchor),
             introLabel.trailingAnchor.constraint(equalTo: questionView.trailingAnchor, constant: -15),
             introLabel.bottomAnchor.constraint(equalTo: questionView.bottomAnchor, constant: -20)
+        ])
+    }
+    private func setupBottomLineView() {
+        bottomLineView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(bottomLineView)
+        NSLayoutConstraint.activate([
+            bottomLineView.topAnchor.constraint(equalTo: textField.bottomAnchor),
+            bottomLineView.centerXAnchor.constraint(equalTo: textField.centerXAnchor),
+            bottomLineView.widthAnchor.constraint(equalTo: textField.widthAnchor),
+            bottomLineView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
 }
