@@ -20,6 +20,7 @@ struct UserInfo: Codable {
     let block: Bool?
     let friendList: [FriendList]?
     let accountState: Bool?
+    let eventList: [EventList]
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -33,7 +34,17 @@ struct UserInfo: Codable {
         case block
         case friendList
         case accountState
+        case eventList
     }
+    
+    struct EventList: Codable {
+        let eventId: String
+        enum CodingKeys: String, CodingKey {
+        case eventId
+        }
+    }
+    
+    
 }
 struct FriendList: Codable {
     let userId: String?

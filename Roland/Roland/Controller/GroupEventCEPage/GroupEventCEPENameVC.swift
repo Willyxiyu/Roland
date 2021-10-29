@@ -13,7 +13,9 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setBackgroundImage(imageName: "CEBGVertical")
+//        self.setBackgroundImage(imageName: "CEBGVertical")
+        self.view.backgroundColor = .white
+
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
@@ -92,11 +94,14 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         continueButton.setTitle("Continue", for: .normal)
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
-        continueButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
         return continueButton
     }()
     
-    @objc func nextPage() {
+    @objc func continueNextPage() {
+        
+        guard let eventTitle = textField.text else { return }
+        groupEventCEPETimeVC.eventTitle = eventTitle
         navigationController?.pushViewController(groupEventCEPETimeVC, animated: true)
     }
     

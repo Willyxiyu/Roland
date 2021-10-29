@@ -12,9 +12,14 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     let groupEventCEPELocationVC = GroupEventCEPELocationVC()
     
+    var eventTitle = String()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setBackgroundImage(imageName: "CEBGVertical")
+//        self.setBackgroundImage(imageName: "CEBGVertical")
+        self.view.backgroundColor = .white
+
         setupQuestionView()
         setupEventStartLabel()
         setupEventEndLabel()
@@ -95,14 +100,26 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         continueButton.setTitle("Continue", for: .normal)
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
-        continueButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
         return continueButton
     }()
     
-    @objc func nextPage() {
+    @objc func continueNextPage() {
+        
+        let startDate = eventStartDatePicker.date
+        let startDateFormatter = DateFormatter()
+        startDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        let startTime = startDateFormatter.string(from: startDate)
+        let endDate = eventEndDatePicker.date
+        let endDateFormatter = DateFormatter()
+        endDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        let endTime = endDateFormatter.string(from: endDate)
+        
+        groupEventCEPELocationVC.eventTitle = eventTitle
+        groupEventCEPELocationVC.startTime = startTime
+        groupEventCEPELocationVC.endTime = endTime
         navigationController?.pushViewController(groupEventCEPELocationVC, animated: true)
     }
-    
     private lazy var eventStartDatePicker: UIDatePicker = {
         let eventStartDatePicker = UIDatePicker()
         eventStartDatePicker.datePickerMode = .dateAndTime
@@ -111,14 +128,8 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         let formatter = DateFormatter()
         let fromDateTime = formatter.date(from: "1994-12-13 12:13")
         eventStartDatePicker.minimumDate = fromDateTime
-        //        eventStartDatePicker.addTarget(self, action: #selector(pickDate), for: .valueChanged)
         return eventStartDatePicker
     }()
-    
-    //    @objc func pickDate() {
-    //
-    //    }
-    
     private lazy var eventEndDatePicker: UIDatePicker = {
         let eventEndDatePicker = UIDatePicker()
         eventEndDatePicker.datePickerMode = .dateAndTime
@@ -127,14 +138,9 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         let formatter = DateFormatter()
         let fromDateTime = formatter.date(from: "1994-12-13 12:13")
         eventEndDatePicker.minimumDate = fromDateTime
-        //        eventEndDatePicker.addTarget(self, action: #selector(pickDate), for: .valueChanged)
         return eventEndDatePicker
     }()
-    
-    //    @objc func pickDate() {
-    //
-    //    }
-    
+
     private func setupQuestionView() {
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)

@@ -12,9 +12,16 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     let groupEventCEPEIntroVC = GroupEventCEPEIntroVC()
     
+    var eventTitle = String()
+    var startTime = String()
+    var endTime = String()
+    var eventLocation = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setBackgroundImage(imageName: "CEBGVertical")
+//        self.setBackgroundImage(imageName: "CEBGVertical")
+        self.view.backgroundColor = .white
+
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
@@ -93,11 +100,20 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         continueButton.setTitle("Continue", for: .normal)
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
-        continueButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
         return continueButton
     }()
     
-    @objc func nextPage() {
+    @objc func continueNextPage() {
+        
+        guard let maxPeople = textField.text else { return }
+        
+        groupEventCEPEIntroVC.eventTitle = eventTitle
+        groupEventCEPEIntroVC.startTime = startTime
+        groupEventCEPEIntroVC.endTime = endTime
+        groupEventCEPEIntroVC.eventLocation = eventLocation
+        groupEventCEPEIntroVC.maxPeople = Int(maxPeople) ?? 0
+        
         navigationController?.pushViewController(groupEventCEPEIntroVC, animated: true)
     }
     

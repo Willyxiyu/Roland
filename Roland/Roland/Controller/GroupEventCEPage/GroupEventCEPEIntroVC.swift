@@ -10,11 +10,17 @@ import UIKit
 
 class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
-    let groupEventCEPEPicVC = GroupEventCEPEPicVC()
+    let groupEventCEPFEPVC = GroupEventCEPFEPVC()
+    var eventTitle = String()
+    var startTime = String()
+    var endTime = String()
+    var eventLocation = String()
+    var maxPeople = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setBackgroundImage(imageName: "CEBGVertical")
+        //        self.setBackgroundImage(imageName: "CEBGVertical")
+        self.view.backgroundColor = .white
         setupQuestionView()
         setupTextView()
         setupContinueButton()
@@ -89,12 +95,21 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         continueButton.setTitle("Continue", for: .normal)
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
-        continueButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
         return continueButton
     }()
     
-    @objc func nextPage() {
-        navigationController?.pushViewController(groupEventCEPEPicVC, animated: true)
+    @objc func continueNextPage() {
+        
+        guard let eventIntro = textView.text else { return }
+        
+        groupEventCEPFEPVC.eventTitle = eventTitle
+        groupEventCEPFEPVC.startTime = startTime
+        groupEventCEPFEPVC.endTime = endTime
+        groupEventCEPFEPVC.eventLocation = eventLocation
+        groupEventCEPFEPVC.maxPeople = Int(maxPeople)
+        groupEventCEPFEPVC.eventIntro = eventIntro
+        navigationController?.pushViewController(groupEventCEPFEPVC, animated: true)
     }
     
     private func setupQuestionView() {

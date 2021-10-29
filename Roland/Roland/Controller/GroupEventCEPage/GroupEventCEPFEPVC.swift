@@ -6,22 +6,31 @@
 //
 
 import Foundation
+import Firebase
 import UIKit
 
 class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     let tableView = UITableView()
     
+    var eventTitle = String()
+    var startTime = String()
+    var endTime = String()
+    var eventLocation = String()
+    var maxPeople = Int()
+    var eventIntro = String()
+    
     var eventPhoto = UIImage() {
         didSet {
             tableView.reloadData()
         }
     }
-    
-//    let groupEventCEPEIntroVC = GroupEventCEPEIntroVC()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(shareNewEvent))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
         setupTableView()
         tableView.register(GEPhotoCell.self, forCellReuseIdentifier: String(describing: GEPhotoCell.self))
         tableView.register(GETitleCell.self, forCellReuseIdentifier: String(describing: GETitleCell.self))
@@ -39,6 +48,15 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc func shareNewEvent() {
+        
+        let groupEvent = GroupEvent(eventId: "", createTime: Timestamp(date: Date()), eventPhoto: "",
+                                    title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
+                                    maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
+        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     private func setupTableView() {
@@ -76,37 +94,37 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GETitleCell.self)"), for: indexPath) as? GETitleCell else { fatalError("Error") }
-            cell.titleLabel.text = "活動主題"
+            cell.titleLabel.text = eventTitle
             
             return cell
         case 2:
             gEDetailCell.eventDetailTitleLabel.text = "活動開始時間"
-            gEDetailCell.eventDetailLabel.text = "2021.10.28"
+            gEDetailCell.eventDetailLabel.text = startTime
             
             return gEDetailCell
             
         case 3:
             gEDetailCell.eventDetailTitleLabel.text = "活動結束時間"
-            gEDetailCell.eventDetailLabel.text = "2022.01.05"
+            gEDetailCell.eventDetailLabel.text = endTime
             
             return gEDetailCell
             
         case 4:
             gEDetailCell.eventDetailTitleLabel.text = "活動地點"
-            gEDetailCell.eventDetailLabel.text = "雪梨瓦樂比路42號"
+            gEDetailCell.eventDetailLabel.text = eventLocation
             
             return gEDetailCell
            
         case 5:
             gEDetailCell.eventDetailTitleLabel.text = "活動人數"
-            gEDetailCell.eventDetailLabel.text = "13"
+            gEDetailCell.eventDetailLabel.text = String(maxPeople)
             
             return gEDetailCell
             
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEIntroCell.self)"), for: indexPath) as? GEIntroCell else { fatalError("Error") }
             cell.eventIntroTitleLabel.text = "活動說明"
-            cell.eventIntroLabel.text = "ew;uhfweinudi37fhwkejdhuweygdfehfeuif6734y4unfjk4n4jcni4unck4u"
+            cell.eventIntroLabel.text = eventIntro
             
             return cell
             
@@ -150,7 +168,7 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
         present(actionSheet, animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
 
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             

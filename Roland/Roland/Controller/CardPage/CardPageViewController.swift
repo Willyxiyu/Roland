@@ -25,6 +25,7 @@ class CardPageViewController: UIViewController {
         super.viewWillAppear(animated)
         FirebaseManger.shared.getUserInfoFromFirestore { result in
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
