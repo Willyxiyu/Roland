@@ -9,6 +9,8 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
+
 
 class FirebaseManger {
     
@@ -19,6 +21,7 @@ class FirebaseManger {
     var chatRoomList = [ChatRoomList]()
     var messagelist = [Messagelist]()
     var applyList = [ApplyList]()
+    var groupEvent = [GroupEvent]()
     var message = ""
     var senderId = ""
     var accepterId = ""

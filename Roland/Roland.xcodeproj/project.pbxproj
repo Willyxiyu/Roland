@@ -205,11 +205,11 @@
 		3F0D2B11272B9CA000B90B4D /* FirebaseManger */ = {
 			isa = PBXGroup;
 			children = (
-				3F387829271FF7BB00203DD6 /* Firebase.swift */,
-				3F0D2B12272B9CE100B90B4D /* Firebase+UserInfo.swift */,
-				3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */,
 				3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */,
+				3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */,
 				3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */,
+				3F0D2B12272B9CE100B90B4D /* Firebase+UserInfo.swift */,
+				3F387829271FF7BB00203DD6 /* Firebase.swift */,
 			);
 			path = FirebaseManger;
 			sourceTree = "<group>";

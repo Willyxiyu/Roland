@@ -8,11 +8,12 @@
 import Foundation
 import Firebase
 import UIKit
+import FirebaseStorage
 
 class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     let tableView = UITableView()
-    
+    let storage = Storage.storage().reference()
     var eventTitle = String()
     var startTime = String()
     var endTime = String()
@@ -25,7 +26,16 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
             tableView.reloadData()
         }
     }
-        
+    var eventUrlString = String() {
+        didSet {
+            let groupEvent = GroupEvent(
+                eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
+                title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
+                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
+            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -40,6 +50,22 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         tableView.dataSource = self
         tableView.delegate = self
         
+//        guard let urlString = UserDefaults.standard.value(forKey: "url") as? String,
+//              let url = URL(string: urlString) else {
+//                  return
+//              }
+//        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
+//            guard let data = data, error == nil else {
+//                return
+//            }
+//
+//            DispatchQueue.main.async {
+//                let image = UIImage(data: data)
+//                self.imageView?.image = image
+//            }
+//        })
+//
+//        task.response
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,11 +77,6 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     }
     
     @objc func shareNewEvent() {
-        
-        let groupEvent = GroupEvent(eventId: "", createTime: Timestamp(date: Date()), eventPhoto: "",
-                                    title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
-                                    maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
-        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -114,7 +135,7 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
             gEDetailCell.eventDetailLabel.text = eventLocation
             
             return gEDetailCell
-           
+            
         case 5:
             gEDetailCell.eventDetailTitleLabel.text = "活動人數"
             gEDetailCell.eventDetailLabel.text = String(maxPeople)
@@ -169,17 +190,34 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-
-        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            
-            eventPhoto = editedImage
-            
-        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            
-            eventPhoto = originalImage
-
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        
+        eventPhoto = editedImage
+        
+        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        
+        eventPhoto = originalImage
+        
+        guard let imageData = editedImage.pngData() else {
+            return
         }
         
-        dismiss(animated: true, completion: nil)
+        storage.child("imgae/file.png").putData(imageData, metadata: nil) { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            self.storage.child("imgae/file.png").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                let urlString = url.absoluteString
+                print("Download URL: \(urlString)")
+                self.eventUrlString = urlString
+                UserDefaults.standard.set(urlString, forKey: "url")
+            })
+        }
     }
 }

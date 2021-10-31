@@ -12,11 +12,17 @@ class GroupEventHomePageViewController: UIViewController {
     
     let groupEventCEPViewController = GroupEventCEPENameVC()
     
-    let eventTitleList = ["wrtrt", "wrtwrtrr", "hyj7jtjf", "jrtjetheb", "aileure", "ewkuchewc", "wek.fuhefe", "ewkufhir4g", "ouri8y847yt9", "hyj7jtjf",
-                          "jrtjetheb", "aileure", "hyj7jtjf", "jrtjetheb", "aileure", "hyj7jtjf", "jrtjetheb", "aileure"]
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
-
+    var groupEvent = [GroupEvent]() {
+        
+        didSet {
+            
+            groupEventCollectionView.reloadData()
+            print(groupEvent)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -31,10 +37,18 @@ class GroupEventHomePageViewController: UIViewController {
         
         groupEventCollectionView.dataSource = self
         groupEventCollectionView.delegate = self
-      
+        
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        FirebaseManger.shared.fetchGroupEventCreatingInfo { (groupEvent) in
+            
+            self.groupEvent = groupEvent
+        }
+    }
     private lazy var categorySegmentedControl: UISegmentedControl = {
         let categorySegmentedControl = UISegmentedControl(items: ["Top", "Recent"])
         categorySegmentedControl.tintColor = UIColor.blue
@@ -77,27 +91,29 @@ class GroupEventHomePageViewController: UIViewController {
         ])
     }
     
-        func configureCellSize() {
-            layout.scrollDirection = .vertical
-            layout.minimumLineSpacing = 10
-            layout.minimumInteritemSpacing = 10
-            layout.itemSize = CGSize(width: (self.view.frame.size.width / 3) - 5, height: (self.view.frame.size.width / 3) + 10)
-    
-        }
+    func configureCellSize() {
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.itemSize = CGSize(width: (self.view.frame.size.width / 3) - 5, height: (self.view.frame.size.width / 3) + 10)
+        
+    }
     
 }
 
 extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return eventTitleList.count
+        return self.groupEvent.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = groupEventCollectionView.dequeueReusableCell(withReuseIdentifier: GroupEventCollectionViewCell.identifier,
                                                                       for: indexPath) as? GroupEventCollectionViewCell else { fatalError("Error") }
-        
-        cell.eventTitleLabel.text = eventTitleList[indexPath.row]
+
+            cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
+            cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
+            cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
         
         return cell
     }
@@ -115,9 +131,8 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
 }
-
-

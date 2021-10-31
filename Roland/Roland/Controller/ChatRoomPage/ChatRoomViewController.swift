@@ -88,37 +88,6 @@ class ChatRoomViewController: MessagesViewController {
         messageInputBar.delegate = self
         setupInputButton()
         
-//        FirebaseManger.shared.getAllMessagesForChatRoom(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
-//            results.forEach { result in
-//                print(result)
-//                guard let sentDate = result.createTime?.dateValue() else {
-//                    return
-//                }
-//
-//                guard let senderId = result.senderId else {
-//                    return
-//                }
-//
-//                guard let displayName = result.senderId else {
-//                    return
-//                }
-//                guard let resultText = result.text  else {
-//                    return
-//                }
-//                let kind = MessageKind.text(resultText)
-//
-//                let message = Message(sender: Sender(photoURL: "", senderId: senderId, displayName: displayName), messageId: "", sentDate: sentDate, kind: kind)
-//
-//                self.messages.append(message)
-//
-//                print(self.messages)
-//
-//                self.messagesCollectionView.reloadData()
-//
-//            }
-//
-//        }
-        
         FirebaseManger.shared.messageListener(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
             
             self.messages.removeAll()

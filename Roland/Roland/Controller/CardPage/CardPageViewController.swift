@@ -23,7 +23,7 @@ class CardPageViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        FirebaseManger.shared.getUserInfoFromFirestore { result in
+        FirebaseManger.shared.getUserInfoFromFirestore { _ in
         }
         
     }
