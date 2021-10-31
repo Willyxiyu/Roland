@@ -32,7 +32,7 @@ extension FirebaseManger {
             }
         }
     }
-    func getUserInfoFromFirestore(completion: @escaping ([UserInfo]) -> Void) { // only needs name, birth
+    func getUserInfoFromFirestore(completion: @escaping ([UserInfo]) -> Void) {
         database.collection("UserInfo").getDocuments { (querySnapshot, error) in
             if let error = error {
                 
@@ -42,16 +42,16 @@ extension FirebaseManger {
                 
             } else {
                 
-                var users = [UserInfo]()
+                var userInfo = [UserInfo]()
                 
                 for document in querySnapshot!.documents {
                     
                     do {
                         
-                        if let userInfo = try document.data(as: UserInfo.self) {
+                        if let user = try document.data(as: UserInfo.self) {
                             
-                            users.append(userInfo)
-                            print(userInfo)
+                            userInfo.append(user)
+                            print(user)
                         }
                         
                     } catch {
@@ -59,7 +59,7 @@ extension FirebaseManger {
                     }
                 }
                 
-                completion(users)
+                completion(userInfo)
             }
         }
     }

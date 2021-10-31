@@ -73,4 +73,14 @@ extension FirebaseManger {
             }
         }
     }
+    
+    public func deleteGroupEventCreatingInfo(docId: String) {
+        database.collection("GroupEvent").document(docId).delete { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
 }

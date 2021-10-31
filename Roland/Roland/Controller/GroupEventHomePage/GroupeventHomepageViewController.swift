@@ -11,6 +11,7 @@ import MapKit
 class GroupEventHomePageViewController: UIViewController {
     
     let groupEventCEPViewController = GroupEventCEPENameVC()
+    let groupEventDetailPageViewController = GroupEventDetailPageViewController()
     
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
@@ -19,6 +20,7 @@ class GroupEventHomePageViewController: UIViewController {
         didSet {
             
             groupEventCollectionView.reloadData()
+            
             print(groupEvent)
         }
     }
@@ -43,7 +45,7 @@ class GroupEventHomePageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         FirebaseManger.shared.fetchGroupEventCreatingInfo { (groupEvent) in
             
             self.groupEvent = groupEvent
@@ -110,10 +112,10 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = groupEventCollectionView.dequeueReusableCell(withReuseIdentifier: GroupEventCollectionViewCell.identifier,
                                                                       for: indexPath) as? GroupEventCollectionViewCell else { fatalError("Error") }
-
-            cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
-            cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
-            cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
+        
+        cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
+        cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
+        cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
         
         return cell
     }
@@ -133,6 +135,17 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let selectedRow = groupEventCollectionView.indexPathsForSelectedItems?.first?.row else { return }
+        
+        let selectedGroupEvent = groupEvent[selectedRow]
+        
+        groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
+        
+        navigationController?.pushViewController(groupEventDetailPageViewController, animated: true)
     }
     
 }

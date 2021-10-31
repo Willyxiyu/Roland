@@ -11,25 +11,18 @@ import FirebaseFirestore
 class CardPageViewController: UIViewController {
     var cardView = UIView()
     var cardHomePageView = CardHomePageView()
-    private var users = [UserInfo]()
-    
+    private var userInfo = [UserInfo]()
     override func viewDidLoad() {
         super.viewDidLoad()
       
         setupCardHomePageView()
-        fetchUsers()
         setupCardView()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        FirebaseManger.shared.getUserInfoFromFirestore { _ in
-        }
+       fetchUsers()
         
-    }
-    
-    override func viewDidLayoutSubviews() {
-       
     }
     
     private func setupCardHomePageView() {
@@ -44,10 +37,11 @@ class CardPageViewController: UIViewController {
     }
     
     private func fetchUsers() {
-        FirebaseManger.shared.getUserInfoFromFirestore { (users) in
-            self.users = users
+        FirebaseManger.shared.getUserInfoFromFirestore { (userInfo) in
             
-            self.users.forEach { (userInfo) in
+            self.userInfo = userInfo
+            
+            self.userInfo.forEach { (userInfo) in
                 let card = CardView(user: userInfo)
                 card.translatesAutoresizingMaskIntoConstraints = false
                 self.cardView.addSubview(card)

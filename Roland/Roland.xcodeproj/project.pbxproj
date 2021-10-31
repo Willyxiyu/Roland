@@ -20,12 +20,13 @@
 		3F0D2B0527292EDF00B90B4D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0427292EDF00B90B4D /* UIViewController+Extension.swift */; };
 		3F0D2B0727293FD400B90B4D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0627293FD400B90B4D /* UIView+Extension.swift */; };
 		3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B082729783200B90B4D /* GroupEventCEPFEPVC.swift */; };
-		3F0D2B0E2729AAB400B90B4D /* GroupEventCEPFEPVCTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0D2729AAB400B90B4D /* GroupEventCEPFEPVCTVCell.swift */; };
+		3F0D2B0E2729AAB400B90B4D /* GEDetailPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0D2729AAB400B90B4D /* GEDetailPageCell.swift */; };
 		3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0F272AF91300B90B4D /* GroupEvent.swift */; };
 		3F0D2B13272B9CE100B90B4D /* Firebase+UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B12272B9CE100B90B4D /* Firebase+UserInfo.swift */; };
 		3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */; };
 		3F0D2B17272B9D2C00B90B4D /* Firebase+GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */; };
 		3F0D2B19272B9D4E00B90B4D /* Firebase+ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */; };
+		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -69,12 +70,13 @@
 		3F0D2B0427292EDF00B90B4D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3F0D2B0627293FD400B90B4D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		3F0D2B082729783200B90B4D /* GroupEventCEPFEPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPFEPVC.swift; sourceTree = "<group>"; };
-		3F0D2B0D2729AAB400B90B4D /* GroupEventCEPFEPVCTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPFEPVCTVCell.swift; sourceTree = "<group>"; };
+		3F0D2B0D2729AAB400B90B4D /* GEDetailPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEDetailPageCell.swift; sourceTree = "<group>"; };
 		3F0D2B0F272AF91300B90B4D /* GroupEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEvent.swift; sourceTree = "<group>"; };
 		3F0D2B12272B9CE100B90B4D /* Firebase+UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+UserInfo.swift"; sourceTree = "<group>"; };
 		3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ChatRoomList.swift"; sourceTree = "<group>"; };
 		3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+GroupEvent.swift"; sourceTree = "<group>"; };
 		3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ScalingCard.swift"; sourceTree = "<group>"; };
+		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F225400272E770A0002F135 /* GroupEventDetailPage */,
 				3F0D2AF92728FACE00B90B4D /* GroupEventCEPage */,
 				3F0D2AF127284FB400B90B4D /* GroupEventHomePage */,
 				3FD82C5D27264E230055C33E /* ChatRoomPage */,
@@ -144,6 +147,7 @@
 		3F06CDB3271D77B400FFA4E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F225402272E7F310002F135 /* GroupEventDetailPage */,
 				3F0D2B0C2729A8F900B90B4D /* GroupEventFEPage */,
 				3F0D2AF427285EF600B90B4D /* GroupEventHomePage */,
 				3FD82C6527271A410055C33E /* ChatroomlistPage */,
@@ -197,7 +201,7 @@
 		3F0D2B0C2729A8F900B90B4D /* GroupEventFEPage */ = {
 			isa = PBXGroup;
 			children = (
-				3F0D2B0D2729AAB400B90B4D /* GroupEventCEPFEPVCTVCell.swift */,
+				3F0D2B0D2729AAB400B90B4D /* GEDetailPageCell.swift */,
 			);
 			path = GroupEventFEPage;
 			sourceTree = "<group>";
@@ -212,6 +216,21 @@
 				3F387829271FF7BB00203DD6 /* Firebase.swift */,
 			);
 			path = FirebaseManger;
+			sourceTree = "<group>";
+		};
+		3F225400272E770A0002F135 /* GroupEventDetailPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */,
+			);
+			path = GroupEventDetailPage;
+			sourceTree = "<group>";
+		};
+		3F225402272E7F310002F135 /* GroupEventDetailPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GroupEventDetailPage;
 			sourceTree = "<group>";
 		};
 		3F387822271FE00E00203DD6 /* Model */ = {
@@ -495,6 +514,7 @@
 				3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
+				3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
 				3F0D2B0327292AC300B90B4D /* nonGroupEventCEPEPicVC.swift in Sources */,
 				3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */,
@@ -509,7 +529,7 @@
 				3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */,
 				3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */,
 				3F0D2AFB2729267700B90B4D /* GroupEventCEPETimeVC.swift in Sources */,
-				3F0D2B0E2729AAB400B90B4D /* GroupEventCEPFEPVCTVCell.swift in Sources */,
+				3F0D2B0E2729AAB400B90B4D /* GEDetailPageCell.swift in Sources */,
 				3F0D2AF82728FAC700B90B4D /* GroupEventCEPENameVC.swift in Sources */,
 				3FB49E6A2724177B00B9809D /* ChatRoomViewController.swift in Sources */,
 			);

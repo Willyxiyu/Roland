@@ -7,18 +7,84 @@
 
 import UIKit
 
-class GroupEventCEPFEPVCTVCell: UITableViewCell {
+class GEDetailPageTitleCell: UITableViewCell {
+    
+    var deleteCellRowNumberForClosure: (() -> Void)?
     
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        setupTitleLabel()
+        setupCancelButton()
+        setupEditButton()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+    }
+    
+    lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textColor = UIColor.black
+        titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        titleLabel.textAlignment = .center
+        return titleLabel
+    }()
+    
+    private func setupTitleLabel() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+        ])
+    }
+    
+    lazy var cancelButton: UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.setTitle("取消活動", for: .normal)
+        cancelButton.layer.cornerRadius = 10
+        cancelButton.layer.borderWidth = 1
+        cancelButton.setTitleColor(UIColor.black, for: .normal)
+        cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        cancelButton.isEnabled = true
+        return cancelButton
+    }()
+    lazy var editButton: UIButton = {
+        let editButton = UIButton()
+        editButton.setTitle("編輯活動", for: .normal)
+        editButton.layer.cornerRadius = 10
+        editButton.backgroundColor = UIColor.themeColor
+        editButton.setTitleColor(UIColor.white, for: .normal)
+        editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        editButton.isEnabled = true
+        return editButton
+    }()
+    
+    private func setupCancelButton() {
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(cancelButton)
+        NSLayoutConstraint.activate([
+            cancelButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            cancelButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+            cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            cancelButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+            cancelButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupEditButton() {
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(editButton)
+        NSLayoutConstraint.activate([
+            editButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
+            editButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
+            editButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+            editButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+        ])
     }
 }
 // MARK: - PhotoCell
@@ -57,7 +123,7 @@ class GEPhotoCell: UITableViewCell {
     }()
     
     @objc func eventImageButtonTapped() {
-        print("YEEEEE")
+//        print("YEEEEE")
         addNewPhoto?()
         
     }
