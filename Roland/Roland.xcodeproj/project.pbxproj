@@ -27,6 +27,8 @@
 		3F0D2B17272B9D2C00B90B4D /* Firebase+GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */; };
 		3F0D2B19272B9D4E00B90B4D /* Firebase+ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */; };
 		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
+		3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */; };
+		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -77,6 +79,8 @@
 		3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+GroupEvent.swift"; sourceTree = "<group>"; };
 		3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ScalingCard.swift"; sourceTree = "<group>"; };
 		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
+		3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F225407272EE7BB0002F135 /* ProfilePage */,
 				3F225400272E770A0002F135 /* GroupEventDetailPage */,
 				3F0D2AF92728FACE00B90B4D /* GroupEventCEPage */,
 				3F0D2AF127284FB400B90B4D /* GroupEventHomePage */,
@@ -233,6 +238,14 @@
 			path = GroupEventDetailPage;
 			sourceTree = "<group>";
 		};
+		3F225407272EE7BB0002F135 /* ProfilePage */ = {
+			isa = PBXGroup;
+			children = (
+				3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */,
+			);
+			path = ProfilePage;
+			sourceTree = "<group>";
+		};
 		3F387822271FE00E00203DD6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +278,7 @@
 		3F75400B271D1EA800F9092E /* Roland */ = {
 			isa = PBXGroup;
 			children = (
+				3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */,
 				3F75400C271D1EA800F9092E /* AppDelegate.swift */,
 				3F75400E271D1EA800F9092E /* SceneDelegate.swift */,
 				3F754023271D557300F9092E /* Extension */,
@@ -417,6 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F754019271D1EAB00F9092E /* LaunchScreen.storyboard in Resources */,
+				3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */,
 				3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */,
 				3F754016271D1EAB00F9092E /* Assets.xcassets in Resources */,
 				3F754014271D1EA800F9092E /* Main.storyboard in Resources */,
@@ -513,6 +528,7 @@
 				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
 				3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
+				3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,

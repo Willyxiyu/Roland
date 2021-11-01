@@ -19,29 +19,6 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         }
     }
     
-    //    let storage = Storage.storage().reference()
-    //    var eventTitle = String()
-    //    var startTime = String()
-    //    var endTime = String()
-    //    var eventLocation = String()
-    //    var maxPeople = Int()
-    //    var eventIntro = String()
-    //
-    //    var eventPhoto = UIImage() {
-    //        didSet {
-    //            tableView.reloadData()
-    //        }
-    //    }
-    //    var eventUrlString = String() {
-    //        didSet {
-    //            let groupEvent = GroupEvent(
-    //                eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
-    //                title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
-    //                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
-    //            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
-    //        }
-    //    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -97,7 +74,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             cell.titleLabel.text = selectedGroupEvent?.title
             
             cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
-
+            
             return cell
         case 2:
             gEDetailCell.eventDetailTitleLabel.text = "活動開始時間"
@@ -145,8 +122,21 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
             return
         }
-        FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
-        navigationController?.popViewController(animated: true)
+        
+        let alert = UIAlertController(title: "刪除活動", message: "刪除後無法回復", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "敵不動我不動", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "確認刪除", style: .default, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
+            self.navigationController?.popViewController(animated: true)
+            
+        })
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+    
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
 }

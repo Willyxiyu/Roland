@@ -258,7 +258,7 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
 }
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
         let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("YEEE"))
         
@@ -268,7 +268,7 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
     }
 
-    private func createMessageId() -> String? {
+    func createMessageId() -> String? {
         // date, otherUserEmail, senderEmail, randomInt
         
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") else {
