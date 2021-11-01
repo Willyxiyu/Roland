@@ -287,6 +287,7 @@ PODS:
     - InputBarAccessoryView/Core (= 5.4.0)
   - InputBarAccessoryView/Core (5.4.0)
   - JGProgressHUD (2.2)
+  - Kingfisher (7.1.1)
   - leveldb-library (1.22.1)
   - lottie-ios (3.2.3)
   - MessageKit (3.7.0):
@@ -312,6 +313,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseFirestoreSwift
   - JGProgressHUD
+  - Kingfisher
   - lottie-ios
   - MessageKit
   - RealmSwift
@@ -335,6 +337,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - InputBarAccessoryView
     - JGProgressHUD
+    - Kingfisher
     - leveldb-library
     - lottie-ios
     - MessageKit
@@ -361,6 +364,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   InputBarAccessoryView: 74d471ab1fa1736806be50328df79257e52865a9
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   MessageKit: 8e76dd8d65ad44b49e1651c673497146416461e9
@@ -371,6 +375,6 @@ SPEC CHECKSUMS:
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SwiftLint: e96c0a8c770c7ebbc4d36c55baf9096bb65c4584
 
-PODFILE CHECKSUM: 2cadd299020dff50f52820b8e758b6c58d978bda
+PODFILE CHECKSUM: 456c7d340625295aee305cbffab5669f0089e8ab
 
 COCOAPODS: 1.11.2

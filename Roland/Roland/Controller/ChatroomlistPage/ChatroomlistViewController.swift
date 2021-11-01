@@ -14,11 +14,7 @@ class ChatroomlistViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
-    private var chatRoomList = [ChatRoomList](){
-        didSet{
-            chatRoomListTableView.reloadData()
-        }
-    }
+    private var chatRoomList = [ChatRoomList]()
     
     override func viewDidLoad() {
         setupChatRoomListTableView()
@@ -27,7 +23,7 @@ class ChatroomlistViewController: UIViewController {
 //        startListeningForChatRoom()
         FirebaseManger.shared.getAllChatRoom(id: userID) { list in
             self.chatRoomList = list
-//            self.chatRoomListTableView.reloadData()
+            self.chatRoomListTableView.reloadData()
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
     }

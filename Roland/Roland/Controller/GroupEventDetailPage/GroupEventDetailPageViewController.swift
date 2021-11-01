@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import UIKit
 import FirebaseStorage
+import Kingfisher
 
 class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
@@ -65,7 +66,9 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPhotoCell.self)"), for: indexPath) as? GEPhotoCell else { fatalError("Error") }
-            cell.photoImageView.image = UIImage(named: "PS5")
+            
+            guard let photo = selectedGroupEvent?.eventPhoto else { fatalError("Error") }
+            cell.photoImageView.kf.setImage(with: URL(string: photo))
             
             return cell
         case 1:

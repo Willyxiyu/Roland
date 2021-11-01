@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import Kingfisher
 
 class GroupEventHomePageViewController: UIViewController {
     
@@ -113,6 +114,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         guard let cell = groupEventCollectionView.dequeueReusableCell(withReuseIdentifier: GroupEventCollectionViewCell.identifier,
                                                                       for: indexPath) as? GroupEventCollectionViewCell else { fatalError("Error") }
         
+        cell.eventPhoto.kf.setImage(with: URL(string: self.groupEvent[indexPath.row].eventPhoto))
         cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
         cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
         cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime

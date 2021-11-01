@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import UIKit
 import FirebaseStorage
+import Kingfisher
 
 class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
@@ -26,13 +27,18 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
             tableView.reloadData()
         }
     }
+    
+    var groupEvent: GroupEvent?
+    
     var eventUrlString = String() {
+        
         didSet {
-            let groupEvent = GroupEvent(
+            
+             groupEvent = GroupEvent(
                 eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
                 maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
-            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
+//            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         }
     }
     
@@ -77,6 +83,10 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     }
     
     @objc func shareNewEvent() {
+        
+        guard let groupEvent = groupEvent else { return }
+        
+        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -204,12 +214,16 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
             return
         }
         
-        storage.child("imgae/file.png").putData(imageData, metadata: nil) { _, error in
+        let uniqueString = NSUUID().uuidString
+        storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
             guard error == nil else {
                 print("Failed to upload")
                 return
             }
-            self.storage.child("imgae/file.png").downloadURL(completion: { url, error in
+            
+          
+                   
+            self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
                 guard let url = url, error == nil else {
                     return
                 }
