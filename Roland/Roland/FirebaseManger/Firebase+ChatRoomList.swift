@@ -109,7 +109,7 @@ extension FirebaseManger {
     /// Gets all messages for a given conversation
     public func getAllMessagesForChatRoom(chatRoomId: String, completion: @escaping([Messagelist]) -> Void) {
         
-        database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist")
+        database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist").order(by: "createTime")
         
             .getDocuments { querySnapshot, error in
                 
@@ -196,7 +196,7 @@ extension FirebaseManger {
     
     public func messageListener(chatRoomId: String, completion: @escaping([Messagelist]) -> Void  ) {
         
-        database.collection("ChatRoomList").document("TMTKJhNE2z0u4FyLoDsu").collection("Messagelist")
+        database.collection("ChatRoomList").document("TMTKJhNE2z0u4FyLoDsu").collection("Messagelist").order(by: "createTime")
         
             .addSnapshotListener { querySnapshot, error in
                 

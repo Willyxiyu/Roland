@@ -95,8 +95,10 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             return gEDetailCell
             
         case 5:
+            
+            guard let people = selectedGroupEvent?.maximumOfPeople else { fatalError("error")  }
             gEDetailCell.eventDetailTitleLabel.text = "活動人數"
-            gEDetailCell.eventDetailLabel.text = String("\(selectedGroupEvent?.maximumOfPeople)")
+            gEDetailCell.eventDetailLabel.text = String("\(people)")
             
             return gEDetailCell
             

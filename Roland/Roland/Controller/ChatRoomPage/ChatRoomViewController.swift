@@ -117,7 +117,7 @@ class ChatRoomViewController: MessagesViewController {
                 self.messages.append(message)
                 
             }
-            
+           
         }
     }
     
@@ -259,8 +259,8 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
      func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        
-        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("YEEE"))
+
+        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(text))
         
         FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: message)
         

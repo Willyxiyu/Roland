@@ -19,6 +19,7 @@ class CardPageViewController: UIViewController {
         setupCardView()
         setupLogingView()
         setupLogingButton()
+        setupAppIconImage()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +45,12 @@ class CardPageViewController: UIViewController {
         logingButton.isEnabled = true
         logingButton.addTarget(self, action: #selector(dismissLogingView), for: .touchUpInside)
         return logingButton
+    }()
+    
+    lazy var appIconImageView: UIImageView = {
+        let appIconImageView = UIImageView()
+        appIconImageView.image = UIImage(named: "appicon")
+        return appIconImageView
     }()
     
    @objc func dismissLogingView() {
@@ -113,6 +120,17 @@ class CardPageViewController: UIViewController {
             logingButton.bottomAnchor.constraint(equalTo: logingView.bottomAnchor, constant: -100),
             logingButton.widthAnchor.constraint(equalTo: logingView.widthAnchor, multiplier: 0.7),
             logingButton.heightAnchor.constraint(equalTo: logingView.heightAnchor, multiplier: 0.05)
+        ])
+    }
+    
+    private func setupAppIconImage() {
+        appIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        logingView.addSubview(appIconImageView)
+        NSLayoutConstraint.activate([
+            appIconImageView.centerXAnchor.constraint(equalTo: logingView.centerXAnchor),
+            appIconImageView.centerYAnchor.constraint(equalTo: logingView.centerYAnchor),
+            appIconImageView.heightAnchor.constraint(equalToConstant: 50),
+            appIconImageView.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
 }

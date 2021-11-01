@@ -14,16 +14,20 @@ class ChatroomlistViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
-    private var chatRoomList = [ChatRoomList]()
+    private var chatRoomList = [ChatRoomList](){
+        didSet{
+            chatRoomListTableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
-        fetchConversation()
-        startListeningForChatRoom()
+//        fetchConversation()
+//        startListeningForChatRoom()
         FirebaseManger.shared.getAllChatRoom(id: userID) { list in
             self.chatRoomList = list
-            self.chatRoomListTableView.reloadData()
+//            self.chatRoomListTableView.reloadData()
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
     }
@@ -48,9 +52,9 @@ class ChatroomlistViewController: UIViewController {
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
-    private func startListeningForChatRoom() {
-        
-    }
+//    private func startListeningForChatRoom() {
+//
+//    }
     private lazy var chatRoomListTableView: UITableView = {
         let chatRoomListTableView = UITableView()
         //        chatRoomListTableView.isHidden = true
@@ -101,9 +105,9 @@ class ChatroomlistViewController: UIViewController {
         ])
     }
     
-    private func fetchConversation() {
-        
-    }
+//    private func fetchConversation() {
+//
+//    }
 }
 
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {

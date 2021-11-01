@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDelegate, UITextPasteDelegate {
     
     let groupEventCEPFEPVC = GroupEventCEPFEPVC()
     var eventTitle = String()
@@ -27,6 +27,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
+//        self.textView.pasteDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

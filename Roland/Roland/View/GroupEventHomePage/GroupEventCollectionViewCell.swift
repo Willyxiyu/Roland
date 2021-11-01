@@ -126,7 +126,8 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(eventLocationLabel)
         NSLayoutConstraint.activate([
             eventLocationLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
-            eventLocationLabel.bottomAnchor.constraint(equalTo: eventDateLabel.topAnchor)
+            eventLocationLabel.bottomAnchor.constraint(equalTo: eventDateLabel.topAnchor),
+            eventLocationLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
         ])
     }
     private func setupEventDateLabel() {
