@@ -1,6 +1,0 @@
-framework module Pods_Roland {
-  umbrella header "Pods-Roland-umbrella.h"
-
-  export *
-  module * { export * }
-}
