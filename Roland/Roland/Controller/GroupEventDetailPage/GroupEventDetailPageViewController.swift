@@ -14,11 +14,14 @@ import Kingfisher
 class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     let tableView = UITableView()
+    var isTheHost: Bool?
     var selectedGroupEvent: GroupEvent? {
         didSet {
             tableView.reloadData()
         }
     }
+    
+    var requestSenderId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,19 +36,23 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+//        navigationController?.setNavigationBarHidden(false, animated: animated)
+
     }
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: -100),
             tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
@@ -59,7 +66,6 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let gEDetailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEDetailCell.self)"), for: indexPath) as? GEDetailCell else { fatalError("Error") }
         
         switch indexPath.row {
@@ -76,7 +82,18 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
                                                            for: indexPath) as? GEDetailPageTitleCell else { fatalError("Error") }
             cell.titleLabel.text = selectedGroupEvent?.title
             
+            guard let isTheHost = isTheHost else { fatalError("error") }
+            
+            if isTheHost == true {
+                cell.shareEventButton.isHidden = true
+                cell.regisButton.isHidden = true
+            } else {
+                cell.cancelButton.isHidden = true
+                cell.editButton.isHidden = true
+            }
             cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
+//            cell.shareEventButton.addTarget(self, action: #selector(shareEvent), for: .touchUpInside)
+            cell.regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
             
             return cell
         case 2:
@@ -123,10 +140,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     
     @objc func cancelEvent() {
         
-        guard let eventId = selectedGroupEvent?.eventId else {
-            
-            return
-        }
+        guard let eventId = selectedGroupEvent?.eventId else { return }
         
         let alert = UIAlertController(title: "刪除活動", message: "刪除後無法回復", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "敵不動我不動", style: .cancel, handler: nil)
@@ -142,6 +156,16 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     
         self.present(alert, animated: true, completion: nil)
         
+    }
+    
+    @objc func registerEvent() {
+        
+        guard let requestSenderId = requestSenderId else {
+            return
+        }
+        
+        guard let eventId = selectedGroupEvent?.eventId else { return }
+        FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, requestSenderId: requestSenderId)
     }
     
 }

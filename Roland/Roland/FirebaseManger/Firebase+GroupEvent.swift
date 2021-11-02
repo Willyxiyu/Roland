@@ -12,11 +12,12 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 extension FirebaseManger {
-    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent) {
+    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent, senderId: String) {
         let ref = database.collection("GroupEvent")
         let docId = ref.document().documentID
         
         let groupEventCreatingInfo: [String: Any] = [
+            "senderId": senderId,
             "eventId": docId,
             "eventPhoto": groupEventCreatingInfo.eventPhoto,
             "title": groupEventCreatingInfo.title,
@@ -28,8 +29,8 @@ extension FirebaseManger {
             "isFull": false,
             "startTime": groupEventCreatingInfo.startTime,
             "endTime": groupEventCreatingInfo.endTime,
-            "createTime": Timestamp(date: Date()),
-            "applyList": applyList
+            "createTime": Timestamp(date: Date())
+//            "applyList": applyList
         ]
         ref.document(docId).setData(groupEventCreatingInfo) { error in
             if let error = error {
@@ -83,4 +84,24 @@ extension FirebaseManger {
             }
         }
     }
+    
+    public func postSenderIdtoApplyList(eventId: String, requestSenderId: String) {
+        let ref = database.collection("ApplyList")
+        let docId = ref.document().documentID
+        let applyList: [String: Any] = [
+            "eventId": eventId,
+            "requestSenderId": requestSenderId,
+            "isAccepted": false,
+            "isPending": true,
+            "isRejected": false
+        ]
+        ref.document(docId).setData(applyList) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document data: \(applyList)")
+            }
+        }
+    }
+    
 }

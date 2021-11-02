@@ -13,9 +13,11 @@ class GroupEventHomePageViewController: UIViewController {
     
     let groupEventCEPViewController = GroupEventCEPENameVC()
     let groupEventDetailPageViewController = GroupEventDetailPageViewController()
+    let notificationViewController = NotificationViewController()
     
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
+    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
     var groupEvent = [GroupEvent]() {
         
         didSet {
@@ -30,14 +32,11 @@ class GroupEventHomePageViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setupCategorySegmentedControl()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(createNewEvent))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
+        setupNavigationBarItem()
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()
         groupEventCollectionView.register(GroupEventCollectionViewCell.self, forCellWithReuseIdentifier: GroupEventCollectionViewCell.identifier )
-        
         groupEventCollectionView.dataSource = self
         groupEventCollectionView.delegate = self
         
@@ -52,6 +51,18 @@ class GroupEventHomePageViewController: UIViewController {
             self.groupEvent = groupEvent
         }
     }
+    
+    func setupNavigationBarItem() {
+        let plusImage = UIImage.init(systemName: "plus")
+        let notificationImage = UIImage.init(systemName: "bell")
+      
+        let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
+        let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
+        
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
+        self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
+    }
+    
     private lazy var categorySegmentedControl: UISegmentedControl = {
         let categorySegmentedControl = UISegmentedControl(items: ["Top", "Recent"])
         categorySegmentedControl.tintColor = UIColor.blue
@@ -71,6 +82,10 @@ class GroupEventHomePageViewController: UIViewController {
     
     @objc private func createNewEvent() {
         navigationController?.pushViewController(groupEventCEPViewController, animated: true)
+    }
+    
+    @objc private func pushNotiVC() {
+        navigationController?.pushViewController(notificationViewController, animated: true)
     }
     
     private func setupCategorySegmentedControl() {
@@ -99,9 +114,7 @@ class GroupEventHomePageViewController: UIViewController {
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
         layout.itemSize = CGSize(width: (self.view.frame.size.width / 3) - 5, height: (self.view.frame.size.width / 3) + 10)
-        
     }
-    
 }
 
 extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -145,7 +158,14 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         
         let selectedGroupEvent = groupEvent[selectedRow]
         
+        if selectedGroupEvent.senderId == requestSenderId {
+            groupEventDetailPageViewController.isTheHost = true
+        } else {
+            groupEventDetailPageViewController.isTheHost = false
+        }
+        
         groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
+        groupEventDetailPageViewController.requestSenderId = requestSenderId
         
         navigationController?.pushViewController(groupEventDetailPageViewController, animated: true)
     }

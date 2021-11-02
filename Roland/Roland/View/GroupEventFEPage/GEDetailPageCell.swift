@@ -9,8 +9,6 @@ import UIKit
 
 class GEDetailPageTitleCell: UITableViewCell {
     
-    var deleteCellRowNumberForClosure: (() -> Void)?
-    
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -18,6 +16,8 @@ class GEDetailPageTitleCell: UITableViewCell {
         setupTitleLabel()
         setupCancelButton()
         setupEditButton()
+        setupShareEventButton()
+        setupRegisButton()
     }
     
     required init?(coder: NSCoder) {
@@ -86,6 +86,51 @@ class GEDetailPageTitleCell: UITableViewCell {
             editButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
         ])
     }
+    
+    lazy var shareEventButton: UIButton = {
+        let shareEventButton = UIButton()
+        shareEventButton.setTitle("分享活動", for: .normal)
+        shareEventButton.layer.cornerRadius = 10
+        shareEventButton.layer.borderWidth = 1
+        shareEventButton.setTitleColor(UIColor.black, for: .normal)
+        shareEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        shareEventButton.isEnabled = true
+        return shareEventButton
+    }()
+    lazy var regisButton: UIButton = {
+        let regisButton = UIButton()
+        regisButton.setTitle("報名活動", for: .normal)
+        regisButton.layer.cornerRadius = 10
+        regisButton.backgroundColor = UIColor.themeColor
+        regisButton.setTitleColor(UIColor.white, for: .normal)
+        regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        regisButton.isEnabled = true
+        return regisButton
+    }()
+    
+    private func setupRegisButton() {
+        regisButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(regisButton)
+        NSLayoutConstraint.activate([
+            regisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            regisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+            regisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            regisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+            regisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupShareEventButton() {
+        shareEventButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(shareEventButton)
+        NSLayoutConstraint.activate([
+            shareEventButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
+            shareEventButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
+            shareEventButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+            shareEventButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+        ])
+    }
 }
 // MARK: - PhotoCell
 class GEPhotoCell: UITableViewCell {
@@ -123,7 +168,6 @@ class GEPhotoCell: UITableViewCell {
     }()
     
     @objc func eventImageButtonTapped() {
-//        print("YEEEEE")
         addNewPhoto?()
         
     }

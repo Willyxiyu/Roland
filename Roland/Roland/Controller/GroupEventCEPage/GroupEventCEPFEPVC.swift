@@ -30,14 +30,16 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     
     var groupEvent: GroupEvent?
     
+    var senderId = "DoIscQXJzIbQfJDTnBVm"
+    
     var eventUrlString = String() {
         
         didSet {
             
              groupEvent = GroupEvent(
-                eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
+                senderId: senderId, eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
-                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, applyList: nil)
+                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false)
 //            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         }
     }
@@ -86,7 +88,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         
         guard let groupEvent = groupEvent else { return }
         
-        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
+        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent, senderId: senderId)
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -220,9 +222,6 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
                 print("Failed to upload")
                 return
             }
-            
-          
-                   
             self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
                 guard let url = url, error == nil else {
                     return

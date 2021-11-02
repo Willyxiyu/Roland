@@ -7,8 +7,10 @@
 
 import Foundation
 import Firebase
+import RealmSwift
 
 struct GroupEvent: Codable {
+    var senderId: String
     var eventId: String
     var createTime: Timestamp
     var eventPhoto: String
@@ -21,9 +23,10 @@ struct GroupEvent: Codable {
     var isClose: Bool
     var isPending: Bool
     var isFull: Bool
-    var applyList: [ApplyList]?
+//    var applyList: [String: ApplyList]?
     
     enum CodingKeys: String, CodingKey {
+        case senderId
         case eventId
         case createTime
         case eventPhoto
@@ -36,31 +39,19 @@ struct GroupEvent: Codable {
         case isClose
         case isPending
         case isFull
-        case applyList
+//        case applyList
     }
     
 }
 
-struct ApplyList: Codable {
-    let applyrequestId: String
-    let senderId: String
-    let stattus: Status
-    
-    enum CodingKeys: String, CodingKey {
-        case applyrequestId
-        case senderId
-        case stattus
-    }
-}
-
-struct Status: Codable {
-    let isAccepted: Bool
-    let isPending: Bool
-    let isRejected: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case isAccepted
-        case isPending
-        case isRejected
-    }
-}
+//struct ApplyList: Codable {
+//    let isAccepted: Bool
+//    let isPending: Bool
+//    let isRejected: Bool
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case isAccepted
+//        case isPending
+//        case isRejected
+//    }
+//}
