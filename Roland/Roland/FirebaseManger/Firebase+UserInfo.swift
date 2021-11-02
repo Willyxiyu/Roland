@@ -32,6 +32,12 @@ extension FirebaseManger {
             }
         }
     }
+    
+    func postEventIdtoMeEventIdArray(docId: String, eventId: String) {
+        let ref = database.collection("UserInfo").document(docId)
+        ref.updateData(["myEventId": FieldValue.arrayUnion([eventId])])
+    }
+    
     func getUserInfoFromFirestore(completion: @escaping ([UserInfo]) -> Void) {
         database.collection("UserInfo").getDocuments { (querySnapshot, error) in
             if let error = error {

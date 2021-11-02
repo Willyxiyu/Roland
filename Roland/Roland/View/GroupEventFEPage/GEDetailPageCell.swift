@@ -18,6 +18,7 @@ class GEDetailPageTitleCell: UITableViewCell {
         setupEditButton()
         setupShareEventButton()
         setupRegisButton()
+        setupCancelRegisButton()
     }
     
     required init?(coder: NSCoder) {
@@ -109,6 +110,18 @@ class GEDetailPageTitleCell: UITableViewCell {
         return regisButton
     }()
     
+    lazy var cancelRegisButton: UIButton = {
+        let cancelRegisButton = UIButton()
+        cancelRegisButton.setTitle("取消報名", for: .normal)
+        cancelRegisButton.layer.cornerRadius = 10
+        cancelRegisButton.layer.borderWidth = 1
+        cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
+        cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        cancelRegisButton.isEnabled = true
+        return cancelRegisButton
+    }()
+    
     private func setupRegisButton() {
         regisButton.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(regisButton)
@@ -118,6 +131,18 @@ class GEDetailPageTitleCell: UITableViewCell {
             regisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             regisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
             regisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupCancelRegisButton() {
+        cancelRegisButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(cancelRegisButton)
+        NSLayoutConstraint.activate([
+            cancelRegisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            cancelRegisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+            cancelRegisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            cancelRegisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+            cancelRegisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
         ])
     }
     

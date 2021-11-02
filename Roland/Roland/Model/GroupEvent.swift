@@ -23,7 +23,6 @@ struct GroupEvent: Codable {
     var isClose: Bool
     var isPending: Bool
     var isFull: Bool
-//    var applyList: [String: ApplyList]?
     
     enum CodingKeys: String, CodingKey {
         case senderId
@@ -39,19 +38,6 @@ struct GroupEvent: Codable {
         case isClose
         case isPending
         case isFull
-//        case applyList
     }
     
 }
-
-//struct ApplyList: Codable {
-//    let isAccepted: Bool
-//    let isPending: Bool
-//    let isRejected: Bool
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case isAccepted
-//        case isPending
-//        case isRejected
-//    }
-//}

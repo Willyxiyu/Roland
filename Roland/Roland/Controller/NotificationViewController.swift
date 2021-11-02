@@ -12,6 +12,7 @@ class NotificationViewController: UIViewController {
     
     let tableView = UITableView()
     let nameList = ["fjkew", "uhfjew", "bhflwey", "ufgwegfde", "wuhdewdwe"]
+    var applyList = [ApplyList]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -19,6 +20,10 @@ class NotificationViewController: UIViewController {
         tableView.register(NTFNewRequestCell.self, forCellReuseIdentifier: String(describing: NTFNewRequestCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        FirebaseManger.shared.fetchApplyListforHost(userId: "DoIscQXJzIbQfJDTnBVm") { result in
+            self.applyList = result
+            self.tableView.reloadData()
+        }
     }
     
     private func setupTableView() {
@@ -37,7 +42,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // one is new applyrequest
         // one is new message from groupevent
-        return nameList.count
+        return applyList.count
         
     }
     
@@ -45,7 +50,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(NTFNewRequestCell.self)"), for: indexPath) as? NTFNewRequestCell else {
             fatalError("Error")
         }
-        cell.userNameLabel.text = nameList[indexPath.row]
+//        cell.userNameLabel.text = self.applyList[indexPath.row]
+        cell.userNameLabel.text = applyList[indexPath.row].requestSenderId
+        cell.introLabel.text = "想參加您的\n\(applyList[indexPath.row].eventId))喔！～"
         return cell
     }
 }

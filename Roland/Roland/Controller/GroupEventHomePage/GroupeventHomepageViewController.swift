@@ -17,7 +17,15 @@ class GroupEventHomePageViewController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
-    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
+    var applyList = [ApplyList]()
+    
+    // eventHostid
+//    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
+    
+    // otheruserid
+//    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
+    var requestSenderId = "djhfbsjdfhsdfsdfs"
+    
     var groupEvent = [GroupEvent]() {
         
         didSet {
@@ -158,16 +166,29 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         
         let selectedGroupEvent = groupEvent[selectedRow]
         
-        if selectedGroupEvent.senderId == requestSenderId {
-            groupEventDetailPageViewController.isTheHost = true
-        } else {
-            groupEventDetailPageViewController.isTheHost = false
+        FirebaseManger.shared.fetchApplyListforOtherUser(eventId: selectedGroupEvent.eventId, requestSenderId: requestSenderId) { result in
+            self.applyList = result
+            
+            if selectedGroupEvent.senderId == self.requestSenderId {
+                
+                self.groupEventDetailPageViewController.isTheHost = true
+                
+            } else if self.applyList.isEmpty == false {
+                
+                self.groupEventDetailPageViewController.isTheHost = false
+                self.groupEventDetailPageViewController.isRigisted = true
+                
+            } else if self.applyList.isEmpty == true {
+                
+                self.groupEventDetailPageViewController.isTheHost = false
+                self.groupEventDetailPageViewController.isRigisted = false
+            }
+            self.groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
+            self.groupEventDetailPageViewController.requestSenderId = self.requestSenderId
+            
+            self.navigationController?.pushViewController(self.groupEventDetailPageViewController, animated: true)
         }
-        
-        groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
-        groupEventDetailPageViewController.requestSenderId = requestSenderId
-        
-        navigationController?.pushViewController(groupEventDetailPageViewController, animated: true)
+       
     }
     
 }

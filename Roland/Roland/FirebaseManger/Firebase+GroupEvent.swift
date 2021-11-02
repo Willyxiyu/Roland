@@ -30,7 +30,7 @@ extension FirebaseManger {
             "startTime": groupEventCreatingInfo.startTime,
             "endTime": groupEventCreatingInfo.endTime,
             "createTime": Timestamp(date: Date())
-//            "applyList": applyList
+            //            "applyList": applyList
         ]
         ref.document(docId).setData(groupEventCreatingInfo) { error in
             if let error = error {
@@ -42,7 +42,7 @@ extension FirebaseManger {
     }
     
     public func fetchGroupEventCreatingInfo(completion: @escaping ([GroupEvent]) -> Void) {
-        
+        //        database.collection("UserInfo").document(userId)
         database.collection("GroupEvent").getDocuments { (querySnapshot, error) in
             
             if let error = error {
@@ -85,12 +85,13 @@ extension FirebaseManger {
         }
     }
     
-    public func postSenderIdtoApplyList(eventId: String, requestSenderId: String) {
+    public func postSenderIdtoApplyList(eventId: String, requestSenderId: String, acceptedId: String ) {
         let ref = database.collection("ApplyList")
         let docId = ref.document().documentID
         let applyList: [String: Any] = [
             "eventId": eventId,
             "requestSenderId": requestSenderId,
+            "acceptedId": acceptedId,
             "isAccepted": false,
             "isPending": true,
             "isRejected": false
@@ -102,6 +103,80 @@ extension FirebaseManger {
                 print("Document data: \(applyList)")
             }
         }
+    }
+    
+    public func fetchApplyListforHost(userId: String, completion: @escaping([ApplyList]) -> Void ) {
+        database.collection("ApplyList").whereField("acceptedId", isEqualTo: userId)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var applyList = [ApplyList]()
+                    
+                    guard let documents = querySnapshot?.documents else {
+                        return
+                    }
+                    
+                    for document in documents {
+                        
+                        do {
+                            
+                            if let applyListInfo = try document.data(as: ApplyList.self) {
+                                
+                                applyList.append(applyListInfo)
+                                
+                                print(applyListInfo)
+                            }
+                            
+                        } catch {
+                            
+                        }
+                    }
+                    completion(applyList)
+                }
+            }
+    }
+    
+    public func fetchApplyListforOtherUser(eventId: String, requestSenderId: String, completion: @escaping([ApplyList]) -> Void) {
+        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: requestSenderId)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var applyList = [ApplyList]()
+                    
+                    guard let documents = querySnapshot?.documents else {
+                        return
+                    }
+                    
+                    for document in documents {
+                        
+                        do {
+                            
+                            if let applyListInfo = try document.data(as: ApplyList.self) {
+                                
+                                applyList.append(applyListInfo)
+                                
+                                print(applyListInfo)
+                            }
+                            
+                        } catch {
+                            
+                        }
+                    }
+                    completion(applyList)
+                }
+            }
     }
     
 }

@@ -15,6 +15,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     
     let tableView = UITableView()
     var isTheHost: Bool?
+    var isRigisted: Bool?
     var selectedGroupEvent: GroupEvent? {
         didSet {
             tableView.reloadData()
@@ -61,6 +62,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     
 }
 extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 8
     }
@@ -85,12 +87,25 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let isTheHost = isTheHost else { fatalError("error") }
             
             if isTheHost == true {
+                
                 cell.shareEventButton.isHidden = true
                 cell.regisButton.isHidden = true
-            } else {
+                cell.cancelRegisButton.isHidden = true
+                
+            } else if isTheHost == false && isRigisted == true {
+                
                 cell.cancelButton.isHidden = true
                 cell.editButton.isHidden = true
+                cell.regisButton.isHidden = true
+                
+            } else if isTheHost == false && isRigisted == false {
+                
+                cell.cancelButton.isHidden = true
+                cell.editButton.isHidden = true
+                cell.cancelRegisButton.isHidden = true
+
             }
+            
             cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
 //            cell.shareEventButton.addTarget(self, action: #selector(shareEvent), for: .touchUpInside)
             cell.regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
@@ -160,12 +175,12 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     
     @objc func registerEvent() {
         
-        guard let requestSenderId = requestSenderId else {
-            return
-        }
+        guard let requestSenderId = requestSenderId else { return }
         
         guard let eventId = selectedGroupEvent?.eventId else { return }
-        FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, requestSenderId: requestSenderId)
+        
+        guard let acceptedId = selectedGroupEvent?.senderId else { return }
+        FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, requestSenderId: requestSenderId, acceptedId: acceptedId)
     }
     
 }

@@ -31,6 +31,7 @@
 		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
 		3F22540B2730D7E80002F135 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22540A2730D7E80002F135 /* NotificationViewController.swift */; };
 		3F22540D2730E19C0002F135 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22540C2730E19C0002F135 /* NotificationTableViewCell.swift */; };
+		3F22540F273106220002F135 /* ApplyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22540E273106220002F135 /* ApplyList.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -85,6 +86,7 @@
 		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
 		3F22540A2730D7E80002F135 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = Roland/Controller/NotificationViewController.swift; sourceTree = SOURCE_ROOT; };
 		3F22540C2730E19C0002F135 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Roland/View/NotificationTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		3F22540E273106220002F135 /* ApplyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyList.swift; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0D2B0F272AF91300B90B4D /* GroupEvent.swift */,
+				3F22540E273106220002F135 /* ApplyList.swift */,
 				3FD82C62272686260055C33E /* ChatRoomList.swift */,
 				3F387827271FF02200203DD6 /* ScalingCard.swift */,
 				3F387823271FE0A300203DD6 /* UserInfo.swift */,
@@ -547,6 +550,7 @@
 				3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */,
 				3F22540B2730D7E80002F135 /* NotificationViewController.swift in Sources */,
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
+				3F22540F273106220002F135 /* ApplyList.swift in Sources */,
 				3F22540D2730E19C0002F135 /* NotificationTableViewCell.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,

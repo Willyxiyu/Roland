@@ -15,6 +15,7 @@ class NTFNewRequestCell: UITableViewCell {
         
         setupUserImageView()
         setupUserNameLabel()
+        setupIntroLabel()
         setupAcceptedButton()
         setupRejectedButton()
     }
@@ -43,6 +44,17 @@ class NTFNewRequestCell: UITableViewCell {
         userNameLabel.textAlignment = .left
         
         return userNameLabel
+    }()
+    
+    lazy var introLabel: UILabel = {
+        
+        let introLabel = UILabel()
+        introLabel.numberOfLines = 0
+        introLabel.textAlignment = .left
+        introLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        introLabel.text = "想參加您的\n聖誕活動喔！～"
+        
+        return introLabel
     }()
     
     lazy var acceptedButton: UIButton = {
@@ -83,16 +95,29 @@ class NTFNewRequestCell: UITableViewCell {
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(userNameLabel)
         NSLayoutConstraint.activate([
-            userNameLabel.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
+            userNameLabel.topAnchor.constraint(equalTo: userImageView.topAnchor),
+            userNameLabel.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
             userNameLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 20)
         ])
+    }
+    
+    private func setupIntroLabel() {
+        introLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(introLabel)
+        NSLayoutConstraint.activate([
+            introLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor),
+            introLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor),
+            introLabel.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+            introLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)
+        ])
+        
     }
     
     private func setupAcceptedButton() {
         acceptedButton.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(acceptedButton)
         NSLayoutConstraint.activate([
-            acceptedButton.centerYAnchor.constraint(equalTo: userNameLabel.centerYAnchor),
+            acceptedButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor),
             acceptedButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
             acceptedButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.3)
         ])

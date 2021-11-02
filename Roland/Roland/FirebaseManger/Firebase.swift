@@ -19,7 +19,7 @@ class FirebaseManger {
     var users = [UserInfo]()
     var chatRoomList = [ChatRoomList]()
     var messagelist = [Messagelist]()
-//    var applyList = [ApplyList]()
+    var applyList = [ApplyList]()
     var groupEvent = [GroupEvent]()
     var message = ""
     var senderId = ""

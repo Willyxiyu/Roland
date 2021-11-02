@@ -40,7 +40,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
                 senderId: senderId, eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
                 maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false)
-//            FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
+
         }
     }
     
@@ -57,23 +57,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
         tableView.dataSource = self
         tableView.delegate = self
-        
-//        guard let urlString = UserDefaults.standard.value(forKey: "url") as? String,
-//              let url = URL(string: urlString) else {
-//                  return
-//              }
-//        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
-//            guard let data = data, error == nil else {
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                let image = UIImage(data: data)
-//                self.imageView?.image = image
-//            }
-//        })
-//
-//        task.response
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +73,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         guard let groupEvent = groupEvent else { return }
         
         FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent, senderId: senderId)
+        
         navigationController?.popToRootViewController(animated: true)
     }
     
