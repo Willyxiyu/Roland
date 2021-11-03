@@ -365,11 +365,6 @@ class GEIntroCell: UITableViewCell {
 // MARK: - MessageCell
 class GEMessageCell: UITableViewCell {
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: -9, left: 0, bottom: -9, right: 0))
-//    }
-    
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

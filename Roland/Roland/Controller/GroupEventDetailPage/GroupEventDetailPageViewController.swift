@@ -13,6 +13,9 @@ import Kingfisher
 
 class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
+    let publicCommentViewController = PublicCommentViewController()
+    let privateCommentViewController = PrivateCommentViewController()
+    
     let tableView = UITableView()
     var isTheHost: Bool?
     var isRigisted: Bool?
@@ -66,8 +69,6 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 11
     }
-    
-
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -203,6 +204,42 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         }
         
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.row {
+            
+        case 0 : break
+            
+        case 1 : break
+            
+        case 2 : break
+            
+        case 3 : break
+            
+        case 4 : break
+        
+        case 5 : break
+        
+        case 6 : break
+        
+        case 7 : break
+        
+        case 8 :
+            
+            navigationController?.pushViewController(publicCommentViewController, animated: true)
+        
+        case 9 : 
+            
+            navigationController?.pushViewController(privateCommentViewController, animated: true)
+        
+        case 10 : break
+            
+        default:
+            
+            break
+        }
     }
     
     @objc func cancelEvent() {
