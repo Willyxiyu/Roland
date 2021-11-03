@@ -40,9 +40,9 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.title = "Explore"
+        self.hideKeyboardWhenTappedAround()
         setupSearchTextField()
         setupBorderlineView()
-//        setupCategorySegmentedControl()
         setupNavigationBarItem()
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

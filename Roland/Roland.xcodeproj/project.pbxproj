@@ -34,8 +34,10 @@
 		3F22541527325AA60002F135 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541427325AA50002F135 /* NotificationTableViewCell.swift */; };
 		3F22541727325B5A0002F135 /* publicCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541627325B5A0002F135 /* publicCommentViewController.swift */; };
 		3F22541A27325C200002F135 /* privateCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541927325C200002F135 /* privateCommentViewController.swift */; };
-		3F22541C2732649B0002F135 /* GEPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541B2732649B0002F135 /* GEPCommentCell.swift */; };
-		3F22541E27327B340002F135 /* CommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541D27327B340002F135 /* CommentFooterView.swift */; };
+		3F22541E27327B340002F135 /* PublicCommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22541D27327B340002F135 /* PublicCommentFooterView.swift */; };
+		3F2254242732E90D0002F135 /* GEPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254232732E90D0002F135 /* GEPCommentCell.swift */; };
+		3F2254262732EE370002F135 /* GEPrivateCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */; };
+		3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -93,8 +95,10 @@
 		3F22541427325AA50002F135 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		3F22541627325B5A0002F135 /* publicCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = publicCommentViewController.swift; sourceTree = "<group>"; };
 		3F22541927325C200002F135 /* privateCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privateCommentViewController.swift; sourceTree = "<group>"; };
-		3F22541B2732649B0002F135 /* GEPCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GEPCommentCell.swift; path = Roland/View/GEPCommentCell.swift; sourceTree = SOURCE_ROOT; };
-		3F22541D27327B340002F135 /* CommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFooterView.swift; sourceTree = "<group>"; };
+		3F22541D27327B340002F135 /* PublicCommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicCommentFooterView.swift; sourceTree = "<group>"; };
+		3F2254232732E90D0002F135 /* GEPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEPCommentCell.swift; sourceTree = "<group>"; };
+		3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEPrivateCommentCell.swift; sourceTree = "<group>"; };
+		3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateCommentFooterView.swift; sourceTree = "<group>"; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -168,9 +172,9 @@
 		3F06CDB3271D77B400FFA4E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3F22541D27327B340002F135 /* CommentFooterView.swift */,
-				3F22541B2732649B0002F135 /* GEPCommentCell.swift */,
 				3F22541327325A870002F135 /* NotificationPage */,
+				3F2254222732E89C0002F135 /* GEPrivateCommentPage */,
+				3F22541F2732E8440002F135 /* GEPubCommentPage */,
 				3F225402272E7F310002F135 /* GroupEventDetailPage */,
 				3F0D2B0C2729A8F900B90B4D /* GroupEventFEPage */,
 				3F0D2AF427285EF600B90B4D /* GroupEventHomePage */,
@@ -288,6 +292,24 @@
 				3F22541927325C200002F135 /* privateCommentViewController.swift */,
 			);
 			path = GroupEventCommentPage;
+			sourceTree = "<group>";
+		};
+		3F22541F2732E8440002F135 /* GEPubCommentPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F22541D27327B340002F135 /* PublicCommentFooterView.swift */,
+				3F2254232732E90D0002F135 /* GEPCommentCell.swift */,
+			);
+			path = GEPubCommentPage;
+			sourceTree = "<group>";
+		};
+		3F2254222732E89C0002F135 /* GEPrivateCommentPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */,
+				3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */,
+			);
+			path = GEPrivateCommentPage;
 			sourceTree = "<group>";
 		};
 		3F387822271FE00E00203DD6 /* Model */ = {
@@ -551,13 +573,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F22541227325A410002F135 /* NotificationViewController.swift in Sources */,
+				3F2254262732EE370002F135 /* GEPrivateCommentCell.swift in Sources */,
 				3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */,
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
 				3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */,
 				3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */,
 				3F0D2B19272B9D4E00B90B4D /* Firebase+ScalingCard.swift in Sources */,
 				3F38782E27219F2A00203DD6 /* CardImageView.swift in Sources */,
-				3F22541C2732649B0002F135 /* GEPCommentCell.swift in Sources */,
 				3F75400F271D1EA800F9092E /* SceneDelegate.swift in Sources */,
 				3F0D2AFD2729283C00B90B4D /* GroupEventCEPELocationVC.swift in Sources */,
 				3F0D2AFF272929A300B90B4D /* GroupEventCEPEAoPVC.swift in Sources */,
@@ -588,14 +610,16 @@
 				3F0D2B13272B9CE100B90B4D /* Firebase+UserInfo.swift in Sources */,
 				3F0D2B0727293FD400B90B4D /* UIView+Extension.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
-				3F22541E27327B340002F135 /* CommentFooterView.swift in Sources */,
+				3F22541E27327B340002F135 /* PublicCommentFooterView.swift in Sources */,
 				3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */,
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
+				3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */,
 				3F22540F273106220002F135 /* ApplyList.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
 				3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */,
 				3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */,
+				3F2254242732E90D0002F135 /* GEPCommentCell.swift in Sources */,
 				3F0D2AFB2729267700B90B4D /* GroupEventCEPETimeVC.swift in Sources */,
 				3F0D2B0E2729AAB400B90B4D /* GEDetailPageCell.swift in Sources */,
 				3F0D2AF82728FAC700B90B4D /* GroupEventCEPENameVC.swift in Sources */,

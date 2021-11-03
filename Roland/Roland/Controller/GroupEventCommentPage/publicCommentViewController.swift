@@ -12,15 +12,25 @@ class PublicCommentViewController: UIViewController {
     
     let tableView = UITableView()
     
+    var messageList = [String]() {
+        
+        didSet {
+            
+            tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.hideKeyboardWhenTappedAround()
         self.title = "Public Comment"
+        setupTableView()
         tableView.register(GEPCommentCell.self, forCellReuseIdentifier: String(describing: GEPCommentCell.self))
+        tableView.register(PublicCommentFooterView.self, forHeaderFooterViewReuseIdentifier: PublicCommentFooterView.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        
-        setupTableView()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,22 +52,31 @@ class PublicCommentViewController: UIViewController {
 extension PublicCommentViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return 1
+        
+        return messageList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPCommentCell.self)"), for: indexPath) as? GEPCommentCell else { fatalError("Error") }
         
-        cell.messageLabel.text = "kjufhkefnilweuhwiekidncuwecweewcweiydweid"
+        cell.messageLabel.text = messageList[indexPath.row]
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = .blue
-        return view
-    }
+        
+        guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PublicCommentFooterView.reuseIdentifier) as? PublicCommentFooterView else { fatalError("Error") }
+
+        footerView.sendText = { (text) in
+            
+            self.messageList.append(text)
+        }
+        
+        return footerView
+        
+        }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
        return 80
