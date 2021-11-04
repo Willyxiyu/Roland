@@ -19,6 +19,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     let tableView = UITableView()
     var isTheHost: Bool?
     var isRigisted: Bool?
+    var isExpired: Bool?
     var selectedGroupEvent: GroupEvent? {
         
         didSet {
@@ -51,31 +52,44 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         setupShareEventButton()
         setupRegisButton()
         
-        guard let isTheHost = isTheHost else { fatalError("error") }
-        
-        if isTheHost == true {
-            shareEventButton.isHidden = true
-            regisButton.isHidden = true
-            cancelRegisButton.isHidden = true
-            
-        } else if isTheHost == false && isRigisted == true {
-            
-            cancelButton.isHidden = true
-            editButton.isHidden = true
-            regisButton.isHidden = true
-            
-        } else if isTheHost == false && isRigisted == false {
-            
-            cancelButton.isHidden = true
-            editButton.isHidden = true
-            cancelRegisButton.isHidden = true
-            
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+        
+        guard let isTheHost = isTheHost else { fatalError("error") }
+        
+        if isTheHost == true && isExpired == false {
+            cancelButton.isHidden = false
+            editButton.isHidden = false
+            shareEventButton.isHidden = true
+            regisButton.isHidden = true
+            cancelRegisButton.isHidden = true
+            
+        } else if isTheHost == false && isRigisted == true && isExpired == false {
+            
+            cancelRegisButton.isHidden = false
+            shareEventButton.isHidden = false
+            cancelButton.isHidden = true
+            editButton.isHidden = true
+            regisButton.isHidden = true
+            
+        } else if isTheHost == false && isRigisted == false && isExpired == false {
+            
+            shareEventButton.isHidden = false
+            regisButton.isHidden = false
+            cancelButton.isHidden = true
+            editButton.isHidden = true
+            cancelRegisButton.isHidden = true
+            
+        } else if isExpired == true {
+            
+            cancelButton.isHidden = true
+            cancelRegisButton.isHidden = true
+            editButton.isHidden = true
+            shareEventButton.isHidden = true
+            regisButton.isHidden = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -18,13 +18,12 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
     var applyList = [ApplyList]()
-    
     // eventHostid
-    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
+//    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
     
     // otheruserid
-//    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
-//    var requestSenderId = "djhfbsjdfhsdfsdfs"
+        var requestSenderId = "GW9pTXyhawNoomsCeoZc"
+    //    var requestSenderId = "djhfbsjdfhsdfsdfs"
     
     var groupEvent = [GroupEvent]() {
         
@@ -66,7 +65,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     func setupNavigationBarItem() {
         let plusImage = UIImage.init(systemName: "plus")
         let notificationImage = UIImage.init(systemName: "bell")
-      
+        
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
         
@@ -127,7 +126,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
             borderlineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             borderlineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             borderlineView.heightAnchor.constraint(equalToConstant: 1.5)
-        
+            
         ])
     }
     
@@ -207,6 +206,8 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         FirebaseManger.shared.fetchApplyListforOtherUser(eventId: selectedGroupEvent.eventId, requestSenderId: requestSenderId) { result in
             self.applyList = result
             
+            let int = DateClass.compareOneDay(oneDay: self.groupEvent[selectedRow].endTime, withAnotherDay: Date())
+            
             if selectedGroupEvent.senderId == self.requestSenderId {
                 
                 self.groupEventDetailPageViewController.isTheHost = true
@@ -221,12 +222,21 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
                 self.groupEventDetailPageViewController.isTheHost = false
                 self.groupEventDetailPageViewController.isRigisted = false
             }
+            
+            if int == 1 || int == 0 {
+                
+                self.groupEventDetailPageViewController.isExpired = false
+               
+            } else {
+            
+                self.groupEventDetailPageViewController.isExpired = true
+            }
+            
             self.groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
             self.groupEventDetailPageViewController.requestSenderId = self.requestSenderId
-            
             self.navigationController?.pushViewController(self.groupEventDetailPageViewController, animated: true)
         }
-       
+        
     }
     
 }
@@ -238,7 +248,7 @@ extension UICollectionViewCell {
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.clear.cgColor
         contentView.layer.masksToBounds = true
-    
+        
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 1.0)
         layer.shadowRadius = 2.0

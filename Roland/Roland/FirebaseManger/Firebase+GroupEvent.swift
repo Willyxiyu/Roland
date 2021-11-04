@@ -233,7 +233,6 @@ extension FirebaseManger {
             }
     }
     
-    
     public func postPrivateComment(eventId: String, commentSenderId: String, comment: String) {
         
         let ref = database.collection("GroupEvent").document(eventId).collection("PrivateComment")
@@ -292,8 +291,4 @@ extension FirebaseManger {
                 }
             }
     }
-    
-    
-    
-    
 }

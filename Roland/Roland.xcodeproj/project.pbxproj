@@ -38,6 +38,7 @@
 		3F2254242732E90D0002F135 /* GEPCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254232732E90D0002F135 /* GEPCommentCell.swift */; };
 		3F2254262732EE370002F135 /* GEPrivateCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */; };
 		3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */; };
+		3F22542A2733B8460002F135 /* DateClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254292733B8460002F135 /* DateClass.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -99,6 +100,7 @@
 		3F2254232732E90D0002F135 /* GEPCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEPCommentCell.swift; sourceTree = "<group>"; };
 		3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEPrivateCommentCell.swift; sourceTree = "<group>"; };
 		3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateCommentFooterView.swift; sourceTree = "<group>"; };
+		3F2254292733B8460002F135 /* DateClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateClass.swift; path = Roland/Extension/DateClass.swift; sourceTree = SOURCE_ROOT; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */,
 				3F754024271D66DA00F9092E /* UIFont+Extension.swift */,
 				3F754028271D672600F9092E /* UIScreen+Extension.swift */,
+				3F2254292733B8460002F135 /* DateClass.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */,
 				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
 				3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */,
+				3F22542A2733B8460002F135 /* DateClass.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */,
 				3F22541527325AA60002F135 /* NotificationTableViewCell.swift in Sources */,
