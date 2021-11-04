@@ -20,11 +20,11 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     var applyList = [ApplyList]()
     
     // eventHostid
-//    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
+    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
     
     // otheruserid
 //    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
-    var requestSenderId = "djhfbsjdfhsdfsdfs"
+//    var requestSenderId = "djhfbsjdfhsdfsdfs"
     
     var groupEvent = [GroupEvent]() {
         

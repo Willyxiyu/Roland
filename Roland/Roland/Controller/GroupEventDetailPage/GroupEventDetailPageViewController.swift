@@ -1,9 +1,9 @@
-////
-////  GroupEventCEPFEPVC.swift
-////  Roland
-////
-////  Created by 林希語 on 2021/10/27.
-////
+//
+//  GroupEventCEPFEPVC.swift
+//  Roland
+//
+//  Created by 林希語 on 2021/10/27.
+//
 //
 import Foundation
 import Firebase
@@ -44,8 +44,36 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        setupBorderLine()
+        setupCancelButton()
+        setupCancelRegisButton()
+        setupEditButton()
+        setupShareEventButton()
+        setupRegisButton()
+        
+        guard let isTheHost = isTheHost else { fatalError("error") }
+        
+        if isTheHost == true {
+            shareEventButton.isHidden = true
+            regisButton.isHidden = true
+            cancelRegisButton.isHidden = true
+            
+        } else if isTheHost == false && isRigisted == true {
+            
+            cancelButton.isHidden = true
+            editButton.isHidden = true
+            regisButton.isHidden = true
+            
+        } else if isTheHost == false && isRigisted == false {
+            
+            cancelButton.isHidden = true
+            editButton.isHidden = true
+            cancelRegisButton.isHidden = true
+            
+        }
         
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
     }
@@ -61,7 +89,134 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 5),
             tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80)
+        ])
+    }
+    lazy var borderLine: UIView = {
+        let borderLine = UIView()
+        borderLine.backgroundColor = UIColor.lightGray
+        return borderLine
+    }()
+    
+    private func setupBorderLine() {
+        borderLine.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(borderLine)
+        NSLayoutConstraint.activate([
+            borderLine.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            borderLine.heightAnchor.constraint(equalToConstant: 1),
+            borderLine.widthAnchor.constraint(equalTo: self.view.widthAnchor)
+        ])
+    }
+    
+    // left
+    lazy var cancelButton: UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.setTitle("取消活動", for: .normal)
+        cancelButton.layer.cornerRadius = 10
+        cancelButton.layer.borderWidth = 1
+        cancelButton.setTitleColor(UIColor.black, for: .normal)
+        cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        cancelButton.isEnabled = true
+        return cancelButton
+    }()
+    
+    lazy var editButton: UIButton = {
+        let editButton = UIButton()
+        editButton.setTitle("編輯活動", for: .normal)
+        editButton.layer.cornerRadius = 10
+        editButton.backgroundColor = UIColor.themeColor
+        editButton.setTitleColor(UIColor.white, for: .normal)
+        editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        editButton.isEnabled = true
+        return editButton
+    }()
+    // left
+    lazy var regisButton: UIButton = {
+        let regisButton = UIButton()
+        regisButton.setTitle("報名活動", for: .normal)
+        regisButton.layer.cornerRadius = 10
+        regisButton.layer.borderWidth = 1
+        regisButton.setTitleColor(UIColor.black, for: .normal)
+        regisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return regisButton
+    }()
+    // left
+    lazy var cancelRegisButton: UIButton = {
+        let cancelRegisButton = UIButton()
+        cancelRegisButton.setTitle("取消報名", for: .normal)
+        cancelRegisButton.layer.cornerRadius = 10
+        cancelRegisButton.layer.borderWidth = 1
+        cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
+        cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+        cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return cancelRegisButton
+    }()
+    
+    lazy var shareEventButton: UIButton = {
+        let shareEventButton = UIButton()
+        shareEventButton.setTitle("分享活動", for: .normal)
+        shareEventButton.layer.cornerRadius = 10
+        shareEventButton.backgroundColor = UIColor.themeColor
+        shareEventButton.setTitleColor(UIColor.white, for: .normal)
+        shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        shareEventButton.isEnabled = true
+        return shareEventButton
+    }()
+    
+    private func setupCancelButton() {
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(cancelButton)
+        NSLayoutConstraint.activate([
+            cancelButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            cancelButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10),
+            cancelButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
+            cancelButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupEditButton() {
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(editButton)
+        NSLayoutConstraint.activate([
+            editButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            editButton.leadingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 10),
+            editButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
+            editButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupRegisButton() {
+        regisButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(regisButton)
+        NSLayoutConstraint.activate([
+            regisButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            regisButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10),
+            regisButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
+            regisButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupCancelRegisButton() {
+        cancelRegisButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(cancelRegisButton)
+        NSLayoutConstraint.activate([
+            cancelRegisButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            cancelRegisButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10),
+            cancelRegisButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
+            cancelRegisButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
+        ])
+    }
+    
+    private func setupShareEventButton() {
+        shareEventButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(shareEventButton)
+        NSLayoutConstraint.activate([
+            shareEventButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            shareEventButton.leadingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 10),
+            shareEventButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
+            shareEventButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
         ])
     }
     
@@ -98,31 +253,9 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
                                                            for: indexPath) as? GEDetailPageTitleCell else { fatalError("Error") }
             cell.titleLabel.text = selectedGroupEvent?.title
             
-            guard let isTheHost = isTheHost else { fatalError("error") }
-            
-            if isTheHost == true {
-                
-                cell.shareEventButton.isHidden = true
-                cell.regisButton.isHidden = true
-                cell.cancelRegisButton.isHidden = true
-                
-            } else if isTheHost == false && isRigisted == true {
-                
-                cell.cancelButton.isHidden = true
-                cell.editButton.isHidden = true
-                cell.regisButton.isHidden = true
-                
-            } else if isTheHost == false && isRigisted == false {
-                
-                cell.cancelButton.isHidden = true
-                cell.editButton.isHidden = true
-                cell.cancelRegisButton.isHidden = true
-                
-            }
-            
-            cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
+//            cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
             //            cell.shareEventButton.addTarget(self, action: #selector(shareEvent), for: .touchUpInside)
-            cell.regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
+//            cell.regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
             
             return cell
             

@@ -423,8 +423,10 @@ class GEDateCell: UITableViewCell {
     
     lazy var dateLabel: UILabel = {
         let dateLabel = UILabel()
-        dateLabel.textAlignment = .center
+        dateLabel.textAlignment = .left
         dateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        dateLabel.numberOfLines = 0
+        dateLabel.lineBreakMode = .byWordWrapping
         return dateLabel
     }()
 
@@ -444,8 +446,8 @@ class GEDateCell: UITableViewCell {
         NSLayoutConstraint.activate([
             dateLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
-            dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30)
-        
+            dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30),
+            dateLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
         ])
     }
 }
