@@ -23,6 +23,8 @@ struct GroupEvent: Codable {
     var isClose: Bool
     var isPending: Bool
     var isFull: Bool
+    var comment: [Comment]?
+    var privateComment: [PrivateComment]?
     
     enum CodingKeys: String, CodingKey {
         case senderId
@@ -38,6 +40,32 @@ struct GroupEvent: Codable {
         case isClose
         case isPending
         case isFull
+        case comment
+        case privateComment
     }
     
+}
+
+struct Comment: Codable {
+    var comment: String
+    var commentSenderId: String
+    var createTime: TimeInterval
+    
+    enum CodingKeys: String, CodingKey {
+        case comment
+        case commentSenderId
+        case createTime
+    }
+}
+
+struct PrivateComment: Codable {
+    var comment: String
+    var commentSenderId: String
+    var createTime: TimeInterval
+    
+    enum CodingKeys: String, CodingKey {
+        case comment
+        case commentSenderId
+        case createTime
+    }
 }

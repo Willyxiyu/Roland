@@ -56,7 +56,7 @@ class PrivateCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate
     @objc func sendTexttoMessage() {
         
         if let text = commentTextField.text {
-            
+
             sendText?(text)
         }
         
@@ -96,4 +96,3 @@ class PrivateCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate
         ])
     }
 }
-

@@ -39,7 +39,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
              groupEvent = GroupEvent(
                 senderId: senderId, eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
-                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false)
+                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, comment: [])
 
         }
     }

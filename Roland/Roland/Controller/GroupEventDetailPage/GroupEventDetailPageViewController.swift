@@ -20,7 +20,9 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     var isTheHost: Bool?
     var isRigisted: Bool?
     var selectedGroupEvent: GroupEvent? {
+        
         didSet {
+            
             tableView.reloadData()
         }
     }
@@ -228,9 +230,21 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         
         case 8 :
             
+            guard let eventId = selectedGroupEvent?.eventId else {
+                fatalError("error")
+            }
+            
+            publicCommentViewController.eventId = eventId
+            
             navigationController?.pushViewController(publicCommentViewController, animated: true)
         
         case 9 : 
+            
+            guard let eventId = selectedGroupEvent?.eventId else {
+                fatalError("error")
+            }
+            
+            privateCommentViewController.eventId = eventId
             
             navigationController?.pushViewController(privateCommentViewController, animated: true)
         

@@ -7,12 +7,15 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class PublicCommentViewController: UIViewController {
     
     let tableView = UITableView()
     
-    var messageList = [String]() {
+    var eventId = String()
+            
+    var comment = [Comment]() {
         
         didSet {
             
@@ -30,7 +33,15 @@ class PublicCommentViewController: UIViewController {
         tableView.register(PublicCommentFooterView.self, forHeaderFooterViewReuseIdentifier: PublicCommentFooterView.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-       
+        
+        FirebaseManger.shared.fetchAllPublicComment(eventId: eventId) { results in
+            self.comment.removeAll()
+            results.forEach { result in
+                print(result)
+                self.comment.append(result)
+            }
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,14 +64,19 @@ extension PublicCommentViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return messageList.count
+        return comment.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPCommentCell.self)"), for: indexPath) as? GEPCommentCell else { fatalError("Error") }
         
-        cell.messageLabel.text = messageList[indexPath.row]
+        let date = Date(timeIntervalSince1970: comment[indexPath.row].createTime)
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy/MM/dd"
+        
+        cell.messageLabel.text = comment[indexPath.row].comment
+        cell.dateLabel.text = dateformatter.string(from: date)
         
         return cell
     }
@@ -71,7 +87,7 @@ extension PublicCommentViewController: UITableViewDataSource, UITableViewDelegat
 
         footerView.sendText = { (text) in
             
-            self.messageList.append(text)
+            FirebaseManger.shared.postPublicComment(eventId: self.eventId, commentSenderId: "12345", comment: text)
         }
         
         return footerView

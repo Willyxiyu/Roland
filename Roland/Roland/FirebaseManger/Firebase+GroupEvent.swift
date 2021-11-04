@@ -30,7 +30,6 @@ extension FirebaseManger {
             "startTime": groupEventCreatingInfo.startTime,
             "endTime": groupEventCreatingInfo.endTime,
             "createTime": Timestamp(date: Date())
-            //            "applyList": applyList
         ]
         ref.document(docId).setData(groupEventCreatingInfo) { error in
             if let error = error {
@@ -42,7 +41,6 @@ extension FirebaseManger {
     }
     
     public func fetchGroupEventCreatingInfo(completion: @escaping ([GroupEvent]) -> Void) {
-        //        database.collection("UserInfo").document(userId)
         database.collection("GroupEvent").getDocuments { (querySnapshot, error) in
             
             if let error = error {
@@ -178,5 +176,124 @@ extension FirebaseManger {
                 }
             }
     }
+    
+    public func postPublicComment(eventId: String, commentSenderId: String, comment: String) {
+        let ref = database.collection("GroupEvent").document(eventId).collection("Comment")
+        let docId = ref.document().documentID
+        
+        let newComment: [String: Any] = [
+            "commentSenderId": commentSenderId,
+            "comment": comment,
+            "createTime": NSDate().timeIntervalSince1970
+        ]
+        ref.document(docId).setData(newComment) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document data: \(newComment)")
+            }
+        }
+    }
+    
+    public func fetchAllPublicComment(eventId: String, completion: @escaping([Comment]) -> Void) {
+        
+        database.collection("GroupEvent").document(eventId).collection("Comment")
+        
+            .order(by: "createTime")
+        
+            .addSnapshotListener { querySnapshot, error in
+                
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var comment = [Comment]()
+                    
+                    for document in querySnapshot!.documents {
+                        
+                        do {
+                            
+                            if let newComment = try document.data(as: Comment.self) {
+                                
+                                comment.append(newComment)
+                            }
+                            
+                        } catch {
+                            
+                            print(error)
+                        }
+                    }
+                    
+                    completion(comment)
+                }
+            }
+    }
+    
+    
+    public func postPrivateComment(eventId: String, commentSenderId: String, comment: String) {
+        
+        let ref = database.collection("GroupEvent").document(eventId).collection("PrivateComment")
+        
+        let docId = ref.document().documentID
+        
+        let newComment: [String: Any] = [
+            
+            "commentSenderId": commentSenderId,
+            "comment": comment,
+            "createTime": NSDate().timeIntervalSince1970
+        ]
+        ref.document(docId).setData(newComment) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document data: \(newComment)")
+            }
+        }
+    }
+    
+    public func fetchAllPrivateComment(eventId: String, completion: @escaping([PrivateComment]) -> Void) {
+        
+        database.collection("GroupEvent").document(eventId).collection("PrivateComment")
+        
+            .order(by: "createTime")
+        
+            .addSnapshotListener { querySnapshot, error in
+                
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var privateComment = [PrivateComment]()
+                    
+                    for document in querySnapshot!.documents {
+                        
+                        do {
+                            
+                            if let newComment = try document.data(as: PrivateComment.self) {
+                                
+                                privateComment.append(newComment)
+                            }
+                            
+                        } catch {
+                            
+                            print(error)
+                        }
+                    }
+                    
+                    completion(privateComment)
+                }
+            }
+    }
+    
+    
+    
     
 }

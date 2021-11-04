@@ -7,12 +7,15 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class PrivateCommentViewController: UIViewController {
     
     let tableView = UITableView()
     
-    var messageList = [String]() {
+    var eventId = String()
+    
+    var privateComment = [PrivateComment]() {
         
         didSet {
             
@@ -24,13 +27,21 @@ class PrivateCommentViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.hideKeyboardWhenTappedAround()
-        self.title = "Public Comment"
+        self.title = "Private Comment"
         setupTableView()
         
         tableView.register(GEPrivateCommentCell.self, forCellReuseIdentifier: String(describing: GEPrivateCommentCell.self))
         tableView.register(PrivateCommentFooterView.self, forHeaderFooterViewReuseIdentifier: PrivateCommentFooterView.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
+        
+        FirebaseManger.shared.fetchAllPrivateComment(eventId: eventId) { results in
+            self.privateComment.removeAll()
+            results.forEach { result in
+                self.privateComment.append(result)
+            }
+        }
+        
        
     }
     
@@ -54,14 +65,19 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return messageList.count
+        return privateComment.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPrivateCommentCell.self)"), for: indexPath) as? GEPrivateCommentCell else { fatalError("Error") }
         
-        cell.messageLabel.text = messageList[indexPath.row]
+        let date = Date(timeIntervalSince1970: privateComment[indexPath.row].createTime)
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy/MM/dd"
+        
+        cell.messageLabel.text = privateComment[indexPath.row].comment
+        cell.dateLabel.text = dateformatter.string(from: date)
         
         return cell
     }
@@ -72,7 +88,7 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
 
         footerView.sendText = { (text) in
             
-            self.messageList.append(text)
+            FirebaseManger.shared.postPrivateComment(eventId: self.eventId, commentSenderId: "54321", comment: text)
         }
         
         return footerView
