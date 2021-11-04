@@ -16,10 +16,10 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupEventPhoto()
-        setupEventHostPhoto()
+//        setupEventHostPhoto()
         setupEventDateLabel()
-        setupEventLocationLabel()
         setupEventTitleLabel()
+        setupEventLocationLabel()
         setupEventViewsImageView()
     }
     
@@ -32,6 +32,7 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         eventPhoto.image = UIImage(named: "GroupPhoto")
         eventPhoto.layer.cornerRadius = 15
         eventPhoto.clipsToBounds = true
+        eventPhoto.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return eventPhoto
     }()
     
@@ -46,10 +47,21 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         return eventHostPhoto
     }()
     
+    lazy var eventDateLabel: UILabel = {
+        let eventDateLabel = UILabel()
+        eventDateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        eventDateLabel.textColor = UIColor.hexStringToUIColor(hex: "a5a58d")
+        eventDateLabel.textAlignment = .left
+        eventDateLabel.lineBreakMode = .byWordWrapping
+        eventDateLabel.numberOfLines = 0
+        eventDateLabel.text = "2021.10.31"
+        return eventDateLabel
+    }()
+    
     lazy var eventTitleLabel: UILabel = {
         let eventTitleLabel = UILabel()
-        eventTitleLabel.font = UIFont.systemFont(ofSize: 26, weight: .medium)
-        eventTitleLabel.textColor = UIColor.white
+        eventTitleLabel.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        eventTitleLabel.textColor = UIColor.black
         eventTitleLabel.textAlignment = .left
         eventTitleLabel.lineBreakMode = .byWordWrapping
         eventTitleLabel.numberOfLines = 0
@@ -60,32 +72,18 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
     lazy var eventLocationLabel: UILabel = {
         let eventLocationLabel = UILabel()
         eventLocationLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        eventLocationLabel.textColor = UIColor.white
+        eventLocationLabel.textColor = UIColor.black
         eventLocationLabel.textAlignment = .left
         eventLocationLabel.lineBreakMode = .byWordWrapping
         eventLocationLabel.numberOfLines = 0
         eventLocationLabel.text = "台北市信義區"
         return eventLocationLabel
     }()
-    lazy var eventDateLabel: UILabel = {
-        let eventDateLabel = UILabel()
-        eventDateLabel.font = UIFont.systemFont(ofSize: 8, weight: .medium)
-        eventDateLabel.textColor = UIColor.white
-        eventDateLabel.textAlignment = .left
-        eventDateLabel.lineBreakMode = .byWordWrapping
-        eventDateLabel.numberOfLines = 0
-        eventDateLabel.text = "2021.10.31"
-        return eventDateLabel
-    }()
-    
+  
     lazy var eventViewsImageView: UIImageView = {
         let eventViewsImageView = UIImageView()
         eventViewsImageView.contentMode = .scaleAspectFill
         eventViewsImageView.image = UIImage.init(systemName: "eye.fill")
-        eventViewsImageView.layer.borderWidth = 1
-        eventViewsImageView.layer.borderColor = UIColor.white.cgColor
-        eventViewsImageView.layer.cornerRadius = 15
-        eventViewsImageView.clipsToBounds = true
         eventViewsImageView.tintColor = .white
         return eventViewsImageView
     }()
@@ -97,9 +95,41 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
             eventPhoto.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             eventPhoto.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             eventPhoto.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            eventPhoto.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            eventPhoto.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5)
         ])
     }
+    
+    private func setupEventDateLabel() {
+        eventDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(eventDateLabel)
+        NSLayoutConstraint.activate([
+            eventDateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            eventDateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            eventDateLabel.topAnchor.constraint(equalTo: eventPhoto.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupEventTitleLabel() {
+        eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(eventTitleLabel)
+        NSLayoutConstraint.activate([
+            eventTitleLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
+            eventTitleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            eventTitleLabel.topAnchor.constraint(equalTo: eventDateLabel.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupEventLocationLabel() {
+        eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(eventLocationLabel)
+        NSLayoutConstraint.activate([
+            eventLocationLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
+            eventLocationLabel.topAnchor.constraint(equalTo: eventTitleLabel.bottomAnchor, constant: 10),
+            eventLocationLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            eventLocationLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30)
+        ])
+    }
+    
     private func setupEventHostPhoto() {
         eventHostPhoto.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventHostPhoto)
@@ -110,41 +140,13 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
             eventHostPhoto.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3)
         ])
     }
-    
-    private func setupEventTitleLabel() {
-        eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(eventTitleLabel)
-        NSLayoutConstraint.activate([
-            eventTitleLabel.leadingAnchor.constraint(equalTo: eventLocationLabel.leadingAnchor),
-            eventTitleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15),
-            eventTitleLabel.bottomAnchor.constraint(equalTo: eventLocationLabel.topAnchor)
-        ])
-    }
-    
-    private func setupEventLocationLabel() {
-        eventLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(eventLocationLabel)
-        NSLayoutConstraint.activate([
-            eventLocationLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
-            eventLocationLabel.bottomAnchor.constraint(equalTo: eventDateLabel.topAnchor),
-            eventLocationLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
-        ])
-    }
-    private func setupEventDateLabel() {
-        eventDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(eventDateLabel)
-        NSLayoutConstraint.activate([
-            eventDateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
-            eventDateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15)
-        ])
-    }
-    
+
     private func setupEventViewsImageView() {
         eventViewsImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventViewsImageView)
         NSLayoutConstraint.activate([
-            eventViewsImageView.centerYAnchor.constraint(equalTo: eventHostPhoto.centerYAnchor),
-            eventViewsImageView.trailingAnchor.constraint(equalTo: eventPhoto.trailingAnchor, constant: -15)
+            eventViewsImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15),
+            eventViewsImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20)
         ])
     }
     

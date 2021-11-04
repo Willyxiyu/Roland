@@ -21,6 +21,8 @@ class FirebaseManger {
     var messagelist = [Messagelist]()
     var applyList = [ApplyList]()
     var groupEvent = [GroupEvent]()
+    var comment = [Comment]()
+    var privateComment = [PrivateComment]()
     var message = ""
     var senderId = ""
     var accepterId = ""

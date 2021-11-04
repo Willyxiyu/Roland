@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import Kingfisher
 
-class GroupEventHomePageViewController: UIViewController {
+class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     
     let groupEventCEPViewController = GroupEventCEPENameVC()
     let groupEventDetailPageViewController = GroupEventDetailPageViewController()
@@ -18,13 +18,12 @@ class GroupEventHomePageViewController: UIViewController {
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
     var applyList = [ApplyList]()
-    
     // eventHostid
 //    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
     
     // otheruserid
-//    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
-    var requestSenderId = "djhfbsjdfhsdfsdfs"
+        var requestSenderId = "GW9pTXyhawNoomsCeoZc"
+    //    var requestSenderId = "djhfbsjdfhsdfsdfs"
     
     var groupEvent = [GroupEvent]() {
         
@@ -39,7 +38,10 @@ class GroupEventHomePageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        setupCategorySegmentedControl()
+        self.title = "Explore"
+        self.hideKeyboardWhenTappedAround()
+        setupSearchTextField()
+        setupBorderlineView()
         setupNavigationBarItem()
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -63,7 +65,7 @@ class GroupEventHomePageViewController: UIViewController {
     func setupNavigationBarItem() {
         let plusImage = UIImage.init(systemName: "plus")
         let notificationImage = UIImage.init(systemName: "bell")
-      
+        
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
         
@@ -79,12 +81,21 @@ class GroupEventHomePageViewController: UIViewController {
         return categorySegmentedControl
     }()
     
+    private lazy var borderlineView: UIView = {
+        let borderlineView = UIView()
+        borderlineView.backgroundColor = UIColor.hexStringToUIColor(hex: "F0F0F0")
+        return borderlineView
+    }()
+    
     private lazy var searchTextField: UITextField = {
+        
+        guard let image = UIImage(systemName: "magnifyingglass") else { fatalError("error") }
         let searchTextField = UITextField()
         searchTextField.setLeftPaddingPoints(10)
-        searchTextField.backgroundColor = UIColor.secondThemeColor
-        searchTextField.placeholder = "search a fun event!"
-        searchTextField.borderStyle = .roundedRect
+        searchTextField.backgroundColor = UIColor.hexStringToUIColor(hex: "F0F0F0")
+        searchTextField.placeholder = "Search upcoming events!"
+        searchTextField.setLeftView(image: image)
+        searchTextField.layer.cornerRadius = 10
         return searchTextField
     }()
     
@@ -94,6 +105,29 @@ class GroupEventHomePageViewController: UIViewController {
     
     @objc private func pushNotiVC() {
         navigationController?.pushViewController(notificationViewController, animated: true)
+    }
+    
+    private func setupSearchTextField() {
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(searchTextField)
+        NSLayoutConstraint.activate([
+            searchTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            searchTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            searchTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
+            searchTextField.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.04)
+        ])
+    }
+    
+    private func setupBorderlineView() {
+        borderlineView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(borderlineView)
+        NSLayoutConstraint.activate([
+            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 15),
+            borderlineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            borderlineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            borderlineView.heightAnchor.constraint(equalToConstant: 1.5)
+            
+        ])
     }
     
     private func setupCategorySegmentedControl() {
@@ -110,7 +144,7 @@ class GroupEventHomePageViewController: UIViewController {
         groupEventCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(groupEventCollectionView)
         NSLayoutConstraint.activate([
-            groupEventCollectionView.topAnchor.constraint(equalTo: categorySegmentedControl.bottomAnchor),
+            groupEventCollectionView.topAnchor.constraint(equalTo: borderlineView.bottomAnchor),
             groupEventCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             groupEventCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             groupEventCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
@@ -139,12 +173,15 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
         cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
         cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
-        
+        cell.backgroundColor = UIColor.white
+        cell.contentView.layer.cornerRadius = 15
+        cell.contentView.layer.masksToBounds = true
+        cell.shadowDecorate()
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ((self.view.frame.size.width) / 2 - 15), height: ((self.view.frame.size.width) / 2 + 20))
+        return CGSize(width: ((self.view.frame.size.width) / 2 - 15), height: ((self.view.frame.size.width) / 2))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -169,6 +206,8 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
         FirebaseManger.shared.fetchApplyListforOtherUser(eventId: selectedGroupEvent.eventId, requestSenderId: requestSenderId) { result in
             self.applyList = result
             
+            let int = DateClass.compareOneDay(oneDay: self.groupEvent[selectedRow].endTime, withAnotherDay: Date())
+            
             if selectedGroupEvent.senderId == self.requestSenderId {
                 
                 self.groupEventDetailPageViewController.isTheHost = true
@@ -183,12 +222,39 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
                 self.groupEventDetailPageViewController.isTheHost = false
                 self.groupEventDetailPageViewController.isRigisted = false
             }
+            
+            if int == 1 || int == 0 {
+                
+                self.groupEventDetailPageViewController.isExpired = false
+               
+            } else {
+            
+                self.groupEventDetailPageViewController.isExpired = true
+            }
+            
             self.groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
             self.groupEventDetailPageViewController.requestSenderId = self.requestSenderId
-            
             self.navigationController?.pushViewController(self.groupEventDetailPageViewController, animated: true)
         }
-       
+        
     }
     
+}
+
+extension UICollectionViewCell {
+    func shadowDecorate() {
+        let radius: CGFloat = 10
+        contentView.layer.cornerRadius = radius
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.clear.cgColor
+        contentView.layer.masksToBounds = true
+        
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.5
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
+        layer.cornerRadius = radius
+    }
 }
