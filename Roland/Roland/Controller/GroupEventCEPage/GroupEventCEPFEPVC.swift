@@ -146,9 +146,6 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
             
             return cell
             
-//        case 7:
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEMessageCell.self)"), for: indexPath) as? GEMessageCell else { fatalError("Error") }
-//            return cell
         default:
             break
         }

@@ -43,6 +43,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         tableView.register(GEIntroCell.self, forCellReuseIdentifier: String(describing: GEIntroCell.self))
         tableView.register(GEHostandAttendeesCell.self, forCellReuseIdentifier: String(describing: GEHostandAttendeesCell.self))
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
+//        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         setupBorderLine()
@@ -51,7 +52,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         setupEditButton()
         setupShareEventButton()
         setupRegisButton()
-        
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {

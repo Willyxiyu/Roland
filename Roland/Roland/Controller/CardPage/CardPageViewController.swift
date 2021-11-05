@@ -14,12 +14,9 @@ class CardPageViewController: UIViewController {
     private var userInfo = [UserInfo]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController?.tabBar.isHidden = true
         setupCardHomePageView()
         setupCardView()
-        setupLogingView()
-        setupLogingButton()
-        setupAppIconImage()
+
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -27,40 +24,7 @@ class CardPageViewController: UIViewController {
        fetchUsers()
         
     }
-    lazy var logingView: UIView = {
-        let logingView = UIView()
-        logingView.backgroundColor = UIColor.themeColor
-        return logingView
-    }()
-    
-    lazy var logingButton: UIButton = {
-        let logingButton = UIButton()
-        logingButton.setTitle("登入", for: .normal)
-        logingButton.layer.cornerRadius = 20
-        logingButton.layer.borderWidth = 1
-        logingButton.setTitleColor(UIColor.gray, for: .normal)
-        logingButton.backgroundColor = UIColor.white
-        logingButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-        logingButton.titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .medium)
-        logingButton.isEnabled = true
-        logingButton.addTarget(self, action: #selector(dismissLogingView), for: .touchUpInside)
-        return logingButton
-    }()
-    
-    lazy var appIconImageView: UIImageView = {
-        let appIconImageView = UIImageView()
-        appIconImageView.image = UIImage(named: "appicon")
-        return appIconImageView
-    }()
-    
-   @objc func dismissLogingView() {
-       
-       tabBarController?.tabBar.isHidden = false
-        UIView.animate(withDuration: 0.4) {
-            self.logingView.alpha = 0
-        }
-    }
-    
+
     private func setupCardHomePageView() {
         cardHomePageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cardHomePageView)
@@ -101,36 +65,5 @@ class CardPageViewController: UIViewController {
         ])
     }
     
-    private func setupLogingView() {
-        logingView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(logingView)
-        NSLayoutConstraint.activate([
-            logingView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            logingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            logingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            logingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
-    
-    private func setupLogingButton() {
-        logingButton.translatesAutoresizingMaskIntoConstraints = false
-        logingView.addSubview(logingButton)
-        NSLayoutConstraint.activate([
-            logingButton.centerXAnchor.constraint(equalTo: logingView.centerXAnchor),
-            logingButton.bottomAnchor.constraint(equalTo: logingView.bottomAnchor, constant: -100),
-            logingButton.widthAnchor.constraint(equalTo: logingView.widthAnchor, multiplier: 0.7),
-            logingButton.heightAnchor.constraint(equalTo: logingView.heightAnchor, multiplier: 0.05)
-        ])
-    }
-    
-    private func setupAppIconImage() {
-        appIconImageView.translatesAutoresizingMaskIntoConstraints = false
-        logingView.addSubview(appIconImageView)
-        NSLayoutConstraint.activate([
-            appIconImageView.centerXAnchor.constraint(equalTo: logingView.centerXAnchor),
-            appIconImageView.centerYAnchor.constraint(equalTo: logingView.centerYAnchor),
-            appIconImageView.heightAnchor.constraint(equalToConstant: 50),
-            appIconImageView.widthAnchor.constraint(equalToConstant: 50)
-        ])
-    }
+
 }
