@@ -14,7 +14,6 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     var eventTitle = String()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.setBackgroundImage(imageName: "CEBGVertical")

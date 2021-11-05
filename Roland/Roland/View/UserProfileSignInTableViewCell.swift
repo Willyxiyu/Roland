@@ -48,6 +48,8 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.backgroundColor = .systemGray5
+        setupView()
         setupUserPhotoImageView()
         setupChangePhotoButton()
         
@@ -58,14 +60,27 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         
     }
     
-    lazy var userPhotoImageView: UIImageView = {
-        let userPhotoImageView = UIImageView()
-        userPhotoImageView.backgroundColor = .blue
-        userPhotoImageView.contentMode = .scaleAspectFill
-        userPhotoImageView.clipsToBounds = true
-//        userPhotoImageView.layer.contentsGravity = CALayerContentsGravity.resize
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 4
         userPhotoImageView.layer.masksToBounds = true
         userPhotoImageView.layer.cornerRadius = UIScreen.main.bounds.width / 4
+        
+    }
+    
+    lazy var view: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    lazy var userPhotoImageView: UIImageView = {
+        let userPhotoImageView = UIImageView()
+        userPhotoImageView.tintColor = .white
+        userPhotoImageView.contentMode = .scaleAspectFill
+        userPhotoImageView.clipsToBounds = true
+
         return userPhotoImageView
     }()
     
@@ -98,7 +113,18 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         
         ])
     }
-
+    
+    private func setupView() {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(view)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 50),
+            view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -50),
+            view.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            view.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
+            view.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5)
+        ])
+    }
 }
 
 // user name & email address
@@ -157,11 +183,11 @@ class UserProfileFirstIntroTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.backgroundColor = .systemGray6
         setupIntrolLabel()
     }
     
@@ -194,10 +220,28 @@ class UserProfileFirstIntroTableViewCell: UITableViewCell {
 }
 
 // age
-class UserProfileAgeTableViewCell: UITableViewCell {
-    
-    let age = ["Not set", "18", "19", "20", "21", "22", "23" ]
+class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
+  
+    let age = ["Not set", "18", "19", "20", "21", "22", "23"]
 
+    let pickerView = UIPickerView()
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return age.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return age[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        ageTextField.text = age[row]
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -213,6 +257,8 @@ class UserProfileAgeTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupAgeLabel()
         setupAgeTextField()
+        pickerView.dataSource = self
+        pickerView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -231,9 +277,7 @@ class UserProfileAgeTableViewCell: UITableViewCell {
     
     lazy var ageTextField: UITextField = {
         let ageTextField = UITextField()
-        let pickerView = UIPickerView()
         ageTextField.inputView = pickerView
-        ageTextField.text = age[0]
         ageTextField.tag = 1
         return ageTextField
     }()
@@ -259,14 +303,31 @@ class UserProfileAgeTableViewCell: UITableViewCell {
         
         ])
     }
-
 }
 
 // gender
-class UserProfileGenderTableViewCell: UITableViewCell {
+class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let gender = [ "Prefer not to say", "Female", "Male", "Nonbinary"]
-
+    
+    let pickerView = UIPickerView()
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return gender.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return gender[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        genderTextField.text = gender[row]
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -282,6 +343,9 @@ class UserProfileGenderTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupGenderLabel()
         setupGenderTextField()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
     }
     
     required init?(coder: NSCoder) {
@@ -300,9 +364,7 @@ class UserProfileGenderTableViewCell: UITableViewCell {
     
     lazy var genderTextField: UITextField = {
         let genderTextField = UITextField()
-        let pickerView = UIPickerView()
         genderTextField.inputView = pickerView
-        genderTextField.text = gender[0]
         genderTextField.tag = 2
         return genderTextField
     }()
@@ -346,6 +408,7 @@ class UserProfileSecondIntroTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.backgroundColor = .systemGray6
         setupIntrolLabel()
     }
     

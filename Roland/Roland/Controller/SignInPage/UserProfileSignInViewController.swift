@@ -13,11 +13,18 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     let tableView = UITableView()
     let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
+
+    
     let storage = Storage.storage().reference()
+    
+    let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
+    
+    let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
+    
     var profilePhoto = UIImage() {
         
         didSet {
-        
+            
             tableView.reloadData()
         }
     }
@@ -33,6 +40,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         super.viewDidLoad()
         self.title = "Your details"
         self.view.backgroundColor = .white
+        self.hideKeyboardWhenTappedAround()
         setupTableView()
         tableView.register(UserProfilePhotoTableViewCell.self, forCellReuseIdentifier: String(describing: UserProfilePhotoTableViewCell.self))
         
@@ -47,6 +55,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         tableView.register(UserProfileSecondIntroTableViewCell.self, forCellReuseIdentifier: String(describing: UserProfileSecondIntroTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsSelection = false
         
     }
     
@@ -83,7 +92,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let nameEmailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileNameEmailTableViewCell.self)"),
-                                                       for: indexPath) as? UserProfileNameEmailTableViewCell else { fatalError("Error") }
+                                                                for: indexPath) as? UserProfileNameEmailTableViewCell else { fatalError("Error") }
         
         switch indexPath.row {
             
@@ -91,9 +100,10 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfilePhotoTableViewCell.self)"),
                                                            for: indexPath) as? UserProfilePhotoTableViewCell else { fatalError("Error") }
             cell.userPhotoImageView.image = profilePhoto
-//            cell.userPhotoImageView.image = UIImage(named: "photo")
-
-            cell.userPhotoImageView.setShadow()
+            //            cell.userPhotoImageView.image = UIImage(named: "photo")
+            cell.view.setShadow()
+            cell.userPhotoImageView.image = UIImage.init(systemName: "person.fill")
+            
             cell.changePhotoButton.addTarget(self, action: #selector(changeProfilePhoto), for: .touchUpInside)
             return cell
         case 1:
@@ -106,7 +116,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             let info = ["Willy Boy", "willy.xiyu@gmail.com"]
             nameEmailCell.userNameEmailLabel.text = info[1]
             return nameEmailCell
-
+            
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileFirstIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileFirstIntroTableViewCell else { fatalError("Error") }
@@ -116,11 +126,18 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileAgeTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileAgeTableViewCell else { fatalError("Error") }
+            cell.ageTextField.text = cell.age[0]
+//            cell.pickerView.delegate = self
+//            cell.pickerView.dataSource = self
             
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileGenderTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileGenderTableViewCell else { fatalError("Error") }
+            cell.genderTextField.text = cell.gender[0]
+//            cell.pickerView.delegate = self
+//            cell.pickerView.dataSource = self
+            
             return cell
             
         case 6:
@@ -183,7 +200,7 @@ extension UserProfileSignInViewController: UIImagePickerControllerDelegate, UINa
         
         profilePhoto = originalImage
         
-        guard let imageData = editedImage.pngData() else {
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
             return
         }
         

@@ -64,6 +64,4 @@ class CardPageViewController: UIViewController {
             cardView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7)
         ])
     }
-    
-
 }

@@ -194,7 +194,7 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
         
         eventPhoto = originalImage
         
-        guard let imageData = editedImage.pngData() else {
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
             return
         }
         
