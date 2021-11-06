@@ -41,8 +41,6 @@ class PrivateCommentViewController: UIViewController {
                 self.privateComment.append(result)
             }
         }
-        
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {

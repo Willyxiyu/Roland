@@ -14,7 +14,6 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     let tableView = UITableView()
     let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
 
-    
     let storage = Storage.storage().reference()
     
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
@@ -40,6 +39,8 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         super.viewDidLoad()
         self.title = "Your details"
         self.view.backgroundColor = .white
+        tableView.backgroundColor = .systemGray6
+        tableView.separatorStyle = .none
         self.hideKeyboardWhenTappedAround()
         setupTableView()
         tableView.register(UserProfilePhotoTableViewCell.self, forCellReuseIdentifier: String(describing: UserProfilePhotoTableViewCell.self))
@@ -127,17 +128,12 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileAgeTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileAgeTableViewCell else { fatalError("Error") }
             cell.ageTextField.text = cell.age[0]
-//            cell.pickerView.delegate = self
-//            cell.pickerView.dataSource = self
-            
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileGenderTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileGenderTableViewCell else { fatalError("Error") }
             cell.genderTextField.text = cell.gender[0]
-//            cell.pickerView.delegate = self
-//            cell.pickerView.dataSource = self
-            
+
             return cell
             
         case 6:
