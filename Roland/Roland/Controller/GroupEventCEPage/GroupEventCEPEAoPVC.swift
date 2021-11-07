@@ -19,9 +19,8 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.setBackgroundImage(imageName: "CEBGVertical")
         self.view.backgroundColor = .white
-
+        self.hideKeyboardWhenTappedAround()
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()

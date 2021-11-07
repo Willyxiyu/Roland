@@ -185,10 +185,10 @@ class GEPhotoCell: UITableViewCell {
     
     lazy var eventImageButton: UIButton = {
         let eventImageButton = UIButton()
-        eventImageButton.setImage(UIImage.init(systemName: "photo.artframe"), for: .normal)
-        eventImageButton.backgroundColor = UIColor.lightGray
+        eventImageButton.setImage(UIImage(named: "camera"), for: .normal)
         eventImageButton.layer.masksToBounds = true
-        eventImageButton.tintColor = .black
+        eventImageButton.alpha = 0.7
+//        eventImageButton.tintColor = .black
         eventImageButton.addTarget(self, action: #selector(eventImageButtonTapped), for: .touchUpInside)
         return eventImageButton
     }()
@@ -215,7 +215,9 @@ class GEPhotoCell: UITableViewCell {
         self.contentView.addSubview(eventImageButton)
         NSLayoutConstraint.activate([
             eventImageButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
-            eventImageButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
+            eventImageButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
+            eventImageButton.heightAnchor.constraint(equalToConstant: 20),
+            eventImageButton.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
     

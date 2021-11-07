@@ -55,6 +55,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        groupEventCollectionView.backgroundColor = .white
         
         FirebaseManger.shared.fetchGroupEventCreatingInfo { (groupEvent) in
             
@@ -111,7 +112,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(searchTextField)
         NSLayoutConstraint.activate([
-            searchTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            searchTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             searchTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
             searchTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
             searchTextField.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.04)
@@ -122,7 +123,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         borderlineView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(borderlineView)
         NSLayoutConstraint.activate([
-            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 15),
+            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
             borderlineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             borderlineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             borderlineView.heightAnchor.constraint(equalToConstant: 1.5)

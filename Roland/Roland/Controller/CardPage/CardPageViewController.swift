@@ -10,30 +10,20 @@ import FirebaseFirestore
 
 class CardPageViewController: UIViewController {
     var cardView = UIView()
-    var cardHomePageView = CardHomePageView()
     private var userInfo = [UserInfo]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCardHomePageView()
         setupCardView()
-
+        
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       fetchUsers()
+        self.view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = false
+        fetchUsers()
         
-    }
-
-    private func setupCardHomePageView() {
-        cardHomePageView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(cardHomePageView)
-        NSLayoutConstraint.activate([
-            cardHomePageView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            cardHomePageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            cardHomePageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            cardHomePageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
     }
     
     private func fetchUsers() {

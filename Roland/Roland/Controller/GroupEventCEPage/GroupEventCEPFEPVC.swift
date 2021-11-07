@@ -49,7 +49,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         super.viewDidLoad()
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(shareNewEvent))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
+//        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
         setupTableView()
         tableView.register(GEPhotoCell.self, forCellReuseIdentifier: String(describing: GEPhotoCell.self))
         tableView.register(GETitleCell.self, forCellReuseIdentifier: String(describing: GETitleCell.self))
