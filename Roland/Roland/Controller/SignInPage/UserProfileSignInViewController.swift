@@ -15,10 +15,14 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
 
     let storage = Storage.storage().reference()
-    
+        
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
     
     let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
+    
+    var userName: String?
+    
+    var userEmail: String?
     
     var profilePhoto = UIImage() {
         
@@ -37,6 +41,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
         self.title = "Your details"
         self.view.backgroundColor = .white
         tableView.backgroundColor = .systemGray6
@@ -57,11 +62,13 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
-        
+        setupNavigationBarItem()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .red
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,6 +84,25 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+        
+    }
+    
+    func setupNavigationBarItem() {
+        let plusImage = UIImage.init(systemName: "plus")
+        let notificationImage = UIImage.init(systemName: "bell")
+        
+        let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
+        let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
+        
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
+        self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
+    }
+    
+    @objc func createNewEvent() {
+        
+    }
+    
+    @objc func pushNotiVC() {
         
     }
     
@@ -108,14 +134,14 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             cell.changePhotoButton.addTarget(self, action: #selector(changeProfilePhoto), for: .touchUpInside)
             return cell
         case 1:
-            let info = ["Willy Boy", "willy.xiyu@gmail.com"]
-            nameEmailCell.userNameEmailTextField.text = info[0]
+        
+            nameEmailCell.userNameEmailTextField.text = userName
             
             return nameEmailCell
             
         case 2:
-            let info = ["Willy Boy", "willy.xiyu@gmail.com"]
-            nameEmailCell.userNameEmailTextField.text = info[1]
+
+            nameEmailCell.userNameEmailTextField.text = userEmail
             return nameEmailCell
             
         case 3:

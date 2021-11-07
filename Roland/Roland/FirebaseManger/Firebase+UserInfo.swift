@@ -10,17 +10,19 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 extension FirebaseManger {
     
-    func addUserInfo() {
+    func postNewUserInfo(name: String, gender: String, birth: String, photo: String, email: String) {
         let ref = database.collection("UserInfo")
-        let docId = ref.document().documentID
+        guard let docId = Auth.auth().currentUser?.uid else { return }
         let userInfo: [String: Any] = [
-            "name": "WillyBoy",
-            "gender": "遊戲Boy",
-            "birth": "26",
-            "phoneNumber": 0910921921,
+            "name": name,
+            "gender": gender,
+            "birth": birth,
+            "photo": photo,
+            "email": email,
             "userId": docId,
             "createTime": Timestamp(date: Date())
         ]

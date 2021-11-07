@@ -22,18 +22,18 @@ class CardHomePageView: UIView {
         addUserInfoButton.setTitleColor(UIColor.themeColor, for: .normal)
         addUserInfoButton.titleLabel?.font = UIFont.medium(size: 20)
         addUserInfoButton.isEnabled = true
-        addUserInfoButton.addTarget(self, action: #selector(addNewUser), for: .touchUpInside)
+//        addUserInfoButton.addTarget(self, action: #selector(addNewUser), for: .touchUpInside)
         return addUserInfoButton
     }()
-    @objc func addNewUser() {
-        FirebaseManger.shared.addUserInfo()
-    }
+//    @objc func addNewUser() {
+//        FirebaseManger.shared.addUserInfo()
+//    }
     
     // MARK: - init
     init() {
         super.init(frame: .zero)
         setupRolandLabel()
-        setupAddUserInfoButton()
+//        setupAddUserInfoButton()
     }
     required init?(coder: NSCoder) {
         fatalError()

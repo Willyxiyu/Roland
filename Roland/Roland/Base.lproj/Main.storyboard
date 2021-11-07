@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8U0-Qd-ouO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7dl-xG-F6I">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CardPageViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -31,7 +31,7 @@
             <objects>
                 <viewController id="72G-hf-oEp" customClass="ChatroomlistViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="l2l-gx-wjL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="DUU-iy-LIW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -51,7 +51,7 @@
             <objects>
                 <viewController id="GId-bv-CFA" customClass="ChatRoomViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Cb-fh-DCM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="cbH-a5-NRi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -68,7 +68,7 @@
                 <navigationController id="2re-c5-4Gq" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="message.fill" catalog="system" id="bLb-JV-XLC"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nRS-hs-a21">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -78,22 +78,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGR-IN-xD3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1048" y="830"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="f1x-to-STn">
-            <objects>
-                <navigationController id="8U0-Qd-ouO" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eJP-dX-jEf">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="7dl-xG-F6I" kind="relationship" relationship="rootViewController" id="YPk-c3-swz"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xaW-qG-Ppz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2013" y="260"/>
         </scene>
         <!--Sign In View Contoller-->
         <scene sceneID="2lc-fO-bad">
@@ -106,16 +90,20 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="JLe-gA-Ttb"/>
+                    <connections>
+                        <segue destination="ENb-Ay-elO" kind="push" id="k9q-44-Tgc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wrg-Zw-j3t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1097" y="260"/>
+            <point key="canvasLocation" x="-901" y="139"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="shx-zW-Eqr">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ENb-Ay-elO" customClass="TabBarViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Tbd-I8-1vo"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jbQ-hB-fnG">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -145,7 +133,7 @@
             <objects>
                 <viewController id="2Ce-ic-crG" customClass="ProfilePageViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yaN-kW-DOp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="jW0-K3-gp9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -161,7 +149,7 @@
             <objects>
                 <viewController id="QVt-2H-h1h" customClass="GroupEventHomePageViewController" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Wd-AR-9BL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="67r-X4-ROD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -183,7 +171,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="iMM-FB-pUP"/>
                     <navigationItem key="navigationItem" id="61t-v7-BCo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xb8-Pu-QVu">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -199,7 +187,7 @@
             <objects>
                 <viewController id="oVW-2j-1PQ" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="guG-BR-fzc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="99H-RF-HLl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -218,7 +206,7 @@
             <objects>
                 <viewController id="TNS-NQ-3D0" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zqj-Fq-TnK">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="soy-Fp-4eX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -237,7 +225,7 @@
             <objects>
                 <viewController id="pfZ-lo-rYU" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zze-vr-Hwd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="qfp-U3-8Vk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -256,7 +244,7 @@
             <objects>
                 <viewController id="9m5-Jr-v1e" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eDO-34-TwZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="fz4-vt-J8e"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -275,7 +263,7 @@
             <objects>
                 <viewController id="slb-ZJ-Xen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zEa-dt-olC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hGW-Av-2vj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -294,7 +282,7 @@
             <objects>
                 <viewController id="k48-ie-vHa" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="avv-ZU-3ev">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="cuA-cz-5RY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -313,7 +301,7 @@
             <objects>
                 <viewController id="fb0-1y-NfB" customClass="GroupEventCEPFEPVC" customModule="Roland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TBj-GD-ghk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="FMq-SU-W8H"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

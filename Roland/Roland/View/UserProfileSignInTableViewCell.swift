@@ -222,8 +222,14 @@ class UserProfileFirstIntroTableViewCell: UITableViewCell {
 // age
 class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
   
-    let age = ["Not set", "18", "19", "20", "21", "22", "23"]
-
+    let age: [String] = {
+        var array = ["Not set"]
+        for agerange in 18...101 {
+            array.append("\(agerange)")
+        }
+        return array
+    }()
+    
     let pickerView = UIPickerView()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
