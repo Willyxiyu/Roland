@@ -129,7 +129,7 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
 
 // user name & email address
 class UserProfileNameEmailTableViewCell: UITableViewCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -151,23 +151,23 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
         
     }
     
-    lazy var userNameEmailLabel: UILabel = {
-        let userNameEmailLabel = UILabel()
-        userNameEmailLabel.textColor = UIColor.black
-        userNameEmailLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        userNameEmailLabel.textAlignment = .left
-        return userNameEmailLabel
+    lazy var userNameEmailTextField: UITextField = {
+        let userNameEmailTextField = UITextField()
+        userNameEmailTextField.textColor = UIColor.black
+        userNameEmailTextField.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        userNameEmailTextField.setLeftPaddingPoints(15)
+        return userNameEmailTextField
     }()
     
     private func setupUserNameEmailLabel() {
-        userNameEmailLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(userNameEmailLabel)
+        userNameEmailTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(userNameEmailTextField)
         NSLayoutConstraint.activate([
-            userNameEmailLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            userNameEmailLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            userNameEmailLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            userNameEmailLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            userNameEmailLabel.heightAnchor.constraint(equalToConstant: 25)
+            userNameEmailTextField.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            userNameEmailTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            userNameEmailTextField.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            userNameEmailTextField.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            userNameEmailTextField.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
 }
@@ -299,7 +299,8 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
         NSLayoutConstraint.activate([
             ageTextField.leadingAnchor.constraint(equalTo: ageLabel.leadingAnchor),
             ageTextField.topAnchor.constraint(equalTo: ageLabel.bottomAnchor),
-            ageTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
+            ageTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
+            ageTextField.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
         
         ])
     }
@@ -386,7 +387,8 @@ class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIP
         NSLayoutConstraint.activate([
             genderTextField.leadingAnchor.constraint(equalTo: genderLabel.leadingAnchor),
             genderTextField.topAnchor.constraint(equalTo: genderLabel.bottomAnchor),
-            genderTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
+            genderTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
+            genderTextField.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
         
         ])
     }

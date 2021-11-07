@@ -109,13 +109,13 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             return cell
         case 1:
             let info = ["Willy Boy", "willy.xiyu@gmail.com"]
-            nameEmailCell.userNameEmailLabel.text = info[0]
+            nameEmailCell.userNameEmailTextField.text = info[0]
             
             return nameEmailCell
             
         case 2:
             let info = ["Willy Boy", "willy.xiyu@gmail.com"]
-            nameEmailCell.userNameEmailLabel.text = info[1]
+            nameEmailCell.userNameEmailTextField.text = info[1]
             return nameEmailCell
             
         case 3:
