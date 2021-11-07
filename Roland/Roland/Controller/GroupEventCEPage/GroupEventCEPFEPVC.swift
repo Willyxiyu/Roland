@@ -21,9 +21,10 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     var eventLocation = String()
     var maxPeople = Int()
     var eventIntro = String()
-    
     var eventPhoto = UIImage() {
+        
         didSet {
+            
             tableView.reloadData()
         }
     }

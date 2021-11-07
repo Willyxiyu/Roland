@@ -11,33 +11,37 @@ import FirebaseStorage
 
 class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
+    let cardPageViewController = CardPageViewController()
+    
     let tableView = UITableView()
+    
     let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
-
+    
     let storage = Storage.storage().reference()
-        
+    
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
     
     let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
+    
+    var userInfo = [UserInfo]()
     
     var userName: String?
     
     var userEmail: String?
     
+    var userAge: String?
+    
+    var userGender: String?
+    
     var profilePhoto = UIImage() {
         
         didSet {
-            
+
             tableView.reloadData()
         }
     }
     
-    var eventUrlString = String() {
-        
-        didSet {
-            
-        }
-    }
+    var eventUrlString = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,13 +66,19 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
-        setupNavigationBarItem()
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(createNewProfile))
+        
+        guard let userEmail = userEmail else { return }
+        FirebaseManger.shared.fetchUserInfobyEmail(email: userEmail) { result in
+            self.userInfo = result
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.backgroundColor = .red
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,24 +96,19 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         ])
         
     }
-    
-    func setupNavigationBarItem() {
-        let plusImage = UIImage.init(systemName: "plus")
-        let notificationImage = UIImage.init(systemName: "bell")
+
+    @objc func createNewProfile() {
         
-        let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
-        let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
+        guard let userName = userName else { return }
+        guard let userEmail = userEmail else { return }
+        guard let userAge = userAge else { return }
+        guard let userGender = userGender else { return }
+//        guard let userId = userInfo[indexPath.row].userId else { return }
         
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
-        self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
-    }
-    
-    @objc func createNewEvent() {
+        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, birth: userAge, gender: userGender, photo: eventUrlString, docId: "6TD3yTjZnNOLETSrL9jYQ60NYAB2")
         
-    }
-    
-    @objc func pushNotiVC() {
-        
+        navigationController?.pushViewController(cardPageViewController, animated: true)
+      
     }
     
 }
@@ -117,7 +122,6 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let nameEmailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileNameEmailTableViewCell.self)"),
                                                                 for: indexPath) as? UserProfileNameEmailTableViewCell else { fatalError("Error") }
         
@@ -126,21 +130,20 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfilePhotoTableViewCell.self)"),
                                                            for: indexPath) as? UserProfilePhotoTableViewCell else { fatalError("Error") }
-            cell.userPhotoImageView.image = profilePhoto
-            //            cell.userPhotoImageView.image = UIImage(named: "photo")
+            
             cell.view.setShadow()
-            cell.userPhotoImageView.image = UIImage.init(systemName: "person.fill")
+            cell.userPhotoImageView.image = profilePhoto
             
             cell.changePhotoButton.addTarget(self, action: #selector(changeProfilePhoto), for: .touchUpInside)
             return cell
         case 1:
-        
+            
             nameEmailCell.userNameEmailTextField.text = userName
             
             return nameEmailCell
             
         case 2:
-
+            
             nameEmailCell.userNameEmailTextField.text = userEmail
             return nameEmailCell
             
@@ -154,12 +157,17 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileAgeTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileAgeTableViewCell else { fatalError("Error") }
             cell.ageTextField.text = cell.age[0]
+            
+            userAge = cell.ageTextField.text
+            
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileGenderTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileGenderTableViewCell else { fatalError("Error") }
             cell.genderTextField.text = cell.gender[0]
-
+            
+            userGender = cell.genderTextField.text
+            
             return cell
             
         case 6:

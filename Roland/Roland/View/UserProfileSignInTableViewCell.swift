@@ -34,7 +34,7 @@ class UserProfileSignInTableViewCell: UITableViewCell {
 
 // user photo
 class UserProfilePhotoTableViewCell: UITableViewCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -50,6 +50,7 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.backgroundColor = .systemGray5
         setupView()
+        setupPlaceHolderImageView()
         setupUserPhotoImageView()
         setupChangePhotoButton()
         
@@ -75,12 +76,21 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         return view
     }()
     
+    lazy var placeHolderImageView: UIImageView = {
+        let placeHolderImageView = UIImageView()
+        placeHolderImageView.tintColor = .white
+        placeHolderImageView.contentMode = .scaleAspectFill
+        placeHolderImageView.clipsToBounds = true
+        placeHolderImageView.image = UIImage.init(systemName: "person.fill")
+        return placeHolderImageView
+    }()
+    
+    
     lazy var userPhotoImageView: UIImageView = {
         let userPhotoImageView = UIImageView()
         userPhotoImageView.tintColor = .white
         userPhotoImageView.contentMode = .scaleAspectFill
         userPhotoImageView.clipsToBounds = true
-
         return userPhotoImageView
     }()
     
@@ -123,6 +133,19 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
             view.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             view.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
             view.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5)
+        ])
+    }
+    
+    private func setupPlaceHolderImageView() {
+        placeHolderImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(placeHolderImageView)
+        NSLayoutConstraint.activate([
+            placeHolderImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHolderImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            placeHolderImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            placeHolderImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8)
+            
+        
         ])
     }
 }
@@ -246,6 +269,7 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         ageTextField.text = age[row]
+        
     }
     
     override func awakeFromNib() {
