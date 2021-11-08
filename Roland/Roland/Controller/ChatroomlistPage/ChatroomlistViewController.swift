@@ -19,8 +19,7 @@ class ChatroomlistViewController: UIViewController {
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
-//        fetchConversation()
-//        startListeningForChatRoom()
+        self.title = "Message"
         FirebaseManger.shared.getAllChatRoom(id: userID) { list in
             self.chatRoomList = list
             self.chatRoomListTableView.reloadData()

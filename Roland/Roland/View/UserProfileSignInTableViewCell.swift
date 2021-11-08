@@ -85,7 +85,6 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         return placeHolderImageView
     }()
     
-    
     lazy var userPhotoImageView: UIImageView = {
         let userPhotoImageView = UIImageView()
         userPhotoImageView.tintColor = .white

@@ -11,8 +11,6 @@ import FirebaseStorage
 
 class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
-    let tabBarViewController = TabBarViewController()
-    
     let tableView = UITableView()
     
     let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
@@ -107,7 +105,11 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         
         FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, birth: userAge, gender: userGender, photo: eventUrlString, docId: "6TD3yTjZnNOLETSrL9jYQ60NYAB2")
         
-        navigationController?.pushViewController(tabBarViewController, animated: true)
+        let carViewPage = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
+        
+        guard let carViewPage = carViewPage as? TabBarViewController else { return }
+        
+        show(carViewPage, sender: nil)
       
     }
     

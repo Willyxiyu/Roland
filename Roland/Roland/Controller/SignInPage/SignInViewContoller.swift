@@ -18,7 +18,8 @@ class SignInViewContoller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //        tabBarController?.tabBar.isHidden = true
-        setupLogingView()
+        self.view.backgroundColor = UIColor.themeColor
+//        setupLogingView()
         setupLogingButton()
         setupAppIconImage()
         
@@ -29,11 +30,11 @@ class SignInViewContoller: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    lazy var logingView: UIView = {
-        let logingView = UIView()
-        logingView.backgroundColor = UIColor.themeColor
-        return logingView
-    }()
+//    lazy var logingView: UIView = {
+//        let logingView = UIView()
+//        logingView.backgroundColor = UIColor.themeColor
+//        return logingView
+//    }()
     
     lazy var logingButton: ASAuthorizationAppleIDButton = {
         let logingButton = ASAuthorizationAppleIDButton(type: .default, style: .white)
@@ -45,7 +46,9 @@ class SignInViewContoller: UIViewController {
     
     lazy var appIconImageView: UIImageView = {
         let appIconImageView = UIImageView()
-        appIconImageView.image = UIImage(named: "appicon")
+        appIconImageView.image = UIImage(named: "rolandicon")
+        appIconImageView.contentMode = .scaleAspectFit
+        appIconImageView.clipsToBounds = true
         return appIconImageView
     }()
     
@@ -54,7 +57,6 @@ class SignInViewContoller: UIViewController {
         performSignIn()
         
     }
-    
     func performSignIn() {
         let request = createAppleIDRequest()
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
@@ -75,36 +77,36 @@ class SignInViewContoller: UIViewController {
         return request
     }
     
-    private func setupLogingView() {
-        logingView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(logingView)
-        NSLayoutConstraint.activate([
-            logingView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            logingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            logingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            logingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
+//    private func setupLogingView() {
+//        logingView.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.addSubview(logingView)
+//        NSLayoutConstraint.activate([
+//            logingView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            logingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            logingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            logingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+//        ])
+//    }
     
     private func setupLogingButton() {
         logingButton.translatesAutoresizingMaskIntoConstraints = false
-        logingView.addSubview(logingButton)
+        self.view.addSubview(logingButton)
         NSLayoutConstraint.activate([
-            logingButton.centerXAnchor.constraint(equalTo: logingView.centerXAnchor),
-            logingButton.bottomAnchor.constraint(equalTo: logingView.bottomAnchor, constant: -100),
-            logingButton.widthAnchor.constraint(equalTo: logingView.widthAnchor, multiplier: 0.65),
+            logingButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            logingButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -100),
+            logingButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.65),
             logingButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
     private func setupAppIconImage() {
         appIconImageView.translatesAutoresizingMaskIntoConstraints = false
-        logingView.addSubview(appIconImageView)
+        self.view.addSubview(appIconImageView)
         NSLayoutConstraint.activate([
-            appIconImageView.centerXAnchor.constraint(equalTo: logingView.centerXAnchor),
-            appIconImageView.centerYAnchor.constraint(equalTo: logingView.centerYAnchor),
-            appIconImageView.heightAnchor.constraint(equalToConstant: 50),
-            appIconImageView.widthAnchor.constraint(equalToConstant: 50)
+            appIconImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            appIconImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            appIconImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.2),
+            appIconImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
         ])
     }
     

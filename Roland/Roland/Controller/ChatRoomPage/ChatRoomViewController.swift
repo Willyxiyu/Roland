@@ -23,6 +23,18 @@ struct Sender: SenderType {
     public var displayName: String
 }
 
+struct Media: MediaItem {
+    
+    var url: URL?
+    
+    var image: UIImage?
+    
+    var placeholderImage: UIImage
+    
+    var size: CGSize
+    
+}
+
 extension MessageKind {
     var messageKindString: String {
         switch self {
@@ -71,10 +83,10 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     private var selfSender: Sender? {
-      
-//        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
-//            return nil
-//        }
+        
+        //        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
+        //            return nil
+        //        }
         return Sender(photoURL: "",
                       senderId: "DoIscQXJzIbQfJDTnBVm",
                       displayName: "Willy Boy")
@@ -87,7 +99,7 @@ class ChatRoomViewController: MessagesViewController {
         //        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
-        
+        self.hideKeyboardWhenTappedAround()
         FirebaseManger.shared.messageListener(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
             
             self.messages.removeAll()
@@ -117,7 +129,7 @@ class ChatRoomViewController: MessagesViewController {
                 self.messages.append(message)
                 
             }
-           
+            
         }
     }
     
@@ -221,12 +233,12 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
     }
     
     func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        picker.dismiss(animated: true, completion: nil)
-//        guard let messageId = createMessageId(),
-//              let image =  info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-//              let imageData = image.pngData() else {
-//                  return
-//              }
+        //        picker.dismiss(animated: true, completion: nil)
+        //        guard let messageId = createMessageId(),
+        //              let image =  info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+        //              let imageData = image.pngData() else {
+        //                  return
+        //              }
         // upload image
         
         // send Message
@@ -258,16 +270,17 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
 }
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
-     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        
         let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(text))
         
         FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: message)
         
         self.messagesCollectionView.reloadData()
+        self.messageInputBar.inputTextView.text.removeAll()
         
     }
-
+    
     func createMessageId() -> String? {
         // date, otherUserEmail, senderEmail, randomInt
         

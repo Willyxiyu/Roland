@@ -11,6 +11,6 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarItem.imageInsets = UIEdgeInsets(top: 50, left: 0, bottom: -10, right: 0)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
