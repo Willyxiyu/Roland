@@ -26,6 +26,10 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
         super.init(coder: aDecoder)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userPhotoImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.1 * 0.5
+    }
     lazy var userPhotoImageView: UIImageView = {
         let photoImage = UIImage(named: "photo")
         let userPhotoImageView = UIImageView()

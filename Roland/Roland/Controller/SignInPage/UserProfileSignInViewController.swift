@@ -105,11 +105,11 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         
         FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, birth: userAge, gender: userGender, photo: eventUrlString, docId: "6TD3yTjZnNOLETSrL9jYQ60NYAB2")
         
-        let carViewPage = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
+        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
-        guard let carViewPage = carViewPage as? TabBarViewController else { return }
-        
-        show(carViewPage, sender: nil)
+        guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
+                
+        show(tabBarVC, sender: nil)
       
     }
     

@@ -12,7 +12,9 @@ import FirebaseStorage
 
 class ProfilePageViewController: UIViewController {
 //    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
-    let storage = Storage.storage().reference()
+    private let storage = Storage.storage().reference()
+    private let gradientLayer = CAGradientLayer()
+
     var eventUrlString = String()
     
     var profilePhoto = UIImage() {
@@ -31,6 +33,7 @@ class ProfilePageViewController: UIViewController {
         setupPhotoBackgroundview()
         setupUserPhotoImageView()
         setupNewPhotoBackgroundView()
+        setupGradientLayer()
         setupSettingBackgroundView()
         setupEditInfoBackgroundView()
         setupUserNameLabel()
@@ -40,7 +43,6 @@ class ProfilePageViewController: UIViewController {
         setupSettingButton()
         setupNewPhotoButton()
         setupEditInfoButton()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,13 +62,14 @@ class ProfilePageViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        gradientLayer.frame = newPhotoBackgroundView.bounds
+        gradientLayer.cornerRadius = UIScreen.main.bounds.width * 0.2 * 0.5
         photoBackgroundView.layer.cornerRadius = UIScreen.main.bounds.width / 4
         userPhotoImageView.layer.masksToBounds = true
         userPhotoImageView.layer.cornerRadius = UIScreen.main.bounds.width / 4
         newPhotoBackgroundView.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 * 0.5
         settingBackgroundView.layer.cornerRadius = UIScreen.main.bounds.width * 0.15 * 0.5
         editInfoBackgroundView.layer.cornerRadius = UIScreen.main.bounds.width * 0.15 * 0.5
-//        UIScreen.main.bounds.width / 2
         
     }
     // MARK: - backgroundView fot the shadow
@@ -145,7 +148,7 @@ class ProfilePageViewController: UIViewController {
     }()
     
     lazy var settingButton: UIButton = {
-        let settingButton = UIButton()
+        let settingButton = UIButton(type: .custom)
         settingButton.setImage(UIImage(named: "settingButton"), for: .normal)
         settingButton.layer.masksToBounds = true
         settingButton.alpha = 0.7
@@ -158,10 +161,10 @@ class ProfilePageViewController: UIViewController {
     }
     
     lazy var newPhotoButton: UIButton = {
-        let newPhotoButton = UIButton()
+        let newPhotoButton = UIButton(type: .system)
         newPhotoButton.setImage(UIImage(named: "camera"), for: .normal)
+        newPhotoButton.tintColor = UIColor.white
         newPhotoButton.layer.masksToBounds = true
-        newPhotoButton.alpha = 0.7
         newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
         return newPhotoButton
     }()
@@ -307,6 +310,15 @@ class ProfilePageViewController: UIViewController {
             editInfoButton.heightAnchor.constraint(equalTo: editInfoBackgroundView.heightAnchor, multiplier: 0.6)
         ])
     }
+    
+    private func setupGradientLayer() {
+        gradientLayer.colors = [UIColor.hexStringToUIColor(hex: "fff0f3").cgColor, UIColor.hexStringToUIColor(hex: "ff4d6d").cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.locations = [0.0, 1.0]
+        newPhotoBackgroundView.layer.addSublayer(gradientLayer)
+    }
+    
 }
 
 extension ProfilePageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
+import MessageKit
 
 extension FirebaseManger {
     /// Creates a new conversation with target userId and first message sent
@@ -26,23 +26,23 @@ extension FirebaseManger {
         switch firstMessage.kind {
         case .text(let messageText):
             message = messageText
-        case .attributedText(_):
+        case .attributedText:
             break
-        case .photo(_):
+        case .photo:
             break
-        case .video(_):
+        case .video:
             break
-        case .location(_):
+        case .location:
             break
-        case .emoji(_):
+        case .emoji:
             break
-        case .audio(_):
+        case .audio:
             break
-        case .contact(_):
+        case .contact:
             break
-        case .linkPreview(_):
+        case .linkPreview:
             break
-        case .custom(_):
+        case .custom:
             break
         }
         
@@ -106,75 +106,43 @@ extension FirebaseManger {
             }
     }
     
-    /// Gets all messages for a given conversation
-    public func getAllMessagesForChatRoom(chatRoomId: String, completion: @escaping([Messagelist]) -> Void) {
-        
-        database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist").order(by: "createTime")
-        
-            .getDocuments { querySnapshot, error in
-                
-                if let error = error {
-                    
-                    print(error)
-                    
-                    return
-                    
-                } else {
-                    
-                    var messagelist = [Messagelist]()
-                    
-                    for document in querySnapshot!.documents {
-                        
-                        do {
-                            
-                            if let message = try document.data(as: Messagelist.self) {
-                                
-                                messagelist.append(message)
-                            }
-                        } catch {
-                            print(error)
-                        }
-                    }
-                    
-                    completion(messagelist)
-                }
-            }
-    }
-    
     /// Sends a message with target conversation and message
     public func sendMessage(chatRoomId: String, newMessage: Message) {
         
-        let ref = database.collection("ChatRoomList").document("TMTKJhNE2z0u4FyLoDsu").collection("Messagelist")
+        let ref = database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist")
         
         let docId = ref.document().documentID
         
         let messageDate = newMessage.sentDate
         
-        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
+//        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
         
         var message = ""
+        var photoMessage = ""
         
         switch newMessage.kind {
             
         case .text(let messageText):
             message = messageText
-        case .attributedText(_):
+        case .attributedText:
             break
-        case .photo(_):
+        case .photo(let mediaItem):
+            if let targetUrlString = mediaItem.url?.absoluteString {
+                photoMessage = targetUrlString
+            }
+        case .video:
             break
-        case .video(_):
+        case .location:
             break
-        case .location(_):
+        case .emoji:
             break
-        case .emoji(_):
+        case .audio:
             break
-        case .audio(_):
+        case .contact:
             break
-        case .contact(_):
+        case .linkPreview:
             break
-        case .linkPreview(_):
-            break
-        case .custom(_):
+        case .custom:
             break
         }
         
@@ -182,8 +150,9 @@ extension FirebaseManger {
             "senderId": "DoIscQXJzIbQfJDTnBVm",
             "accepterId": "GW9pTXyhawNoomsCeoZc",
             "createTime": Timestamp.init(date: Date()),
-            "isRead": true,
-            "text": message
+            "isRead": false,
+            "text": message,
+            "photoMessage": photoMessage
         ]
         ref.document(docId).setData(newMessage) { (error) in
             if let error = error {
@@ -196,7 +165,7 @@ extension FirebaseManger {
     
     public func messageListener(chatRoomId: String, completion: @escaping([Messagelist]) -> Void  ) {
         
-        database.collection("ChatRoomList").document("TMTKJhNE2z0u4FyLoDsu").collection("Messagelist").order(by: "createTime")
+        database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist").order(by: "createTime")
         
             .addSnapshotListener { querySnapshot, error in
                 
@@ -227,6 +196,5 @@ extension FirebaseManger {
                 }
                 
             }
-        }
-    
+    }
 }
