@@ -19,6 +19,7 @@ class ChatroomlistViewController: UIViewController {
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
+        self.hideKeyboardWhenTappedAround()
         self.title = "Message"
         FirebaseManger.shared.getAllChatRoom(id: userID) { list in
             self.chatRoomList = list

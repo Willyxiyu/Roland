@@ -66,12 +66,11 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
     func setupNavigationBarItem() {
         let plusImage = UIImage.init(systemName: "plus")
         let notificationImage = UIImage.init(systemName: "bell")
-        
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
-        
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
         self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
+//        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.systemGray
+
     }
     
     private lazy var categorySegmentedControl: UISegmentedControl = {
@@ -123,7 +122,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         borderlineView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(borderlineView)
         NSLayoutConstraint.activate([
-            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
+            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 15),
             borderlineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             borderlineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             borderlineView.heightAnchor.constraint(equalToConstant: 1.5)
