@@ -212,6 +212,7 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - AvailableHapticFeedback (1.0.2)
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -311,6 +312,9 @@ PODS:
   - lottie-ios (3.2.3)
   - MessageKit (3.7.0):
     - InputBarAccessoryView (~> 5.4.0)
+  - MultiSlider (1.11.2):
+    - AvailableHapticFeedback
+    - SweeterSwift
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -325,6 +329,7 @@ PODS:
   - SDWebImage (5.12.1):
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
+  - SweeterSwift (1.1.4)
   - SwiftLint (0.44.0)
 
 DEPENDENCIES:
@@ -336,6 +341,7 @@ DEPENDENCIES:
   - Kingfisher
   - lottie-ios
   - MessageKit
+  - MultiSlider
   - RealmSwift
   - SDWebImage
   - SwiftLint
@@ -343,6 +349,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - AvailableHapticFeedback
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAuth
@@ -362,15 +369,18 @@ SPEC REPOS:
     - leveldb-library
     - lottie-ios
     - MessageKit
+    - MultiSlider
     - nanopb
     - PromisesObjC
     - Realm
     - RealmSwift
     - SDWebImage
+    - SweeterSwift
     - SwiftLint
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+  AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
@@ -390,13 +400,15 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   MessageKit: 8e76dd8d65ad44b49e1651c673497146416461e9
+  MultiSlider: 944d00877d371bbb5ce0a512fec517de87958775
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Realm: 9533276bd76f66aa2fd0d3ffe700c1f6023dcab6
   RealmSwift: 57f5d59aa29852587aad1e861989e7af139894b5
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
+  SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
   SwiftLint: e96c0a8c770c7ebbc4d36c55baf9096bb65c4584
 
-PODFILE CHECKSUM: 3ad43217b4e10a2f2003ba4a143002eab4fd485f
+PODFILE CHECKSUM: 82cde19c29fabdcff625ccb5b1bdd994e6610425
 
 COCOAPODS: 1.11.2
