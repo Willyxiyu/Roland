@@ -69,7 +69,6 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
         self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
-//        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.systemGray
 
     }
     

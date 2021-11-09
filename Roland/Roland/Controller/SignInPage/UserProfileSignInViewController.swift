@@ -101,7 +101,6 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         guard let userEmail = userEmail else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-//        guard let userId = userInfo[indexPath.row].userId else { return }
         
         FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, birth: userAge, gender: userGender, photo: eventUrlString, docId: "6TD3yTjZnNOLETSrL9jYQ60NYAB2")
         

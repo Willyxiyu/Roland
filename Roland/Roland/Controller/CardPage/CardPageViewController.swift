@@ -9,6 +9,9 @@ import UIKit
 import FirebaseFirestore
 
 class CardPageViewController: UIViewController {
+    
+    let meetUpFilterViewController = MeetUpFilterViewController()
+    
     var cardView = UIView()
     private var userInfo = [UserInfo]()
     
@@ -46,8 +49,15 @@ class CardPageViewController: UIViewController {
         filterButton.setImage(UIImage(named: "filter"), for: .normal)
         filterButton.contentMode = .scaleAspectFit
         filterButton.alpha = 0.5
+        filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
         return filterButton
     }()
+    
+    @objc func openFilter() {
+        let nav = UINavigationController(rootViewController: self.meetUpFilterViewController)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+    }
     
     private func setupRolandImageView() {
         rolandImageView.translatesAutoresizingMaskIntoConstraints = false

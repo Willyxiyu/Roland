@@ -113,11 +113,12 @@ extension FirebaseManger {
         
         let docId = ref.document().documentID
         
-        let messageDate = newMessage.sentDate
+//        let messageDate = newMessage.sentDate
         
 //        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
         
         var message = ""
+        
         var photoMessage = ""
         
         switch newMessage.kind {

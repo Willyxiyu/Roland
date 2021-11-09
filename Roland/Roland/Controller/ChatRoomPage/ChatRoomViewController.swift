@@ -101,7 +101,7 @@ class ChatRoomViewController: MessagesViewController {
             
             guard let url = URL(string: self.eventUrlString),
                   
-            let placeholder = UIImage(systemName: "plus")
+                    let placeholder = UIImage(systemName: "plus")
                     
             else {
                 
@@ -129,7 +129,8 @@ class ChatRoomViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        //        messagesCollectionView.messageCellDelegate = self
+        //        messagesCollectionView.delegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
         self.hideKeyboardWhenTappedAround()
@@ -145,50 +146,32 @@ class ChatRoomViewController: MessagesViewController {
                 guard let sentDate = result.createTime?.dateValue() else {
                     return
                 }
-                
-                guard let senderId = result.senderId else {
-                    return
-                }
-                
-                guard let displayName = result.senderId else {
-                    return
-                }
-                
-//                guard let resultText = result.text  else {
-//                    return
-//                }
-//                let kind = MessageKind.text(resultText)
-//
-//                let message = Message(sender: Sender(photoURL: "", senderId: senderId, displayName: displayName), messageId: "", sentDate: sentDate, kind: kind)
-//
-//                self.messages.append(message)
-                
                 var kind: MessageKind?
-
+                
                 if result.photoMessage != "" {
-
+                    
                     guard let imageUrl = URL(string: result.photoMessage ?? ""),
-                    let placeHolder = UIImage(systemName: "plus") else {
-                        return
-                    }
-
+                          let placeHolder = UIImage(systemName: "plus") else {
+                              return
+                          }
+                    
                     let media = Media(url: imageUrl, image: nil, placeholderImage: placeHolder, size: CGSize(width: 300, height: 300))
                     kind = .photo(media)
-
+                    
                 } else if result.text != "" {
                     kind = .text(result.text ?? "")
                 }
-
+                
                 guard let finalKind = kind else {
                     return
                 }
-
+                
                 if let selfSender = self.selfSender {
-
+                    
                     let message = Message(sender: selfSender, messageId: "", sentDate: sentDate, kind: finalKind)
-
+                    
                     self.messages.append(message)
-
+                    
                 }
             }
             
@@ -396,30 +379,30 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
     }
 }
-// extension ChatRoomViewController: MessageCellDelegate {
-//
-//    func didTapImage(in cell: MessageCollectionViewCell) {
-//
-//        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
-//
-//            return
-//        }
-//
-//        let message = messages[indexPath.section]
-//
-//        switch message.kind {
-//
-//        case .photo(let media):
-//
-//            guard let imageUrl = media.url else {
-//
-//                return
-//            }
-//
-//            let viewController = PhotoViewerViewController(with: imageUrl)
-//            self.navigationController?.pushViewController(viewController, animated: true)
-//        default:
-//            break
-//        }
-//    }
-// }
+ extension ChatRoomViewController: MessageCellDelegate {
+
+    func didTapImage(in cell: MessageCollectionViewCell) {
+
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+
+            return
+        }
+
+        let message = messages[indexPath.section]
+
+        switch message.kind {
+
+        case .photo(let media):
+
+            guard let imageUrl = media.url else {
+
+                return
+            }
+
+            let viewController = PhotoViewerViewController(with: imageUrl)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        default:
+            break
+        }
+    }
+ }
