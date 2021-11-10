@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol PickerViewDelegate: AnyObject {
+    
+    func ageForPicker(age: String)
+    
+    func genderForPicker(gender: String)
+}
+
 class UserProfileSignInTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -241,7 +248,11 @@ class UserProfileFirstIntroTableViewCell: UITableViewCell {
 
 // age
 class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
-  
+    
+//    var selectedAge: ((String) -> Void)?
+    
+    weak var delegate: PickerViewDelegate?
+    
     let age: [String] = {
         var array = ["Not set"]
         for agerange in 18...101 {
@@ -266,6 +277,7 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         ageTextField.text = age[row]
+        delegate?.ageForPicker(age: age[row])
         
     }
     
@@ -336,7 +348,9 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
 // gender
 class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    let gender = [ "Prefer not to say", "Female", "Male", "Nonbinary"]
+    weak var delegate: PickerViewDelegate?
+    
+    let gender = [ "暫不回答", "女性", "男性", "非二次元性別"]
     
     let pickerView = UIPickerView()
     
@@ -354,6 +368,7 @@ class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIP
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genderTextField.text = gender[row]
+        delegate?.genderForPicker(gender: gender[row])
     }
     
     override func awakeFromNib() {

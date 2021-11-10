@@ -167,7 +167,6 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = groupEventCollectionView.dequeueReusableCell(withReuseIdentifier: GroupEventCollectionViewCell.identifier,
                                                                       for: indexPath) as? GroupEventCollectionViewCell else { fatalError("Error") }
-        
         cell.eventPhoto.kf.setImage(with: URL(string: self.groupEvent[indexPath.row].eventPhoto))
         cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
         cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location

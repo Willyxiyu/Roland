@@ -10,13 +10,27 @@ import MultiSlider
 
 class MeetUpFilterViewController: UIViewController {
     
+    var favoriteGender = "全部" {
+        
+        didSet {
+            
+            print(favoriteGender)
+        }
+        
+    }
+    
+    var ageArrangeString = ["20", "30"] {
+        
+        didSet {
+            
+            print(ageArrangeString)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "篩選器"
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: self, action: #selector(closeFilter))
-        
-        //        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(shareNewEvent))
         // Do any additional setup after loading the view.
     }
     
@@ -41,11 +55,12 @@ class MeetUpFilterViewController: UIViewController {
         super.viewWillLayoutSubviews()
         confirmButton.clipsToBounds = true
         confirmButton.layer.cornerRadius = 15
+        //        filterSegmentedControl.clipsToBounds = true
+        //        filterSegmentedControl.layer.cornerRadius = 20
     }
     
     @objc func closeFilter() {
         self.navigationController?.popToRootViewController(animated: true)
-        //        navigationController?.popViewController(animated: true)
     }
     
     let filterArray = ["我喜歡...", "年齡", "進階"]
@@ -73,10 +88,25 @@ class MeetUpFilterViewController: UIViewController {
     
     lazy var filterSegmentedControl: UISegmentedControl = {
         let filterSegmentedControl = UISegmentedControl(items: ["男性", "女性", "全部"])
-        filterSegmentedControl.tintColor = UIColor.themeColor
-        filterSegmentedControl.selectedSegmentIndex = 0
+        filterSegmentedControl.selectedSegmentIndex = 2
+        filterSegmentedControl.clipsToBounds = true
+        filterSegmentedControl.addTarget(self, action: #selector(onChange), for: .valueChanged)
         return filterSegmentedControl
     }()
+    
+    @objc func onChange(sender: UISegmentedControl) {
+        
+        //        print(sender.selectedSegmentIndex)
+        
+        if let selectedIndex = sender.titleForSegment(at: sender.selectedSegmentIndex) {
+            
+            favoriteGender = selectedIndex
+            
+//            print(favoriteGender)
+            
+        }
+        
+    }
     
     lazy var horizontalMultiSlider: MultiSlider = {
         let horizontalMultiSlider = MultiSlider()
@@ -91,9 +121,9 @@ class MeetUpFilterViewController: UIViewController {
         horizontalMultiSlider.snapStepSize = 1
         horizontalMultiSlider.isHapticSnap = false
         horizontalMultiSlider.showsThumbImageShadow = false
-        //    horizontalMultiSlider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
-//        view.addConstrainedSubview(horizontalMultiSlider, constrain: .leftMargin, .rightMargin, .bottomMargin)
-//        view.layoutMargins = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
+        horizontalMultiSlider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
+        //        view.addConstrainedSubview(horizontalMultiSlider, constrain: .leftMargin, .rightMargin, .bottomMargin)
+        //        view.layoutMargins = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
         
         //    multiSlider.keepsDistanceBetweenThumbs = false
         horizontalMultiSlider.keepsDistanceBetweenThumbs = true
@@ -101,13 +131,42 @@ class MeetUpFilterViewController: UIViewController {
         horizontalMultiSlider.valueLabelColor = .themeColor
         horizontalMultiSlider.valueLabelFont = UIFont.italicSystemFont(ofSize: 12)
         
-//        if #available(iOS 13.0, *) {
-//            horizontalMultiSlider.minimumImage = UIImage(systemName: "scissors")
-//            horizontalMultiSlider.maximumImage = UIImage(systemName: "paperplane.fill")
-//        }
+        //        if #available(iOS 13.0, *) {
+        //            horizontalMultiSlider.minimumImage = UIImage(systemName: "scissors")
+        //            horizontalMultiSlider.maximumImage = UIImage(systemName: "paperplane.fill")
+        //        }
         
         return horizontalMultiSlider
     }()
+    
+    @objc func sliderChanged() {
+        
+        let result = horizontalMultiSlider.value
+        
+//        print(result)
+        
+        var intResult: [Int] = []
+        for iiii in result {
+            let jjjj = Int(iiii)
+            intResult.append(jjjj)
+            
+        }
+        
+//        print(intResult)
+        
+        var ageArrangeString: [String] = []
+        for sss in intResult {
+            let ooo = String(sss)
+            ageArrangeString.append(ooo)
+            
+            
+        }
+        
+        self.ageArrangeString = ageArrangeString
+        
+//        print(ageArrangeString)
+        
+    }
     
     lazy var sliderView: UIView = {
         let sliderView = UIView()
@@ -126,10 +185,34 @@ class MeetUpFilterViewController: UIViewController {
         confirmButton.setTitle("確認", for: .normal)
         confirmButton.backgroundColor = UIColor.themeColor
         confirmButton.isEnabled = true
-        
-//        confirmButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(sendRequestandCloseFilter), for: .touchUpInside)
         return confirmButton
     }()
+    
+    @objc func sendRequestandCloseFilter() {
+        
+        // 數字若到100就不會算到
+        
+        FirebaseManger.shared.fetchUserInfobtFilterResult(gender: favoriteGender, minAge: ageArrangeString[0], maxAge: ageArrangeString[1]) { userInfo in
+            
+            guard let rootvc = self.navigationController?.viewControllers[0] as? CardPageViewController else { return }
+            
+            // 先讓cardpage的卡片消失，再用篩選器找到的結果，轉成卡片。
+            rootvc.cardView.subviews.forEach { $0.removeFromSuperview() }
+            
+            userInfo.forEach { (userInfo) in
+                
+//                rootvc.card  = CardView(user: userInfo)
+                
+                rootvc.setupCard(CardView(user: userInfo))
+            }
+            
+            rootvc.useFilter = true
+            
+            self.navigationController?.popToRootViewController(animated: true)
+            
+        }
+    }
     
     private func setupLikeLabel() {
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -148,7 +231,7 @@ class MeetUpFilterViewController: UIViewController {
             filterSegmentedControl.topAnchor.constraint(equalTo: likeLabel.bottomAnchor, constant: 10),
             filterSegmentedControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             filterSegmentedControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.85),
-            filterSegmentedControl.heightAnchor.constraint(equalToConstant: 40)
+            filterSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
             
         ])
     }
@@ -177,7 +260,7 @@ class MeetUpFilterViewController: UIViewController {
         sliderView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sliderView)
         NSLayoutConstraint.activate([
-            sliderView.topAnchor.constraint(equalTo: ageLabel.bottomAnchor, constant: 20),
+            sliderView.topAnchor.constraint(equalTo: ageLabel.bottomAnchor, constant: 30),
             sliderView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             sliderView.widthAnchor.constraint(equalTo: filterSegmentedControl.widthAnchor),
             sliderView.heightAnchor.constraint(equalToConstant: 50)
@@ -204,5 +287,5 @@ class MeetUpFilterViewController: UIViewController {
             borderLineView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
-  
+    
 }

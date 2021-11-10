@@ -12,7 +12,7 @@ import Firebase
     let senderId: String?
     let accepterId: String?
     let isLike: Bool?
-    let createTime: Timestamp?
+    let createTime: Timestamp
      
     enum CodingKeys: String, CodingKey {
         case senderId

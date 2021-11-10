@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseStorage
+import FirebaseAuth
 
 class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
@@ -81,6 +82,8 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
+
     }
     
     private func setupTableView() {
@@ -101,8 +104,8 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         guard let userEmail = userEmail else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-        
-        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, birth: userAge, gender: userGender, photo: eventUrlString, docId: "6TD3yTjZnNOLETSrL9jYQ60NYAB2")
+        guard let docId = Auth.auth().currentUser?.uid else { return }
+        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, age: userAge, gender: userGender, photo: eventUrlString, docId: docId)
         
         let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
@@ -161,6 +164,8 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             
             userAge = cell.ageTextField.text
             
+            cell.delegate = self
+            
             return cell
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileGenderTableViewCell.self)"),
@@ -168,6 +173,8 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             cell.genderTextField.text = cell.gender[0]
             
             userGender = cell.genderTextField.text
+            
+            cell.delegate = self
             
             return cell
             
@@ -252,4 +259,18 @@ extension UserProfileSignInViewController: UIImagePickerControllerDelegate, UINa
             })
         }
     }
+}
+
+extension UserProfileSignInViewController: PickerViewDelegate {
+    
+    func ageForPicker(age: String) {
+        
+        userAge = age
+    }
+    
+    func genderForPicker(gender: String) {
+        
+        userGender = gender
+    }
+    
 }

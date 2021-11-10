@@ -14,13 +14,13 @@ import FirebaseAuth
 
 extension FirebaseManger {
     
-    func postNewUserInfo(name: String, gender: String, birth: String, photo: String, email: String) {
+    func postNewUserInfo(name: String, gender: String, age: String, photo: String, email: String) {
         let ref = database.collection("UserInfo")
         guard let docId = Auth.auth().currentUser?.uid else { return }
         let userInfo: [String: Any] = [
             "name": name,
             "gender": gender,
-            "birth": birth,
+            "age": age,
             "photo": photo,
             "email": email,
             "userId": docId,
@@ -69,12 +69,13 @@ extension FirebaseManger {
             }
     }
     
-    func updateUserInfo(name: String, email: String, birth: String, gender: String, photo: String, docId: String) {
+    func updateUserInfo(name: String, email: String, age: String, gender: String, photo: String, docId: String) {
         let ref = database.collection("UserInfo").document(docId)
+//        guard let docId = Auth.auth().currentUser?.uid else { return }
         ref.updateData([
             "name": name,
             "gender": gender,
-            "birth": birth,
+            "age": age,
             "photo": photo,
             "email": email
         ]) { err in
@@ -122,4 +123,76 @@ extension FirebaseManger {
             }
         }
     }
+    
+    func fetchUserInfobtFilterResult(gender: String, minAge: String, maxAge: String, completion: @escaping ([UserInfo]) -> Void ) {
+        
+        if  gender == "全部" {
+            
+            database.collection("UserInfo").whereField("age", isGreaterThanOrEqualTo: minAge).whereField("age", isLessThanOrEqualTo: maxAge)
+                .getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        
+                        print(error)
+                        
+                        return
+                        
+                    } else {
+                        
+                        var userInfo = [UserInfo]()
+                        
+                        for document in querySnapshot!.documents {
+                            
+                            do {
+                                
+                                if let user = try document.data(as: UserInfo.self) {
+                                    
+                                    userInfo.append(user)
+                                    print(user)
+                                }
+                                
+                            } catch {
+                                
+                            }
+                        }
+                        
+                        completion(userInfo)
+                    }
+                }
+            
+        } else {
+            
+            database.collection("UserInfo").whereField("gender", isEqualTo: gender).whereField("age", isGreaterThanOrEqualTo: minAge).whereField("age", isLessThanOrEqualTo: maxAge)
+                .getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        
+                        print(error)
+                        
+                        return
+                        
+                    } else {
+                        
+                        var userInfo = [UserInfo]()
+                        
+                        for document in querySnapshot!.documents {
+                            
+                            do {
+                                
+                                if let user = try document.data(as: UserInfo.self) {
+                                    
+                                    userInfo.append(user)
+                                    
+                                    print(user)
+                                }
+                                
+                            } catch {
+                                
+                            }
+                        }
+                        
+                        completion(userInfo)
+                    }
+                }
+        }
+    
+}
 }

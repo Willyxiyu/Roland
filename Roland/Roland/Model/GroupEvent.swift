@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 import RealmSwift
 
 struct GroupEvent: Codable {

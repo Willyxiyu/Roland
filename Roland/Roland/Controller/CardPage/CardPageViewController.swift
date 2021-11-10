@@ -10,8 +10,10 @@ import FirebaseFirestore
 
 class CardPageViewController: UIViewController {
     
-    let meetUpFilterViewController = MeetUpFilterViewController()
+    var useFilter: Bool = false
     
+    let meetUpFilterViewController = MeetUpFilterViewController()
+//    var card: CardView?
     var cardView = UIView()
     private var userInfo = [UserInfo]()
     
@@ -20,18 +22,24 @@ class CardPageViewController: UIViewController {
         setupCardView()
         setupRolandImageView()
         setupFilterButton()
-        self.title = "Meet up"
-        navigationController?.navigationBar.isHidden = true
-
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
-
-        fetchUsers()
         
+        if !useFilter {
+
+            fetchUsers()
+        }
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+
     }
 
     lazy var rolandImageView: UIImageView = {
@@ -54,9 +62,7 @@ class CardPageViewController: UIViewController {
     }()
     
     @objc func openFilter() {
-        let nav = UINavigationController(rootViewController: self.meetUpFilterViewController)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true, completion: nil)
+        navigationController?.pushViewController(meetUpFilterViewController, animated: true)
     }
     
     private func setupRolandImageView() {
@@ -87,18 +93,24 @@ class CardPageViewController: UIViewController {
             self.userInfo.removeAll()
             self.userInfo = userInfo
             self.userInfo.forEach { (userInfo) in
-                let card = CardView(user: userInfo)
-                card.translatesAutoresizingMaskIntoConstraints = false
-                self.cardView.addSubview(card)
-                NSLayoutConstraint.activate([
-                    card.topAnchor.constraint(equalTo: self.cardView.topAnchor),
-                    card.bottomAnchor.constraint(equalTo: self.cardView.bottomAnchor),
-                    card.leadingAnchor.constraint(equalTo: self.cardView.leadingAnchor),
-                    card.trailingAnchor.constraint(equalTo: self.cardView.trailingAnchor)
-                ])
+//                self.card = CardView(user: userInfo)
+                self.setupCard(CardView(user: userInfo))
             }
         }
+        
     }
+    
+    func setupCard(_ card: CardView) {
+        card.translatesAutoresizingMaskIntoConstraints = false
+        self.cardView.addSubview(card)
+        NSLayoutConstraint.activate([
+            card.topAnchor.constraint(equalTo: self.cardView.topAnchor),
+            card.bottomAnchor.constraint(equalTo: self.cardView.bottomAnchor),
+            card.leadingAnchor.constraint(equalTo: self.cardView.leadingAnchor),
+            card.trailingAnchor.constraint(equalTo: self.cardView.trailingAnchor)
+        ])
+    }
+    
     private func setupCardView() {
         cardView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cardView)

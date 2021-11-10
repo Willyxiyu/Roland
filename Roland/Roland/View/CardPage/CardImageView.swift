@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CardImageView: UIImageView {
    init() {
        super.init(frame: .zero)
         layer.cornerRadius = 10
         contentMode = .scaleAspectFill
-        image = UIImage(named: "photo")
         clipsToBounds = true
     }
     required init?(coder: NSCoder) {

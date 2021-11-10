@@ -17,9 +17,7 @@ class SignInViewContoller: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        tabBarController?.tabBar.isHidden = true
         self.view.backgroundColor = UIColor.themeColor
-//        setupLogingView()
         setupLogingButton()
         setupAppIconImage()
         
@@ -29,12 +27,6 @@ class SignInViewContoller: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-    
-//    lazy var logingView: UIView = {
-//        let logingView = UIView()
-//        logingView.backgroundColor = UIColor.themeColor
-//        return logingView
-//    }()
     
     lazy var logingButton: ASAuthorizationAppleIDButton = {
         let logingButton = ASAuthorizationAppleIDButton(type: .default, style: .white)
@@ -76,17 +68,6 @@ class SignInViewContoller: UIViewController {
         currentNonce = nonce
         return request
     }
-    
-//    private func setupLogingView() {
-//        logingView.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.addSubview(logingView)
-//        NSLayoutConstraint.activate([
-//            logingView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            logingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            logingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            logingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-//        ])
-//    }
     
     private func setupLogingButton() {
         logingButton.translatesAutoresizingMaskIntoConstraints = false
@@ -195,7 +176,7 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                         self.userProfileSignInViewController.userName = name
                         self.userProfileSignInViewController.userEmail = email
                             
-                        FirebaseManger.shared.postNewUserInfo(name: name, gender: "", birth: "", photo: "", email: email)
+                        FirebaseManger.shared.postNewUserInfo(name: name, gender: "", age: "", photo: "", email: email)
                     }
                     // User is signed in to Firebase with Apple.
                     // ...

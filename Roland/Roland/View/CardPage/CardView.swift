@@ -6,17 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CardView: UIView {
     
     // MARK: - UIViews
     private let cardImageView = CardImageView()
     private let gradientLayer = CAGradientLayer()
-    private let nameLabel = CardInfoLabel(frame: .zero, labelText: "Willyboy", labelFont: .systemFont(ofSize: 40, weight: .heavy))
-    private let ageLabel = CardInfoLabel(frame: .zero, labelText: "26", labelFont: .systemFont(ofSize: 40, weight: .heavy))
-    private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "台北, 萬華", labelFont: .systemFont(ofSize: 15, weight: .regular))
-    private let userIdLabel = CardInfoLabel(frame: .zero, labelText: "寫code", labelFont: .systemFont(ofSize: 20, weight: .regular))
-    private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "在台灣過60秒，非洲就過了一分鐘", labelFont: .systemFont(ofSize: 20, weight: .regular))
+    private let nameLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
+    private let ageLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
+    private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 15, weight: .regular))
+    private let userIdLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
+    private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
     private lazy var cardIconImage: UIImageView = {
         let cardIconImage = UIImageView()
         cardIconImage.image = UIImage(named: "heart")
@@ -130,6 +131,13 @@ class CardView: UIView {
             cardImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             cardImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+        
+        if let photo = user.photo {
+            
+            cardImageView.kf.setImage(with: URL(string: photo))
+
+        }
+        
     }
     private func setupCardIconImage(user: UserInfo) {
         cardIconImage.translatesAutoresizingMaskIntoConstraints = false
@@ -157,6 +165,7 @@ class CardView: UIView {
             ageLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             ageLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10)
         ])
+        ageLabel.text = user.age
     }
     private func setupResidenceLabel(user: UserInfo) {
         residenceLabel.translatesAutoresizingMaskIntoConstraints = false
