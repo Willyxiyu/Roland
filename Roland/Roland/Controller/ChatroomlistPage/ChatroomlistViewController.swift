@@ -8,7 +8,42 @@
 import UIKit
 import JGProgressHUD
 
-class ChatroomlistViewController: UIViewController {
+class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        if !text.isEmpty {
+            searching = true
+            searchChatRoomList.removeAll()
+            
+            for chatroom in chatRoomList {
+                
+                guard let chatroomId = chatroom.chatRoomId else {
+                    return
+                }
+                
+                if chatroomId.lowercased().contains(text.lowercased()) {
+                    
+                    searchChatRoomList.append(chatroom)
+                }
+            }
+        } else {
+            searching = false
+            searchChatRoomList.removeAll()
+            searchChatRoomList = chatRoomList
+        }
+        
+        self.chatRoomListTableView.reloadData()
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
+        searchChatRoomList.removeAll()
+        self.chatRoomListTableView.reloadData()
+    }
     
     private let userID = "DoIscQXJzIbQfJDTnBVm"
     
@@ -16,11 +51,18 @@ class ChatroomlistViewController: UIViewController {
     
     private var chatRoomList = [ChatRoomList]()
     
+    private var searchChatRoomList = [ChatRoomList]()
+
+    var searching = false
+    
+    private let searchController = UISearchController()
+    
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
         self.hideKeyboardWhenTappedAround()
         self.title = "Message"
+        configureSearchController()
         FirebaseManger.shared.getAllChatRoom(id: userID) { list in
             self.chatRoomList = list
             self.chatRoomListTableView.reloadData()
@@ -51,6 +93,7 @@ class ChatroomlistViewController: UIViewController {
 //    private func startListeningForChatRoom() {
 //
 //    }
+    
     private lazy var chatRoomListTableView: UITableView = {
         let chatRoomListTableView = UITableView()
         //        chatRoomListTableView.isHidden = true
@@ -84,7 +127,7 @@ class ChatroomlistViewController: UIViewController {
         chatRoomListTableView.delegate = self
         
         NSLayoutConstraint.activate([
-            chatRoomListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            chatRoomListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             chatRoomListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             chatRoomListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             chatRoomListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
@@ -101,24 +144,53 @@ class ChatroomlistViewController: UIViewController {
         ])
     }
     
-//    private func fetchConversation() {
-//
-//    }
+    private func configureSearchController() {
+        searchController.loadViewIfNeeded()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.enablesReturnKeyAutomatically = false
+        searchController.searchBar.returnKeyType = UIReturnKeyType.done
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search a chatroom!"
+    }
 }
 
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return chatRoomList.count
+        if searching {
+            
+            return self.searchChatRoomList.count
+            
+        } else {
+            
+            return chatRoomList.count
+            
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatroomListTableViewCell.self)"),
                                                                    for: indexPath) as? ChatroomListTableViewCell else { fatalError("No cell") }
-        cell.userNameLabel.text = "WillyBoy"
-        cell.userMessageLabel.text = "Bao_Gan_Le"
+        
+        if searching {
+            
+            cell.userNameLabel.text = "WillyBoy"
+            cell.userMessageLabel.text = "Bao_Gan_Le"
+            
+        } else {
+            
+            cell.userNameLabel.text = "WillyBoy"
+            cell.userMessageLabel.text = "Bao_Gan_Le"
+           
+        }
+        
         return cell
     }
     
