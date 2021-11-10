@@ -201,9 +201,7 @@ class MeetUpFilterViewController: UIViewController {
             rootvc.cardView.subviews.forEach { $0.removeFromSuperview() }
             
             userInfo.forEach { (userInfo) in
-                
-//                rootvc.card  = CardView(user: userInfo)
-                
+                                
                 rootvc.setupCard(CardView(user: userInfo))
             }
             

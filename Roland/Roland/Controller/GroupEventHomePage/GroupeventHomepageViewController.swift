@@ -9,20 +9,21 @@ import UIKit
 import MapKit
 import Kingfisher
 
-class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
+class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     let groupEventCEPViewController = GroupEventCEPENameVC()
     let groupEventDetailPageViewController = GroupEventDetailPageViewController()
     let notificationViewController = NotificationViewController()
-    
+    let searchController = UISearchController(searchResultsController: nil)
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
     var applyList = [ApplyList]()
+    
     // eventHostid
-//    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
+    //    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
     
     // otheruserid
-        var requestSenderId = "GW9pTXyhawNoomsCeoZc"
+    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
     //    var requestSenderId = "djhfbsjdfhsdfsdfs"
     
     var groupEvent = [GroupEvent]() {
@@ -30,19 +31,19 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         didSet {
             
             groupEventCollectionView.reloadData()
-            
-            print(groupEvent)
         }
     }
+    var searching = false
+    var searchGroupEvent = [GroupEvent]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.title = "Explore"
         self.hideKeyboardWhenTappedAround()
-        setupSearchTextField()
-        setupBorderlineView()
         setupNavigationBarItem()
+        configureSearchController()
+        setupBorderlineView()
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()
@@ -69,7 +70,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
         self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
-
+        
     }
     
     private lazy var categorySegmentedControl: UISegmentedControl = {
@@ -86,18 +87,6 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         return borderlineView
     }()
     
-    private lazy var searchTextField: UITextField = {
-        
-        guard let image = UIImage(systemName: "magnifyingglass") else { fatalError("error") }
-        let searchTextField = UITextField()
-        searchTextField.setLeftPaddingPoints(10)
-        searchTextField.backgroundColor = UIColor.hexStringToUIColor(hex: "F0F0F0")
-        searchTextField.placeholder = "Search upcoming events!"
-        searchTextField.setLeftView(image: image)
-        searchTextField.layer.cornerRadius = 10
-        return searchTextField
-    }()
-    
     @objc private func createNewEvent() {
         navigationController?.pushViewController(groupEventCEPViewController, animated: true)
     }
@@ -106,22 +95,11 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         navigationController?.pushViewController(notificationViewController, animated: true)
     }
     
-    private func setupSearchTextField() {
-        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(searchTextField)
-        NSLayoutConstraint.activate([
-            searchTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            searchTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-            searchTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
-            searchTextField.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.04)
-        ])
-    }
-    
     private func setupBorderlineView() {
         borderlineView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(borderlineView)
         NSLayoutConstraint.activate([
-            borderlineView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 15),
+            borderlineView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             borderlineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             borderlineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             borderlineView.heightAnchor.constraint(equalToConstant: 1.5)
@@ -156,25 +134,92 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate {
         layout.minimumInteritemSpacing = 10
         layout.itemSize = CGSize(width: (self.view.frame.size.width / 3) - 5, height: (self.view.frame.size.width / 3) + 10)
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        if !text.isEmpty {
+            searching = true
+            searchGroupEvent.removeAll()
+            for event in groupEvent {
+                if event.title.lowercased().contains(text.lowercased()) {
+                    searchGroupEvent.append(event)
+                }
+            }
+        } else {
+            searching = false
+            searchGroupEvent.removeAll()
+            searchGroupEvent = groupEvent
+        }
+        
+        groupEventCollectionView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
+        searchGroupEvent.removeAll()
+        groupEventCollectionView.reloadData()
+    }
+    
+    private func configureSearchController() {
+        searchController.loadViewIfNeeded()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.enablesReturnKeyAutomatically = false
+        searchController.searchBar.returnKeyType = UIReturnKeyType.done
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search a fun event!"
+    }
+    
 }
 
 extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.groupEvent.count
+        
+        if searching {
+            
+            return self.searchGroupEvent.count
+            
+        } else {
+            
+            return self.groupEvent.count
+            
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = groupEventCollectionView.dequeueReusableCell(withReuseIdentifier: GroupEventCollectionViewCell.identifier,
                                                                       for: indexPath) as? GroupEventCollectionViewCell else { fatalError("Error") }
-        cell.eventPhoto.kf.setImage(with: URL(string: self.groupEvent[indexPath.row].eventPhoto))
-        cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
-        cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
-        cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
-        cell.backgroundColor = UIColor.white
-        cell.contentView.layer.cornerRadius = 15
-        cell.contentView.layer.masksToBounds = true
-        cell.shadowDecorate()
+        
+        if searching {
+            
+            cell.eventPhoto.kf.setImage(with: URL(string: self.searchGroupEvent[indexPath.row].eventPhoto))
+            cell.eventTitleLabel.text = self.searchGroupEvent[indexPath.row].title
+            cell.eventLocationLabel.text = self.searchGroupEvent[indexPath.row].location
+            cell.eventDateLabel.text = self.searchGroupEvent[indexPath.row].startTime
+            cell.backgroundColor = UIColor.white
+            cell.contentView.layer.cornerRadius = 15
+            cell.contentView.layer.masksToBounds = true
+            cell.shadowDecorate()
+            
+        } else {
+            
+            cell.eventPhoto.kf.setImage(with: URL(string: self.groupEvent[indexPath.row].eventPhoto))
+            cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
+            cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
+            cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
+            cell.backgroundColor = UIColor.white
+            cell.contentView.layer.cornerRadius = 15
+            cell.contentView.layer.masksToBounds = true
+            cell.shadowDecorate()
+        }
+        
         return cell
     }
     
@@ -224,9 +269,9 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             if int == 1 || int == 0 {
                 
                 self.groupEventDetailPageViewController.isExpired = false
-               
+                
             } else {
-            
+                
                 self.groupEventDetailPageViewController.isExpired = true
             }
             
