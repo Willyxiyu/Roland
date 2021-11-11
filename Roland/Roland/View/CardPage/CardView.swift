@@ -8,8 +8,18 @@
 import UIKit
 import Kingfisher
 import FirebaseFirestore
+import FirebaseAuth
+
+protocol CardInfoProtocol: AnyObject {
+    
+    func didDislikeUser(_ card: CardView)
+    
+    func didLikeUser(_ card: CardView)
+}
 
 class CardView: UIView {
+    
+    weak var delegate: CardInfoProtocol?
     
     // MARK: - UIViews
     private let cardImageView = CardImageView()
@@ -17,7 +27,7 @@ class CardView: UIView {
     private let nameLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
     private let ageLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
     private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 15, weight: .regular))
-    private let userIdLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
+     let userIdLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
     private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
     private lazy var cardIconImage: UIImageView = {
         let cardIconImage = UIImageView()
@@ -101,7 +111,17 @@ class CardView: UIView {
             } completion: { _ in
                 
 //                左滑不喜歡，將對方的ID加入到自己的dislikeList
-
+                
+                guard let userId = self.userIdLabel.text else {
+                    return
+                }
+                
+                FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
+                
+//                self.delegate?.didDislikeUser(self)
+                
+                print("dislike")
+                
                 self.removeFromSuperview()
                 
             }
@@ -116,6 +136,26 @@ class CardView: UIView {
                 
             } completion: { _ in
 
+//                self.delegate?.didLikeUser(self)
+                
+                guard let userId = self.userIdLabel.text else {
+                    return
+                }
+                
+                FirebaseManger.shared.fetchlikeListOfUserId(accepterId: userId) { result in
+                    
+                    if result.isEmpty == true {
+                        
+                        FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
+                        
+                    } else {
+                        
+                        FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
+                        print("建立聊天室")
+                        
+                    }
+                }
+          
 //                     在對方的likelist，找自己的id
 //                if 若對方表列無自己的id {
 //                    則加對方的id到自己的likeList裡(postAccepterIdtoSelflikeList)。

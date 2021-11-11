@@ -97,7 +97,7 @@ extension FirebaseManger {
         
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        let ref = database.collection("UserInfo").whereField("userId", isEqualTo: accepterId).whereField("likeList", arrayContains: [userId])
+        let ref = database.collection("UserInfo").whereField("userId", isEqualTo: accepterId).whereField("likeList", arrayContainsAny: [userId])
         
         ref.getDocuments {  (querySnapshot, error) in
             
