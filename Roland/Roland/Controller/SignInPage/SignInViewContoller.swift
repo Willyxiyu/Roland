@@ -14,6 +14,7 @@ import FirebaseAuth
 class SignInViewContoller: UIViewController {
     
     let userProfileSignInViewController = UserProfileSignInViewController()
+    var userInfo: UserInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,11 @@ class SignInViewContoller: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     lazy var logingButton: ASAuthorizationAppleIDButton = {
@@ -160,7 +166,7 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
             // Sign in with Firebase.
-            Auth.auth().signIn(with: credential) { (authResult, error) in
+            Auth.auth().signIn(with: credential) { (_, error) in
                 if let error = error {
                     
                     // Error. If error.code == .MissingOrInvalidNonce, make sure
@@ -172,17 +178,30 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                     
                     if let name = appleIDCredential.fullName?.givenName,
                        let email = appleIDCredential.email {
-                        
-                        self.userProfileSignInViewController.userName = name
-                        self.userProfileSignInViewController.userEmail = email
                             
                         FirebaseManger.shared.postNewUserInfo(name: name, gender: "", age: "", photo: "", email: email)
                     }
                     // User is signed in to Firebase with Apple.
                     // ...
-                    let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)
-                    nav.modalPresentationStyle = .fullScreen
-                    self.present(nav, animated: true, completion: nil)
+                    FirebaseManger.shared.fetchUserInfobyUserId { result in
+                        self.userInfo = result
+                    }
+                    
+                    if self.userInfo?.name.isEmpty == true {
+                        
+                        let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)
+                        nav.modalPresentationStyle = .fullScreen
+                        self.present(nav, animated: true, completion: nil)
+                        
+                    } else {
+                        
+                        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
+                        
+                        guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
+                        tabBarVC.modalPresentationStyle = .fullScreen
+                        self.show(tabBarVC, sender: nil)
+                    }
+
                 }
                 return
             }

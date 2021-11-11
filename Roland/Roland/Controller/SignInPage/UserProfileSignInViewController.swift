@@ -11,18 +11,31 @@ import FirebaseStorage
 import FirebaseAuth
 
 class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
-    
+
     let tableView = UITableView()
     
-    let profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
+    var profileList = [String]()
     
     let storage = Storage.storage().reference()
     
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
     
     let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
-    
-    var userInfo = [UserInfo]()
+        
+    var userInfo: UserInfo? {
+        
+        didSet {
+            
+            profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
+            
+            tableView.reloadData()
+            
+            userName = userInfo?.name
+            
+            userEmail = userInfo?.email
+            
+        }
+    }
     
     var userName: String?
     
@@ -35,7 +48,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     var profilePhoto = UIImage() {
         
         didSet {
-
+            
             tableView.reloadData()
         }
     }
@@ -67,23 +80,21 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         tableView.allowsSelection = false
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(createNewProfile))
         
-        guard let userEmail = userEmail else { return }
-        FirebaseManger.shared.fetchUserInfobyEmail(email: userEmail) { result in
-            self.userInfo = result
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            self.userInfo = result
+        }
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.isHidden = true
-
+        
     }
     
     private func setupTableView() {
@@ -97,27 +108,36 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         ])
         
     }
-
+    
     @objc func createNewProfile() {
         
         guard let userName = userName else { return }
         guard let userEmail = userEmail else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-        guard let docId = Auth.auth().currentUser?.uid else { return }
-        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, age: userAge, gender: userGender, photo: eventUrlString, docId: docId)
+        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, age: userAge, gender: userGender, photo: eventUrlString)
         
         let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
         guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
-                
+        
         show(tabBarVC, sender: nil)
-      
+        
     }
     
 }
 
-extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDelegate {
+extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDelegate, CellDelegate {
+    
+    func nameChange(name: String) {
+        
+        userName = name
+    }
+    
+    func emailChange(email: String) {
+        
+        userEmail = email
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -128,6 +148,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let nameEmailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileNameEmailTableViewCell.self)"),
                                                                 for: indexPath) as? UserProfileNameEmailTableViewCell else { fatalError("Error") }
+        guard let userInfo = userInfo else { fatalError("error") }
         
         switch indexPath.row {
             
@@ -136,19 +157,31 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
                                                            for: indexPath) as? UserProfilePhotoTableViewCell else { fatalError("Error") }
             
             cell.view.setShadow()
+            
             cell.userPhotoImageView.image = profilePhoto
             
             cell.changePhotoButton.addTarget(self, action: #selector(changeProfilePhoto), for: .touchUpInside)
+            
             return cell
+            
         case 1:
             
-            nameEmailCell.userNameEmailTextField.text = userName
+            nameEmailCell.userNameEmailTextField.text = userInfo.name
+                                    
+            nameEmailCell.name = .nameCell
+            
+            nameEmailCell.delegate = self
             
             return nameEmailCell
             
         case 2:
             
-            nameEmailCell.userNameEmailTextField.text = userEmail
+            nameEmailCell.userNameEmailTextField.text = userInfo.email
+                        
+            nameEmailCell.name = .emailCell
+            
+            nameEmailCell.delegate = self
+            
             return nameEmailCell
             
         case 3:

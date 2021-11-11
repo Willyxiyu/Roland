@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import FirebaseFirestore
 
 class CardView: UIView {
     
@@ -86,8 +87,8 @@ class CardView: UIView {
     }
     
     func handlePanEnded(view: UIView, translation: CGPoint) {
-        
-        if translation.x <= -120 {
+           
+        if translation.x <= -120 {  // 左滑
             
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: []) {
                 let degree: CGFloat = -600 / 40
@@ -98,10 +99,13 @@ class CardView: UIView {
                 self.layoutIfNeeded()
                 
             } completion: { _ in
+                
+//                左滑不喜歡，將對方的ID加入到自己的dislikeList
+
                 self.removeFromSuperview()
                 
             }
-        } else if translation.x >= 120 {
+        } else if translation.x >= 120 {  // 右滑
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: []) {
                 let degree: CGFloat = 600 / 40
                 let angle = degree * .pi / 180
@@ -111,7 +115,16 @@ class CardView: UIView {
                 self.layoutIfNeeded()
                 
             } completion: { _ in
+
+//                     在對方的likelist，找自己的id
+//                if 若對方表列無自己的id {
+//                    則加對方的id到自己的likeList裡(postAccepterIdtoSelflikeList)。
+//                } else if 若對方表列有自己的id {
+//                    若有自己的id，代表對方有滑喜歡，此時建立聊天室
+//                }
+                
                 self.removeFromSuperview()
+                
             }
             
         } else {

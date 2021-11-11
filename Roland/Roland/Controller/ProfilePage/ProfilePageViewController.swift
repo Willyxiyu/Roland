@@ -9,13 +9,45 @@ import Foundation
 import UIKit
 import Lottie
 import FirebaseStorage
+import Kingfisher
 
 class ProfilePageViewController: UIViewController {
 //    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
     private let storage = Storage.storage().reference()
     private let gradientLayer = CAGradientLayer()
 
-    var eventUrlString = String()
+    var eventUrlString = String() {
+        
+        didSet {
+            
+            guard let userInfo = userInfo else {
+                
+                return
+            }
+        
+            FirebaseManger.shared.updateUserInfo(name: userInfo.name, email: userInfo.email, age: userInfo.age, gender: userInfo.gender, photo: eventUrlString)
+            
+            FirebaseManger.shared.fetchUserInfobyUserId { result in
+                self.userInfo = result
+            }
+        }
+    }
+    
+    var userInfo: UserInfo? {
+        
+        didSet {
+            
+            guard let userProfilePhoto = userInfo?.photo else {
+                
+                return
+            }
+                
+            userPhotoImageView.kf.setImage(with: URL(string: userProfilePhoto ))
+            
+            self.reloadInputViews()
+        
+        }
+    }
     
     var profilePhoto = UIImage() {
         
@@ -46,6 +78,10 @@ class ProfilePageViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            self.userInfo = result
+        }
 //        setupAnimation()
     }
 //

@@ -7,13 +7,14 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 class CardPageViewController: UIViewController {
     
     var useFilter: Bool = false
+    var userInfoForScalingCard = [String]()
     
     let meetUpFilterViewController = MeetUpFilterViewController()
-//    var card: CardView?
     var cardView = UIView()
     private var userInfo = [UserInfo]()
     
@@ -30,18 +31,24 @@ class CardPageViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         
         if !useFilter {
-
-            fetchUsers()
+            
         }
-
+        
+        cardView.subviews.forEach {
+            $0.removeFromSuperview()
+            
+        }
+        
+        fetchUserLikeAndDislikeList()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
-
+        
     }
-
+    
     lazy var rolandImageView: UIImageView = {
         let rolandImageView = UIImageView()
         
@@ -85,18 +92,6 @@ class CardPageViewController: UIViewController {
             filterButton.widthAnchor.constraint(equalToConstant: 30),
             filterButton.heightAnchor.constraint(equalToConstant: 30)
         ])
-       
-    }
-    
-    private func fetchUsers() {
-        FirebaseManger.shared.getUserInfoFromFirestore { (userInfo) in
-            self.userInfo.removeAll()
-            self.userInfo = userInfo
-            self.userInfo.forEach { (userInfo) in
-//                self.card = CardView(user: userInfo)
-                self.setupCard(CardView(user: userInfo))
-            }
-        }
         
     }
     
@@ -122,12 +117,53 @@ class CardPageViewController: UIViewController {
             cardView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.75)
         ])
     }
+    
+    func fetchUserLikeAndDislikeList() {
+        
+        guard let ownUserId = Auth.auth().currentUser?.uid else { return }
+        // fetch the userId in userInfo's likelist and dislikelist array
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            // add ourself's userId in the array, later will to the notIn function
+            self.userInfoForScalingCard = [ownUserId]
+            
+            if let likeList = result?.likeList {
+                
+                for userId in likeList {
+                    
+                    self.userInfoForScalingCard.append(userId)
+                }
+            }
+            
+            if let  dislikeList = result?.dislikeList {
+                
+                for userId in dislikeList {
+                    
+                    self.userInfoForScalingCard.append(userId)
+                }
+                
+            }
+            // use the array to do the notIn function, make the card show up with correct user without user in bothlist and ourself.
+            FirebaseManger.shared.fetchUserListForScalingCard(userId: self.userInfoForScalingCard) { userInfo in
+                
+                self.userInfo.removeAll()
+                
+                self.userInfo = userInfo
+                
+                self.userInfo.forEach { (userInfo) in
+                    
+                    self.setupCard(CardView(user: userInfo))
+                }
+                
+            }
+            
+        }
+    }
 }
 
 extension UIImageView {
-  func setImageColor(color: UIColor) {
-    let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
-    self.image = templateImage
-    self.tintColor = color
-  }
+    func setImageColor(color: UIColor) {
+        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+        self.image = templateImage
+        self.tintColor = color
+    }
 }

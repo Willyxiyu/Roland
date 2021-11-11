@@ -14,16 +14,32 @@ protocol PickerViewDelegate: AnyObject {
     func genderForPicker(gender: String)
 }
 
-class UserProfileSignInTableViewCell: UITableViewCell {
+protocol CellDelegate: AnyObject {
+    
+    func nameChange(name: String)
+    
+    func emailChange(email: String)
+    
+}
 
+enum NameEmailCell {
+    
+    case nameCell
+    
+    case emailCell
+}
+
+
+class UserProfileSignInTableViewCell: UITableViewCell {
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -36,7 +52,7 @@ class UserProfileSignInTableViewCell: UITableViewCell {
         super.init(coder: coder)
         
     }
-
+    
 }
 
 // user photo
@@ -46,10 +62,10 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -126,7 +142,7 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
             changePhotoButton.topAnchor.constraint(equalTo: userPhotoImageView.bottomAnchor, constant: 25),
             changePhotoButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
             changePhotoButton.centerXAnchor.constraint(equalTo: userPhotoImageView.centerXAnchor)
-        
+            
         ])
     }
     
@@ -157,14 +173,19 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
 // user name & email address
 class UserProfileNameEmailTableViewCell: UITableViewCell {
     
+    
+    weak var delegate: CellDelegate?
+    
+    var name: NameEmailCell = .nameCell
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -183,8 +204,29 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
         userNameEmailTextField.textColor = UIColor.black
         userNameEmailTextField.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         userNameEmailTextField.setLeftPaddingPoints(15)
+        userNameEmailTextField.addTarget(self, action: #selector(editEnd), for: .editingDidEnd)
         return userNameEmailTextField
     }()
+    
+    @objc func editEnd() {
+        
+        guard let text = userNameEmailTextField.text else {
+            fatalError("error")
+        }
+        
+        switch name {
+            
+        case .nameCell:
+            
+            delegate?.nameChange(name: text)
+            
+        case .emailCell:
+            
+            delegate?.emailChange(email: text)
+            
+        }
+        
+    }
     
     private func setupUserNameEmailLabel() {
         userNameEmailTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -201,15 +243,15 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
 
 // first part intro word
 class UserProfileFirstIntroTableViewCell: UITableViewCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -243,13 +285,13 @@ class UserProfileFirstIntroTableViewCell: UITableViewCell {
             introLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
     }
-
+    
 }
 
 // age
 class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
-//    var selectedAge: ((String) -> Void)?
+    //    var selectedAge: ((String) -> Void)?
     
     weak var delegate: PickerViewDelegate?
     
@@ -285,10 +327,10 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -340,7 +382,7 @@ class UserProfileAgeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPick
             ageTextField.topAnchor.constraint(equalTo: ageLabel.bottomAnchor),
             ageTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
             ageTextField.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
-        
+            
         ])
     }
 }
@@ -375,10 +417,10 @@ class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIP
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -431,22 +473,22 @@ class UserProfileGenderTableViewCell: UITableViewCell, UIPickerViewDelegate, UIP
             genderTextField.topAnchor.constraint(equalTo: genderLabel.bottomAnchor),
             genderTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
             genderTextField.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
-        
+            
         ])
     }
 }
 
 // second part intro word
 class UserProfileSecondIntroTableViewCell: UITableViewCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     

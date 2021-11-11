@@ -35,8 +35,9 @@ extension FirebaseManger {
         }
     }
     
-    func fetchUserInfobyEmail(email: String, completion: @escaping ([UserInfo]) -> Void ) {
-        database.collection("UserInfo").whereField("email", isEqualTo: email)
+    func fetchUserInfobyUserId(completion: @escaping (UserInfo?) -> Void ) {
+        guard let docId = Auth.auth().currentUser?.uid else { return }
+        database.collection("UserInfo").whereField("userId", isEqualTo: docId)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     
@@ -46,7 +47,7 @@ extension FirebaseManger {
                     
                 } else {
                     
-                    var userInfo = [UserInfo]()
+                    var userInfo: UserInfo?
                     
                     for document in querySnapshot!.documents {
                         
@@ -54,9 +55,8 @@ extension FirebaseManger {
                             
                             if let user = try document.data(as: UserInfo.self) {
                                 
-                                userInfo.append(user)
+                                userInfo = user
                                 
-                                print(user)
                             }
                             
                         } catch {
@@ -69,9 +69,9 @@ extension FirebaseManger {
             }
     }
     
-    func updateUserInfo(name: String, email: String, age: String, gender: String, photo: String, docId: String) {
+    func updateUserInfo(name: String, email: String, age: String, gender: String, photo: String) {
+        guard let docId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("UserInfo").document(docId)
-//        guard let docId = Auth.auth().currentUser?.uid else { return }
         ref.updateData([
             "name": name,
             "gender": gender,
@@ -93,7 +93,13 @@ extension FirebaseManger {
     }
     
     func getUserInfoFromFirestore(completion: @escaping ([UserInfo]) -> Void) {
-        database.collection("UserInfo").getDocuments { (querySnapshot, error) in
+        
+        guard let docId = Auth.auth().currentUser?.uid else { return }
+        
+        let ref = database.collection("UserInfo").whereField("userId", isNotEqualTo: docId)
+        
+        ref.getDocuments { (querySnapshot, error) in
+            
             if let error = error {
                 
                 print(error)
@@ -111,6 +117,7 @@ extension FirebaseManger {
                         if let user = try document.data(as: UserInfo.self) {
                             
                             userInfo.append(user)
+                            
                             print(user)
                         }
                         
@@ -193,6 +200,6 @@ extension FirebaseManger {
                     }
                 }
         }
-    
-}
+        
+    }
 }
