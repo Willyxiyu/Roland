@@ -120,7 +120,7 @@ class CardView: UIView {
                 
 //                self.delegate?.didDislikeUser(self)
                 
-                print("dislike")
+//                print("dislike")
                 
                 self.removeFromSuperview()
                 
@@ -151,6 +151,11 @@ class CardView: UIView {
                     } else {
                         
                         FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
+                        
+                        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("Hi 很高興認識你"))
+                        
+                        FirebaseManger.shared.createNewChatRoom(accepterId: userId, firstMessage: message)
+                        
                         print("建立聊天室")
                         
                     }

@@ -10,14 +10,16 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 extension FirebaseManger {
-    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent, senderId: String) {
+    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent) {
         let ref = database.collection("GroupEvent")
         let docId = ref.document().documentID
-        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
         let groupEventCreatingInfo: [String: Any] = [
-            "senderId": senderId,
+            "senderId": userId,
             "eventId": docId,
             "eventPhoto": groupEventCreatingInfo.eventPhoto,
             "title": groupEventCreatingInfo.title,
@@ -42,6 +44,40 @@ extension FirebaseManger {
     
     public func fetchGroupEventCreatingInfo(completion: @escaping ([GroupEvent]) -> Void) {
         database.collection("GroupEvent").getDocuments { (querySnapshot, error) in
+            
+            if let error = error {
+                
+                print(error)
+                
+                return
+                
+            } else {
+                
+                var groupEvent = [GroupEvent]()
+                
+                for document in querySnapshot!.documents {
+                    
+                    do {
+                        
+                        if let groupEventInfo = try document.data(as: GroupEvent.self) {
+                            
+                            groupEvent.append(groupEventInfo)
+                            
+                            print(groupEventInfo)
+                        }
+                        
+                    } catch {
+                        
+                    }
+                }
+                completion(groupEvent)
+            }
+        }
+    }
+    
+    func fetchGroupEventforHost(eventId: [String], completion: @escaping ([GroupEvent]) -> Void) {
+        let ref = database.collection("GroupEvent").whereField("eventId", in: eventId)
+        ref.getDocuments {(querySnapshot, error) in
             
             if let error = error {
                 
@@ -103,7 +139,8 @@ extension FirebaseManger {
         }
     }
     
-    public func fetchApplyListforHost(userId: String, completion: @escaping([ApplyList]) -> Void ) {
+    public func fetchApplyListforHost(completion: @escaping([ApplyList]) -> Void ) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         database.collection("ApplyList").whereField("acceptedId", isEqualTo: userId)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error {
@@ -140,8 +177,9 @@ extension FirebaseManger {
             }
     }
     
-    public func fetchApplyListforOtherUser(eventId: String, requestSenderId: String, completion: @escaping([ApplyList]) -> Void) {
-        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: requestSenderId)
+    public func fetchApplyListforOtherUser(eventId: String, completion: @escaping([ApplyList]) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: userId)
             .getDocuments { querySnapshot, error in
                 if let error = error {
                     

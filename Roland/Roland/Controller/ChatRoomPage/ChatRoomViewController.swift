@@ -69,6 +69,9 @@ class ChatRoomViewController: MessagesViewController {
         return dateFormatter
     }()
     
+    
+    var selectedChatroomId: String?
+    
     public var isNewConversation = false
     
     public let accepterId: String = ""
@@ -108,11 +111,15 @@ class ChatRoomViewController: MessagesViewController {
                 return
             }
             
+            guard let selectedChatroomId = selectedChatroomId  else {
+                fatalError("error")
+            }
+            
             let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
             
             let photoMessage = Message(sender: selfSender, messageId: "", sentDate: Date(), kind: .photo(media))
             
-            FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: photoMessage)
+            FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: photoMessage)
             
             self.messagesCollectionView.reloadData()
             
@@ -135,7 +142,11 @@ class ChatRoomViewController: MessagesViewController {
         setupInputButton()
         self.hideKeyboardWhenTappedAround()
         
-        FirebaseManger.shared.messageListener(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
+        guard let selectedChatroomId = selectedChatroomId  else {
+            fatalError("error")
+        }
+        
+        FirebaseManger.shared.messageListener(chatRoomId: selectedChatroomId) { results in
             
             self.messages.removeAll()
             
@@ -354,7 +365,11 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
         let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(text))
         
-        FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: message)
+        guard let selectedChatroomId = selectedChatroomId  else {
+            fatalError("error")
+        }
+        
+        FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: message)
         
         self.messagesCollectionView.reloadData()
         

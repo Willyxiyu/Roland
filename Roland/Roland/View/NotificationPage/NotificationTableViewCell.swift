@@ -25,13 +25,18 @@ class NTFNewRequestCell: UITableViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        userImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.15 * 0.5
+        
+    }
+    
     lazy var userImageView: UIImageView = {
         
         let userImageView = UIImageView()
         userImageView.contentMode = .scaleAspectFill
-        userImageView.image = UIImage(named: "photo")
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = 15
         
         return userImageView
     }()
@@ -86,8 +91,8 @@ class NTFNewRequestCell: UITableViewCell {
             userImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             userImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             userImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
-            userImageView.heightAnchor.constraint(equalToConstant: 50),
-            userImageView.widthAnchor.constraint(equalToConstant: 50)
+            userImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            userImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15)
         ])
     }
     

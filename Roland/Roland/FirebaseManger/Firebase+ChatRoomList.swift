@@ -11,21 +11,30 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import MessageKit
+import FirebaseAuth
 
 extension FirebaseManger {
+    
     /// Creates a new conversation with target userId and first message sent
-    public func createNewChatRoom(with accepterId: String, name: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
+    public func createNewChatRoom(accepterId: String, firstMessage: Message) {
         
+        guard let senderId = Auth.auth().currentUser?.uid else { return }
+
         let ref = database.collection("ChatRoomList")
         let docId = ref.document().documentID
         let messageDate = firstMessage.sentDate
+        
         guard let dateString = ChatRoomViewController.dateFormatter.string(for: messageDate) else {
             return
         }
         
+        var message = ""
+        
         switch firstMessage.kind {
+            
         case .text(let messageText):
             message = messageText
+            
         case .attributedText:
             break
         case .photo:
@@ -61,9 +70,6 @@ extension FirebaseManger {
                 "senderId": senderId
             ]
         ]
-        // if senderId & accepterId 都有 {
-        // { 直接開原有的聊天室
-        // } else { 開新的聊天室
         
         ref.document(docId).setData(newChatRoomList) { (error) in
             if let error = error {
@@ -74,9 +80,11 @@ extension FirebaseManger {
         }
     }
     /// Fetches and returns all conversation for the users with passed in email
-    public func getAllChatRoom(id: String, completion: @escaping([ChatRoomList]) -> Void) {
+    public func getAllChatRoom(completion: @escaping([ChatRoomList]) -> Void) {
         
-        database.collection("ChatRoomList").whereField("userId", arrayContains: id)
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        database.collection("ChatRoomList").whereField("userId", arrayContains: userId)
         
             .getDocuments { querySnapshot, error in
                 
@@ -97,6 +105,7 @@ extension FirebaseManger {
                                 chatRoomList.append(chatroom)
                             }
                         } catch {
+                            
                             print(error)
                         }
                     }

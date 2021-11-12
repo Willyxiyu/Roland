@@ -7,36 +7,29 @@
 
 import UIKit
 import JGProgressHUD
+import FirebaseAuth
+import Kingfisher
 
 class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {
-            return
-        }
+        guard let text = searchController.searchBar.text else { return }
         if !text.isEmpty {
             searching = true
-            searchChatRoomList.removeAll()
-            
-            for chatroom in chatRoomList {
-                
-                guard let chatroomId = chatroom.chatRoomId else {
-                    return
+            searchUserInfo.removeAll()
+            for user in userInfo {
+                if user.name.lowercased().contains(text.lowercased()) {
+                    searchUserInfo.append(user)
                 }
                 
-                if chatroomId.lowercased().contains(text.lowercased()) {
-                    
-                    searchChatRoomList.append(chatroom)
-                }
             }
         } else {
             searching = false
-            searchChatRoomList.removeAll()
-            searchChatRoomList = chatRoomList
+            searchUserInfo.removeAll()
+            searchUserInfo = userInfo
         }
         
         self.chatRoomListTableView.reloadData()
-        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -45,29 +38,58 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         self.chatRoomListTableView.reloadData()
     }
     
-    private let userID = "DoIscQXJzIbQfJDTnBVm"
-    
     private let spinner = JGProgressHUD(style: .dark)
     
     private var chatRoomList = [ChatRoomList]()
     
     private var searchChatRoomList = [ChatRoomList]()
-
+    
+    var searchUserInfo = [UserInfo]()
+    
+    var userInfo = [UserInfo]() {
+        
+        didSet {
+            
+            self.chatRoomListTableView.reloadData()
+        }
+    }
+    
     var searching = false
     
     private let searchController = UISearchController()
+    var chatRoomOtherUserId = [String]()
     
     override func viewDidLoad() {
         setupChatRoomListTableView()
         setupNoConversationLabel()
+        chatRoomListTableView.separatorStyle = .none
         self.hideKeyboardWhenTappedAround()
         self.title = "Message"
         configureSearchController()
-        FirebaseManger.shared.getAllChatRoom(id: userID) { list in
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        FirebaseManger.shared.getAllChatRoom { list in
+            guard let userId = Auth.auth().currentUser?.uid else { return }
+            
             self.chatRoomList = list
+            
+            for chatRoom in self.chatRoomList {
+                for otherUserId in chatRoom.userId {
+                    if otherUserId != userId {
+                        self.chatRoomOtherUserId.append(otherUserId)
+                    }
+                }
+            }
+            
+            FirebaseManger.shared.fetchOtherUserInfo(otherUserId: self.chatRoomOtherUserId) { result in
+                self.userInfo = result
+            }
+            
             self.chatRoomListTableView.reloadData()
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
     }
     
     @objc private func didTapComposeButton() {
@@ -89,10 +111,6 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
-    
-//    private func startListeningForChatRoom() {
-//
-//    }
     
     private lazy var chatRoomListTableView: UITableView = {
         let chatRoomListTableView = UITableView()
@@ -164,11 +182,12 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         
         if searching {
             
-            return self.searchChatRoomList.count
+//            return self.searchChatRoomList.count
+            return self.searchUserInfo.count
             
         } else {
             
-            return chatRoomList.count
+            return userInfo.count
             
         }
         
@@ -179,16 +198,22 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatroomListTableViewCell.self)"),
                                                                    for: indexPath) as? ChatroomListTableViewCell else { fatalError("No cell") }
         
+        guard let photo = userInfo[indexPath.row].photo else {
+            fatalError("error")
+        }
+        
         if searching {
             
-            cell.userNameLabel.text = "WillyBoy"
-            cell.userMessageLabel.text = "Bao_Gan_Le"
+            cell.userNameLabel.text = userInfo[indexPath.row].name
+            cell.userMessageLabel.text = chatRoomList[indexPath.row].latestMessage.text
+            cell.userImageView.kf.setImage(with: URL(string: photo))
             
         } else {
             
-            cell.userNameLabel.text = "WillyBoy"
-            cell.userMessageLabel.text = "Bao_Gan_Le"
-           
+            cell.userNameLabel.text = userInfo[indexPath.row].name
+            cell.userMessageLabel.text = chatRoomList[indexPath.row].latestMessage.text
+            cell.userImageView.kf.setImage(with: URL(string: photo))
+            
         }
         
         return cell
@@ -198,6 +223,9 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         chatRoomListTableView.deselectRow(at: indexPath, animated: true)
         
         let chatRoomViewController = ChatRoomViewController()
+        
+        chatRoomViewController.selectedChatroomId = chatRoomList[indexPath.row].chatRoomId
+        
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }

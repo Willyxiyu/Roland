@@ -30,15 +30,13 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     }
     
     var groupEvent: GroupEvent?
-    
-    var senderId = "DoIscQXJzIbQfJDTnBVm"
-    
+        
     var eventUrlString = String() {
         
         didSet {
             
              groupEvent = GroupEvent(
-                senderId: senderId, eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
+                senderId: "", eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
                 maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, comment: [])
 
@@ -72,7 +70,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         
         guard let groupEvent = groupEvent else { return }
         
-        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent, senderId: senderId)
+        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         
         navigationController?.popToRootViewController(animated: true)
     }

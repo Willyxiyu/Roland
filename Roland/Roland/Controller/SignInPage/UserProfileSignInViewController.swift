@@ -33,6 +33,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
             userName = userInfo?.name
             
             userEmail = userInfo?.email
+
             
         }
     }

@@ -193,7 +193,7 @@ class MeetUpFilterViewController: UIViewController {
         
         // 數字若到100就不會算到
         
-        FirebaseManger.shared.fetchUserInfobtFilterResult(gender: favoriteGender, minAge: ageArrangeString[0], maxAge: ageArrangeString[1]) { userInfo in
+        FirebaseManger.shared.fetchUserInfobyFilterResult(gender: favoriteGender, minAge: ageArrangeString[0], maxAge: ageArrangeString[1]) { userInfo in
             
             guard let rootvc = self.navigationController?.viewControllers[0] as? CardPageViewController else { return }
             

@@ -47,7 +47,6 @@ class ChatroomListTableViewCell: UITableViewCell {
     lazy var userImageView: UIImageView = {
         let userImageView = UIImageView()
         userImageView.contentMode = .scaleAspectFill
-        userImageView.image = UIImage(named: "photo")
         userImageView.clipsToBounds = true
         return userImageView
     }()

@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import Kingfisher
+import FirebaseAuth
 
 class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
@@ -18,14 +19,6 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
     var applyList = [ApplyList]()
-    
-    // eventHostid
-    //    var requestSenderId = "DoIscQXJzIbQfJDTnBVm"
-    
-    // otheruserid
-    var requestSenderId = "GW9pTXyhawNoomsCeoZc"
-    //    var requestSenderId = "djhfbsjdfhsdfsdfs"
-    
     var groupEvent = [GroupEvent]() {
         
         didSet {
@@ -242,16 +235,18 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
         guard let selectedRow = groupEventCollectionView.indexPathsForSelectedItems?.first?.row else { return }
         
         let selectedGroupEvent = groupEvent[selectedRow]
         
-        FirebaseManger.shared.fetchApplyListforOtherUser(eventId: selectedGroupEvent.eventId, requestSenderId: requestSenderId) { result in
+        FirebaseManger.shared.fetchApplyListforOtherUser(eventId: selectedGroupEvent.eventId) { result in
             self.applyList = result
             
             let int = DateClass.compareOneDay(oneDay: self.groupEvent[selectedRow].endTime, withAnotherDay: Date())
             
-            if selectedGroupEvent.senderId == self.requestSenderId {
+            if selectedGroupEvent.senderId == userId {
                 
                 self.groupEventDetailPageViewController.isTheHost = true
                 
@@ -276,7 +271,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             }
             
             self.groupEventDetailPageViewController.selectedGroupEvent = selectedGroupEvent
-            self.groupEventDetailPageViewController.requestSenderId = self.requestSenderId
+            self.groupEventDetailPageViewController.requestSenderId = userId
             self.navigationController?.pushViewController(self.groupEventDetailPageViewController, animated: true)
         }
         
