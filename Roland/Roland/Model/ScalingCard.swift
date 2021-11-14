@@ -7,17 +7,14 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
- struct ScalingCard: Codable {
-    let senderId: String?
-    let accepterId: String?
-    let isLike: Bool?
-    let createTime: Timestamp?
+ struct ScalingCardList: Codable {
+    let userId: [String]?
+    let createTime: Timestamp
      
     enum CodingKeys: String, CodingKey {
-        case senderId
-        case accepterId
-        case isLike
+        case userId
         case createTime
     }
 }

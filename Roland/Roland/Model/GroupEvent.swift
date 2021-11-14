@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 import RealmSwift
 
 struct GroupEvent: Codable {
@@ -25,6 +26,8 @@ struct GroupEvent: Codable {
     var isFull: Bool
     var comment: [Comment]?
     var privateComment: [PrivateComment]?
+    var host: [String]?
+    var attendee: [String]?
     
     enum CodingKeys: String, CodingKey {
         case senderId
@@ -42,6 +45,8 @@ struct GroupEvent: Codable {
         case isFull
         case comment
         case privateComment
+        case host
+        case attendee
     }
     
 }

@@ -35,37 +35,35 @@ class ChatroomListTableViewCell: UITableViewCell {
         super.init(coder: coder)
         
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        userImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.15 * 0.5
+        
+    }
     
     // MARK: - Properties
     
     lazy var userImageView: UIImageView = {
-        
         let userImageView = UIImageView()
         userImageView.contentMode = .scaleAspectFill
-        userImageView.image = UIImage(named: "photo")
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = 15
-        
         return userImageView
     }()
     
     lazy var userNameLabel: UILabel = {
-        
         let userNameLabel = UILabel()
         userNameLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         userNameLabel.textColor = UIColor.black
         userNameLabel.textAlignment = .left
-        
         return userNameLabel
     }()
     
     lazy var userMessageLabel: UILabel = {
-        
         let userMessageLabel = UILabel()
         userMessageLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         userMessageLabel.textColor = UIColor.black
         userMessageLabel.textAlignment = .left
-        
         return userMessageLabel
     }()
     
@@ -76,8 +74,8 @@ class ChatroomListTableViewCell: UITableViewCell {
             userImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             userImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
             userImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
-            userImageView.heightAnchor.constraint(equalToConstant: 50),
-            userImageView.widthAnchor.constraint(equalToConstant: 50)
+            userImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            userImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15)
         ])
     }
     

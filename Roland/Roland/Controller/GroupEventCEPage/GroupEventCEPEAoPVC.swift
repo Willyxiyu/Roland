@@ -19,9 +19,8 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.setBackgroundImage(imageName: "CEBGVertical")
         self.view.backgroundColor = .white
-
+        self.hideKeyboardWhenTappedAround()
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
@@ -134,7 +133,7 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
             textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            textField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
+            textField.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textField.heightAnchor.constraint(equalToConstant: 40)
         ])
         textField.delegate = self

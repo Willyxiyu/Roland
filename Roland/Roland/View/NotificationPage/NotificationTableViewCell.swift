@@ -10,6 +10,8 @@ import UIKit
 
 class NTFNewRequestCell: UITableViewCell {
     
+    var deleteCellRowNumberForClosure: (() -> Void)?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -25,13 +27,18 @@ class NTFNewRequestCell: UITableViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        userImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.15 * 0.5
+        
+    }
+    
     lazy var userImageView: UIImageView = {
         
         let userImageView = UIImageView()
         userImageView.contentMode = .scaleAspectFill
-        userImageView.image = UIImage(named: "photo")
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = 15
         
         return userImageView
     }()
@@ -53,7 +60,6 @@ class NTFNewRequestCell: UITableViewCell {
         introLabel.textAlignment = .left
         introLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         introLabel.text = "想參加您的\n聖誕活動喔！～"
-        
         return introLabel
     }()
     
@@ -86,8 +92,8 @@ class NTFNewRequestCell: UITableViewCell {
             userImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             userImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             userImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
-            userImageView.heightAnchor.constraint(equalToConstant: 50),
-            userImageView.widthAnchor.constraint(equalToConstant: 50)
+            userImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            userImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15)
         ])
     }
     

@@ -14,7 +14,6 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     var eventTitle = String()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.setBackgroundImage(imageName: "CEBGVertical")
@@ -108,11 +107,11 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         
         let startDate = eventStartDatePicker.date
         let startDateFormatter = DateFormatter()
-        startDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
         let startTime = startDateFormatter.string(from: startDate)
         let endDate = eventEndDatePicker.date
         let endDateFormatter = DateFormatter()
-        endDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
         let endTime = endDateFormatter.string(from: endDate)
         
         groupEventCEPELocationVC.eventTitle = eventTitle

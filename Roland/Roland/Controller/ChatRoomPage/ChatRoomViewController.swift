@@ -9,6 +9,8 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import Firebase
+import FirebaseStorage
+import SDWebImage
 
 struct Message: MessageType {
     public var sender: SenderType
@@ -23,28 +25,35 @@ struct Sender: SenderType {
     public var displayName: String
 }
 
+struct Media: MediaItem {
+    var url: URL?
+    var image: UIImage?
+    var placeholderImage: UIImage
+    var size: CGSize
+}
+
 extension MessageKind {
     var messageKindString: String {
         switch self {
-        case .text(_):
+        case .text:
             return "text"
-        case .attributedText(_):
+        case .attributedText:
             return "attributed_text"
-        case .photo(_):
+        case .photo:
             return "photo"
-        case .video(_):
+        case .video:
             return "video"
-        case .location(_):
+        case .location:
             return "location"
-        case .emoji(_):
+        case .emoji:
             return "emoji"
-        case .audio(_):
+        case .audio:
             return "emoji"
-        case .contact(_):
+        case .contact:
             return "contact"
-        case .custom(_):
+        case .custom:
             return "custom"
-        case .linkPreview(_):
+        case .linkPreview:
             return "linkPreview"
         }
     }
@@ -60,21 +69,63 @@ class ChatRoomViewController: MessagesViewController {
         return dateFormatter
     }()
     
+    var selectedChatroomId: String?
+    
     public var isNewConversation = false
     
     public let accepterId: String = ""
     
     private var messages = [Message]() {
+        
         didSet {
+            
             self.messagesCollectionView.reloadData()
         }
     }
     
-    private var selfSender: Sender? {
-      
-//        guard let currentUserId = UserDefaults.standard.value(forKey: "userId") as? String else {
-//            return nil
-//        }
+    let storage = Storage.storage().reference()
+    
+    var profilePhoto = UIImage() {
+        
+        didSet {
+            
+            messagesCollectionView.reloadData()
+        }
+    }
+    
+    var eventUrlString = String() {
+        
+        didSet {
+            
+            guard let selfSender = self.selfSender  else {
+                return
+            }
+            
+            guard let url = URL(string: self.eventUrlString),
+                  
+                    let placeholder = UIImage(systemName: "plus")
+                    
+            else {
+                
+                return
+            }
+            
+            guard let selectedChatroomId = selectedChatroomId  else {
+                fatalError("error")
+            }
+            
+            let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
+            
+            let photoMessage = Message(sender: selfSender, messageId: "", sentDate: Date(), kind: .photo(media))
+            
+            FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: photoMessage)
+            
+            self.messagesCollectionView.reloadData()
+            
+        }
+    }
+    
+    var selfSender: Sender? {
         return Sender(photoURL: "",
                       senderId: "DoIscQXJzIbQfJDTnBVm",
                       displayName: "Willy Boy")
@@ -84,11 +135,17 @@ class ChatRoomViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        //        messagesCollectionView.messageCellDelegate = self
+        //        messagesCollectionView.delegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
+        self.hideKeyboardWhenTappedAround()
         
-        FirebaseManger.shared.messageListener(chatRoomId: "TMTKJhNE2z0u4FyLoDsu") { results in
+        guard let selectedChatroomId = selectedChatroomId  else {
+            fatalError("error")
+        }
+        
+        FirebaseManger.shared.messageListener(chatRoomId: selectedChatroomId) { results in
             
             self.messages.removeAll()
             
@@ -99,25 +156,35 @@ class ChatRoomViewController: MessagesViewController {
                 guard let sentDate = result.createTime?.dateValue() else {
                     return
                 }
+                var kind: MessageKind?
                 
-                guard let senderId = result.senderId else {
+                if result.photoMessage != "" {
+                    
+                    guard let imageUrl = URL(string: result.photoMessage ?? ""),
+                          let placeHolder = UIImage(systemName: "plus") else {
+                              return
+                          }
+                    
+                    let media = Media(url: imageUrl, image: nil, placeholderImage: placeHolder, size: CGSize(width: 300, height: 300))
+                    kind = .photo(media)
+                    
+                } else if result.text != "" {
+                    kind = .text(result.text ?? "")
+                }
+                
+                guard let finalKind = kind else {
                     return
                 }
                 
-                guard let displayName = result.senderId else {
-                    return
+                if let selfSender = self.selfSender {
+                    
+                    let message = Message(sender: selfSender, messageId: "", sentDate: sentDate, kind: finalKind)
+                    
+                    self.messages.append(message)
+                    
                 }
-                guard let resultText = result.text  else {
-                    return
-                }
-                let kind = MessageKind.text(resultText)
-                
-                let message = Message(sender: Sender(photoURL: "", senderId: senderId, displayName: displayName), messageId: "", sentDate: sentDate, kind: kind)
-                
-                self.messages.append(message)
-                
             }
-           
+            
         }
     }
     
@@ -217,20 +284,42 @@ class ChatRoomViewController: MessagesViewController {
 extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        picker.dismiss(animated: true, completion: nil)
-//        guard let messageId = createMessageId(),
-//              let image =  info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-//              let imageData = image.pngData() else {
-//                  return
-//              }
-        // upload image
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
-        // send Message
+        picker.dismiss(animated: true, completion: nil)
         
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        
+        profilePhoto = editedImage
+        
+        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        
+        profilePhoto = originalImage
+        
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
+            return
+        }
+        
+        let uniqueString = NSUUID().uuidString
+        storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                let urlString = url.absoluteString
+                print("Download URL: \(urlString)")
+                self.eventUrlString = urlString
+                UserDefaults.standard.set(urlString, forKey: "url")
+            })
+        }
     }
 }
 
@@ -243,8 +332,6 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             return sender
         }
         fatalError("Self Sender is nil, email should be catched ")
-        return Sender(photoURL: "", senderId: "DoIscQXJzIbQfJDTnBVm", displayName: "Willy Boy")
-        
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
@@ -254,20 +341,41 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
     }
-    
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let message = message as? Message else {
+            return
+        }
+        
+        switch message.kind {
+        case .photo(let media):
+            guard let imageUrl = media.url else {
+                return
+            }
+            
+            imageView.sd_setImage(with: imageUrl, completed: nil)
+        default:
+            break
+        }
+    }
 }
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
-     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        
         let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(text))
         
-        FirebaseManger.shared.sendMessage(chatRoomId: "TMTKJhNE2z0u4FyLoDsu", newMessage: message)
+        guard let selectedChatroomId = selectedChatroomId  else {
+            fatalError("error")
+        }
+        
+        FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: message)
         
         self.messagesCollectionView.reloadData()
         
+        self.messageInputBar.inputTextView.text.removeAll()
+        
     }
-
+    
     func createMessageId() -> String? {
         // date, otherUserEmail, senderEmail, randomInt
         
@@ -278,35 +386,37 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         let dateString = Self.dateFormatter.string(from: Date())
         
         let newIdentifier = "\(accepterId)_\(currentUserEmail)_\(dateString)"
+        
         print("create message id: \(newIdentifier)")
+        
         return newIdentifier
         
     }
 }
-// extension ChatRoomViewController: MessageCellDelegate {
-//
-//    func didTapImage(in cell: MessageCollectionViewCell) {
-//
-//        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
-//
-//            return
-//        }
-//
-//        let message = messages[indexPath.section]
-//
-//        switch message.kind {
-//
-//        case .photo(let media):
-//
-//            guard let imageUrl = media.url else {
-//
-//                return
-//            }
-//
-//            let viewController = PhotoViewerViewController(with: imageUrl)
-//            self.navigationController?.pushViewController(viewController, animated: true)
-//        default:
-//            break
-//        }
-//    }
-// }
+ extension ChatRoomViewController: MessageCellDelegate {
+
+    func didTapImage(in cell: MessageCollectionViewCell) {
+
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+
+            return
+        }
+
+        let message = messages[indexPath.section]
+
+        switch message.kind {
+
+        case .photo(let media):
+
+            guard let imageUrl = media.url else {
+
+                return
+            }
+
+            let viewController = PhotoViewerViewController(with: imageUrl)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        default:
+            break
+        }
+    }
+ }

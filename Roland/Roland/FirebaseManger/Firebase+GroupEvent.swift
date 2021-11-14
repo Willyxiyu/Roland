@@ -10,14 +10,16 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 extension FirebaseManger {
-    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent, senderId: String) {
+    public func postGroupEventCreatingInfo(groupEventCreatingInfo: GroupEvent) {
         let ref = database.collection("GroupEvent")
         let docId = ref.document().documentID
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
         let groupEventCreatingInfo: [String: Any] = [
-            "senderId": senderId,
+            "senderId": userId,
             "eventId": docId,
             "eventPhoto": groupEventCreatingInfo.eventPhoto,
             "title": groupEventCreatingInfo.title,
@@ -73,6 +75,40 @@ extension FirebaseManger {
         }
     }
     
+    func fetchGroupEventforHost(eventId: [String], completion: @escaping ([GroupEvent]) -> Void) {
+        let ref = database.collection("GroupEvent").whereField("eventId", in: eventId)
+        ref.getDocuments {(querySnapshot, error) in
+            
+            if let error = error {
+                
+                print(error)
+                
+                return
+                
+            } else {
+                
+                var groupEvent = [GroupEvent]()
+                
+                for document in querySnapshot!.documents {
+                    
+                    do {
+                        
+                        if let groupEventInfo = try document.data(as: GroupEvent.self) {
+                            
+                            groupEvent.append(groupEventInfo)
+                            
+                            print(groupEventInfo)
+                        }
+                        
+                    } catch {
+                        
+                    }
+                }
+                completion(groupEvent)
+            }
+        }
+    }
+    
     public func deleteGroupEventCreatingInfo(docId: String) {
         database.collection("GroupEvent").document(docId).delete { error in
             if let error = error {
@@ -93,6 +129,7 @@ extension FirebaseManger {
             "isAccepted": false,
             "isPending": true,
             "isRejected": false
+//            "documentId": docId
         ]
         ref.document(docId).setData(applyList) { error in
             if let error = error {
@@ -103,7 +140,8 @@ extension FirebaseManger {
         }
     }
     
-    public func fetchApplyListforHost(userId: String, completion: @escaping([ApplyList]) -> Void ) {
+    public func fetchApplyListforHost(completion: @escaping([ApplyList]) -> Void ) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         database.collection("ApplyList").whereField("acceptedId", isEqualTo: userId)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error {
@@ -140,8 +178,9 @@ extension FirebaseManger {
             }
     }
     
-    public func fetchApplyListforOtherUser(eventId: String, requestSenderId: String, completion: @escaping([ApplyList]) -> Void) {
-        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: requestSenderId)
+    public func fetchApplyListforOtherUser(eventId: String, completion: @escaping([ApplyList]) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: userId)
             .getDocuments { querySnapshot, error in
                 if let error = error {
                     
@@ -291,4 +330,76 @@ extension FirebaseManger {
                 }
             }
     }
+    // reedit the group event form the reedit page after done edit back to detail page should fetch the info and update.
+    public func updateGroupEventInfo(docId: String, eventPhoto: String, title: String, maximumOfPeople: Int, startTime: String, endTime: String, location: String, info: String ) {
+        let ref = database.collection("GroupEvent").document(docId)
+        ref.updateData([
+            "eventPhoto": eventPhoto,
+            "title": title,
+            "maximumOfPeople": maximumOfPeople,
+            "startTime": startTime,
+            "endTime": endTime,
+            "location": location,
+            "info": info
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
+    public func fetchUpdateGEventInfoFromReEditPage(docId: String, completion: @escaping(GroupEvent) -> Void) {
+        
+        let ref = database.collection("GroupEvent").document(docId)
+        
+        ref.getDocument { (document, error) in
+            
+            let result = Result {
+                
+                try document?.data(as: GroupEvent.self)
+            }
+            switch result {
+            case .success(let groupEvent):
+                
+                if let groupEvent = groupEvent {
+                    
+                    completion(groupEvent)
+                    
+                    print("GroupEvent: \(groupEvent)")
+                } else {
+                    
+                    print("Document does not exist")
+                }
+            case .failure(let error):
+                
+                print("Error decoding groupEvent: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - NotiPage
+    
+    public func updateAttendeeId(docId: String, attendeeId: String) {
+        let ref = database.collection("GroupEvent").document(docId)
+        ref.updateData(["attendee": FieldValue.arrayUnion([attendeeId])]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
+    public func deleteUserIdFromApplyList(documentId: String) {
+        database.collection("ApplyList").document(documentId).delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
 }

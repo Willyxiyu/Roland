@@ -16,12 +16,16 @@ class FirebaseManger {
     static let shared = FirebaseManger()
     lazy var database = Firestore.firestore()
     
+    var userInfoOfDislikeList = [UserInfo]()
+    var userInfoOflikeList = [UserInfo]()
     var users = [UserInfo]()
+    
     var chatRoomList = [ChatRoomList]()
     var messagelist = [Messagelist]()
     var applyList = [ApplyList]()
     var groupEvent = [GroupEvent]()
     var comment = [Comment]()
+    var scalingCardList = [ScalingCardList]()
     var privateComment = [PrivateComment]()
     var message = ""
     var senderId = ""

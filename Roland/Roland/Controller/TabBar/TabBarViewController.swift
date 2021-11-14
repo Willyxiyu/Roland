@@ -9,8 +9,10 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     
+    let profilePageViewController = ProfilePageViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarItem.imageInsets = UIEdgeInsets(top: 50, left: 0, bottom: -10, right: 0)
+
     }
 }

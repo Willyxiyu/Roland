@@ -26,6 +26,11 @@ class PrivateCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate
         super.init(coder: aDecoder)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userPhotoImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.1 * 0.5
+    }
+    
     lazy var userPhotoImageView: UIImageView = {
         let photoImage = UIImage(named: "photo")
         let userPhotoImageView = UIImageView()
@@ -40,7 +45,7 @@ class PrivateCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate
         let commentTextField = UITextField()
         commentTextField.setLeftPaddingPoints(10)
         commentTextField.backgroundColor = UIColor.clear
-        commentTextField.placeholder = "新增公開留言"
+        commentTextField.placeholder = "新增留言"
         return commentTextField
     }()
     lazy var sendButton: UIButton = {

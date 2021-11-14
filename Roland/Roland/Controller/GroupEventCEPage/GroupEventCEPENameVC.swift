@@ -13,9 +13,8 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.setBackgroundImage(imageName: "CEBGVertical")
         self.view.backgroundColor = .white
-
+        self.hideKeyboardWhenTappedAround()
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
@@ -82,7 +81,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Yeeee"
+        textField.placeholder = "活動名稱"
         textField.backgroundColor = UIColor.clear
         textField.layer.borderColor = UIColor.clear.cgColor
         textField.setLeftPaddingPoints(10)
@@ -122,7 +121,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
             textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            textField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
+            textField.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textField.heightAnchor.constraint(equalToConstant: 40)
         ])
         textField.delegate = self

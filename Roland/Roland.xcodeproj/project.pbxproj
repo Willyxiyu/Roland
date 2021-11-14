@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */; };
 		3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */; };
 		3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */; };
 		3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */; };
@@ -16,7 +15,7 @@
 		3F0D2AFD2729283C00B90B4D /* GroupEventCEPELocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */; };
 		3F0D2AFF272929A300B90B4D /* GroupEventCEPEAoPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2AFE272929A200B90B4D /* GroupEventCEPEAoPVC.swift */; };
 		3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0027292A4400B90B4D /* GroupEventCEPEIntroVC.swift */; };
-		3F0D2B0327292AC300B90B4D /* nonGroupEventCEPEPicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0227292AC300B90B4D /* nonGroupEventCEPEPicVC.swift */; };
+		3F0D2B0327292AC300B90B4D /* UserProfileSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0227292AC300B90B4D /* UserProfileSignInViewController.swift */; };
 		3F0D2B0527292EDF00B90B4D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0427292EDF00B90B4D /* UIViewController+Extension.swift */; };
 		3F0D2B0727293FD400B90B4D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B0627293FD400B90B4D /* UIView+Extension.swift */; };
 		3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B082729783200B90B4D /* GroupEventCEPFEPVC.swift */; };
@@ -26,6 +25,9 @@
 		3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */; };
 		3F0D2B17272B9D2C00B90B4D /* Firebase+GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */; };
 		3F0D2B19272B9D4E00B90B4D /* Firebase+ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */; };
+		3F1A62A9273E736C00E1E6C5 /* ReEditGroupEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */; };
+		3F1A62AB273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */; };
+		3F1A62AD2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62AC2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift */; };
 		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
 		3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */; };
 		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
@@ -39,6 +41,8 @@
 		3F2254262732EE370002F135 /* GEPrivateCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */; };
 		3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */; };
 		3F22542A2733B8460002F135 /* DateClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254292733B8460002F135 /* DateClass.swift */; };
+		3F22542C2734D23B0002F135 /* SignInViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22542B2734D23B0002F135 /* SignInViewContoller.swift */; };
+		3F2254302734E61F0002F135 /* UserProfileSignInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -63,13 +67,13 @@
 		3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6D2724375400B9809D /* NewConversationViewController.swift */; };
 		3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */; };
 		3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E7327255C4300B9809D /* ChatroomListTableViewCell.swift */; };
+		3FD1300C2739845F00179F9C /* MeetUpFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1300B2739845E00179F9C /* MeetUpFilterViewController.swift */; };
 		3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD82C62272686260055C33E /* ChatRoomList.swift */; };
 		3FF3676727228A8D00F36D74 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3676627228A8D00F36D74 /* CardView.swift */; };
 		D6596438BAECDA55039469BE /* Pods_Roland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FC399651CC73F0254EBF7B /* Pods_Roland.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardHomePageView.swift; path = Roland/View/CardPage/CardHomePageView.swift; sourceTree = SOURCE_ROOT; };
 		3F0D2AEF27284F7300B90B4D /* GroupeventHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupeventHomepageViewController.swift; sourceTree = "<group>"; };
 		3F0D2AF227285EE000B90B4D /* GroupEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupEventCollectionViewCell.swift; path = Roland/View/GroupEventHomePage/GroupEventCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		3F0D2AF52728ECEC00B90B4D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -78,7 +82,7 @@
 		3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPELocationVC.swift; sourceTree = "<group>"; };
 		3F0D2AFE272929A200B90B4D /* GroupEventCEPEAoPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPEAoPVC.swift; sourceTree = "<group>"; };
 		3F0D2B0027292A4400B90B4D /* GroupEventCEPEIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPEIntroVC.swift; sourceTree = "<group>"; };
-		3F0D2B0227292AC300B90B4D /* nonGroupEventCEPEPicVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nonGroupEventCEPEPicVC.swift; sourceTree = "<group>"; };
+		3F0D2B0227292AC300B90B4D /* UserProfileSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSignInViewController.swift; sourceTree = "<group>"; };
 		3F0D2B0427292EDF00B90B4D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3F0D2B0627293FD400B90B4D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		3F0D2B082729783200B90B4D /* GroupEventCEPFEPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventCEPFEPVC.swift; sourceTree = "<group>"; };
@@ -88,6 +92,9 @@
 		3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ChatRoomList.swift"; sourceTree = "<group>"; };
 		3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+GroupEvent.swift"; sourceTree = "<group>"; };
 		3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ScalingCard.swift"; sourceTree = "<group>"; };
+		3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGroupEventViewController.swift; sourceTree = "<group>"; };
+		3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGEDPageTableViewCell.swift; sourceTree = "<group>"; };
+		3F1A62AC2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HostAndAttendeeCollectionViewCell.swift; path = Roland/View/HostAndAttendeeCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
 		3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
@@ -101,6 +108,9 @@
 		3F2254252732EE370002F135 /* GEPrivateCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEPrivateCommentCell.swift; sourceTree = "<group>"; };
 		3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateCommentFooterView.swift; sourceTree = "<group>"; };
 		3F2254292733B8460002F135 /* DateClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateClass.swift; path = Roland/Extension/DateClass.swift; sourceTree = SOURCE_ROOT; };
+		3F22542B2734D23B0002F135 /* SignInViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewContoller.swift; sourceTree = "<group>"; };
+		3F22542E2734D8BB0002F135 /* Roland.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Roland.entitlements; sourceTree = "<group>"; };
+		3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserProfileSignInTableViewCell.swift; path = Roland/View/UserProfileSignInTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -127,6 +137,7 @@
 		3FB49E6D2724375400B9809D /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewConversationViewController.swift; path = Roland/Controller/ChatroomlistPage/NewConversationViewController.swift; sourceTree = SOURCE_ROOT; };
 		3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		3FB49E7327255C4300B9809D /* ChatroomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomListTableViewCell.swift; sourceTree = "<group>"; };
+		3FD1300B2739845E00179F9C /* MeetUpFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpFilterViewController.swift; sourceTree = "<group>"; };
 		3FD82C62272686260055C33E /* ChatRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomList.swift; sourceTree = "<group>"; };
 		3FF3676627228A8D00F36D74 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8A7DA42E786D98BD14C5D2F8 /* Pods-Roland.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roland.debug.xcconfig"; path = "Target Support Files/Pods-Roland/Pods-Roland.debug.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +160,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F22542D2734D24D0002F135 /* SignInPage */,
 				3F22541827325BE00002F135 /* GroupEventCommentPage */,
 				3F225410273259BC0002F135 /* NotificationPage */,
 				3F225407272EE7BB0002F135 /* ProfilePage */,
@@ -167,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				3F754010271D1EA800F9092E /* CardPageViewController.swift */,
+				3FD1300B2739845E00179F9C /* MeetUpFilterViewController.swift */,
 			);
 			path = CardPage;
 			sourceTree = "<group>";
@@ -174,10 +187,11 @@
 		3F06CDB3271D77B400FFA4E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */,
+				3F225402272E7F310002F135 /* ReEditGroupEventDetailPage */,
 				3F22541327325A870002F135 /* NotificationPage */,
 				3F2254222732E89C0002F135 /* GEPrivateCommentPage */,
 				3F22541F2732E8440002F135 /* GEPubCommentPage */,
-				3F225402272E7F310002F135 /* GroupEventDetailPage */,
 				3F0D2B0C2729A8F900B90B4D /* GroupEventFEPage */,
 				3F0D2AF427285EF600B90B4D /* GroupEventHomePage */,
 				3FD82C6527271A410055C33E /* ChatroomlistPage */,
@@ -190,7 +204,6 @@
 		3F06CDB4271D77BD00FFA4E9 /* CardPage */ = {
 			isa = PBXGroup;
 			children = (
-				3F06CDB5271D79C300FFA4E9 /* CardHomePageView.swift */,
 				3F38782B27219A5500203DD6 /* CardInfoLabel.swift */,
 				3F38782D27219F2A00203DD6 /* CardImageView.swift */,
 				3FF3676627228A8D00F36D74 /* CardView.swift */,
@@ -223,7 +236,6 @@
 				3F0D2AFC2729283C00B90B4D /* GroupEventCEPELocationVC.swift */,
 				3F0D2AFA2729267700B90B4D /* GroupEventCEPETimeVC.swift */,
 				3F0D2AF72728FAC700B90B4D /* GroupEventCEPENameVC.swift */,
-				3F0D2B0227292AC300B90B4D /* nonGroupEventCEPEPicVC.swift */,
 			);
 			path = GroupEventCEPage;
 			sourceTree = "<group>";
@@ -232,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0D2B0D2729AAB400B90B4D /* GEDetailPageCell.swift */,
+				3F1A62AC2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift */,
 			);
 			path = GroupEventFEPage;
 			sourceTree = "<group>";
@@ -252,15 +265,17 @@
 			isa = PBXGroup;
 			children = (
 				3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */,
+				3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */,
 			);
 			path = GroupEventDetailPage;
 			sourceTree = "<group>";
 		};
-		3F225402272E7F310002F135 /* GroupEventDetailPage */ = {
+		3F225402272E7F310002F135 /* ReEditGroupEventDetailPage */ = {
 			isa = PBXGroup;
 			children = (
+				3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */,
 			);
-			path = GroupEventDetailPage;
+			path = ReEditGroupEventDetailPage;
 			sourceTree = "<group>";
 		};
 		3F225407272EE7BB0002F135 /* ProfilePage */ = {
@@ -314,6 +329,15 @@
 			path = GEPrivateCommentPage;
 			sourceTree = "<group>";
 		};
+		3F22542D2734D24D0002F135 /* SignInPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F22542B2734D23B0002F135 /* SignInViewContoller.swift */,
+				3F0D2B0227292AC300B90B4D /* UserProfileSignInViewController.swift */,
+			);
+			path = SignInPage;
+			sourceTree = "<group>";
+		};
 		3F387822271FE00E00203DD6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,6 +371,7 @@
 		3F75400B271D1EA800F9092E /* Roland */ = {
 			isa = PBXGroup;
 			children = (
+				3F22542E2734D8BB0002F135 /* Roland.entitlements */,
 				3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */,
 				3F75400C271D1EA800F9092E /* AppDelegate.swift */,
 				3F75400E271D1EA800F9092E /* SceneDelegate.swift */,
@@ -587,6 +612,7 @@
 				3F0D2AFD2729283C00B90B4D /* GroupEventCEPELocationVC.swift in Sources */,
 				3F0D2AFF272929A300B90B4D /* GroupEventCEPEAoPVC.swift in Sources */,
 				3FF3676727228A8D00F36D74 /* CardView.swift in Sources */,
+				3FD1300C2739845F00179F9C /* MeetUpFilterViewController.swift in Sources */,
 				3F0D2AF027284F7300B90B4D /* GroupeventHomepageViewController.swift in Sources */,
 				3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */,
 				3F9547AE2722D360004E8249 /* ChatroomlistViewController.swift in Sources */,
@@ -601,17 +627,19 @@
 				3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */,
 				3F754022271D556400F9092E /* UIColor+Extension.swift in Sources */,
 				3F0D2B092729783200B90B4D /* GroupEventCEPFEPVC.swift in Sources */,
-				3F06CDB6271D79C300FFA4E9 /* CardHomePageView.swift in Sources */,
 				3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */,
 				3F22542A2733B8460002F135 /* DateClass.swift in Sources */,
 				3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */,
 				3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */,
 				3F22541527325AA60002F135 /* NotificationTableViewCell.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
-				3F0D2B0327292AC300B90B4D /* nonGroupEventCEPEPicVC.swift in Sources */,
+				3F0D2B0327292AC300B90B4D /* UserProfileSignInViewController.swift in Sources */,
+				3F1A62AB273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift in Sources */,
+				3F1A62A9273E736C00E1E6C5 /* ReEditGroupEventViewController.swift in Sources */,
 				3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */,
 				3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */,
 				3F0D2B13272B9CE100B90B4D /* Firebase+UserInfo.swift in Sources */,
+				3F2254302734E61F0002F135 /* UserProfileSignInTableViewCell.swift in Sources */,
 				3F0D2B0727293FD400B90B4D /* UIView+Extension.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 				3F22541E27327B340002F135 /* PublicCommentFooterView.swift in Sources */,
@@ -622,8 +650,10 @@
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
 				3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */,
+				3F1A62AD2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift in Sources */,
 				3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */,
 				3F2254242732E90D0002F135 /* GEPCommentCell.swift in Sources */,
+				3F22542C2734D23B0002F135 /* SignInViewContoller.swift in Sources */,
 				3F0D2AFB2729267700B90B4D /* GroupEventCEPETimeVC.swift in Sources */,
 				3F0D2B0E2729AAB400B90B4D /* GEDetailPageCell.swift in Sources */,
 				3F0D2AF82728FAC700B90B4D /* GroupEventCEPENameVC.swift in Sources */,
@@ -776,6 +806,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Roland/Roland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
@@ -798,7 +829,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -808,6 +839,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Roland/Roland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
@@ -829,7 +861,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

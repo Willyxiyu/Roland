@@ -51,6 +51,7 @@ struct Messagelist: Codable {
     let text: String?
     let accepterId: String?
     let senderId: String?
+    let photoMessage: String?
     
     enum CodingKeys: String, CodingKey {
         case createTime
@@ -58,5 +59,6 @@ struct Messagelist: Codable {
         case text
         case accepterId
         case senderId
+        case photoMessage
     }
 }

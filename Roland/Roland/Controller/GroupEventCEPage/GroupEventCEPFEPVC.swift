@@ -21,23 +21,22 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
     var eventLocation = String()
     var maxPeople = Int()
     var eventIntro = String()
-    
     var eventPhoto = UIImage() {
+        
         didSet {
+            
             tableView.reloadData()
         }
     }
     
     var groupEvent: GroupEvent?
-    
-    var senderId = "DoIscQXJzIbQfJDTnBVm"
-    
+        
     var eventUrlString = String() {
         
         didSet {
             
              groupEvent = GroupEvent(
-                senderId: senderId, eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
+                senderId: "", eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
                 maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, comment: [])
 
@@ -48,7 +47,6 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         super.viewDidLoad()
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(shareNewEvent))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.themeColor
         setupTableView()
         tableView.register(GEPhotoCell.self, forCellReuseIdentifier: String(describing: GEPhotoCell.self))
         tableView.register(GETitleCell.self, forCellReuseIdentifier: String(describing: GETitleCell.self))
@@ -72,7 +70,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         
         guard let groupEvent = groupEvent else { return }
         
-        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent, senderId: senderId)
+        FirebaseManger.shared.postGroupEventCreatingInfo(groupEventCreatingInfo: groupEvent)
         
         navigationController?.popToRootViewController(animated: true)
     }
@@ -146,9 +144,6 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
             
             return cell
             
-//        case 7:
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEMessageCell.self)"), for: indexPath) as? GEMessageCell else { fatalError("Error") }
-//            return cell
         default:
             break
         }
@@ -197,7 +192,7 @@ extension GroupEventCEPFEPVC: UIImagePickerControllerDelegate, UINavigationContr
         
         eventPhoto = originalImage
         
-        guard let imageData = editedImage.pngData() else {
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
             return
         }
         
