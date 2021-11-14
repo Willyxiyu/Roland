@@ -69,7 +69,6 @@ class ChatRoomViewController: MessagesViewController {
         return dateFormatter
     }()
     
-    
     var selectedChatroomId: String?
     
     public var isNewConversation = false

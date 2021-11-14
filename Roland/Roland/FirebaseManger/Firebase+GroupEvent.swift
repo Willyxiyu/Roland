@@ -354,27 +354,40 @@ extension FirebaseManger {
         let ref = database.collection("GroupEvent").document(docId)
         
         ref.getDocument { (document, error) in
-        
-        let result = Result {
             
-             try document?.data(as: GroupEvent.self)
-           }
-           switch result {
-           case .success(let groupEvent):
-               
-               if let groupEvent = groupEvent {
-                   
-                   completion(groupEvent)
-                   
-                   print("GroupEvent: \(groupEvent)")
-               } else {
-                 
-                   print("Document does not exist")
-               }
-           case .failure(let error):
-           
-               print("Error decoding groupEvent: \(error)")
-           }
-       }
-}
+            let result = Result {
+                
+                try document?.data(as: GroupEvent.self)
+            }
+            switch result {
+            case .success(let groupEvent):
+                
+                if let groupEvent = groupEvent {
+                    
+                    completion(groupEvent)
+                    
+                    print("GroupEvent: \(groupEvent)")
+                } else {
+                    
+                    print("Document does not exist")
+                }
+            case .failure(let error):
+                
+                print("Error decoding groupEvent: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - NotiPage
+    
+    public func updateAttendeeId(docId: String, attendeeId: String) {
+        let ref = database.collection("GroupEvent").document(docId)
+        ref.updateData(["attendee": FieldValue.arrayUnion([attendeeId])]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
 }

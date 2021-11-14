@@ -378,12 +378,18 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         case 6:
             
             HAcell.titleLabel.text = HAlist[0]
+            guard let userId = selectedGroupEvent?.senderId else { fatalError("error") }
+            HAcell.userId = [userId]
             
             return HAcell
             
         case 7:
             
             HAcell.titleLabel.text = HAlist[1]
+            
+            guard let userId = selectedGroupEvent?.attendee else { fatalError("error") }
+            
+            HAcell.userId = userId
             
             return HAcell
             

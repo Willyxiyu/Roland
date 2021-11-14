@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Kingfisher
+import FBLPromises
 
 class NotificationViewController: UIViewController {
     
@@ -18,6 +19,9 @@ class NotificationViewController: UIViewController {
     var groupEvent = [GroupEvent]()
     var applyListRequestSenderId = [String]()
     var applyListEventId = [String]()
+    let nTFNewRequestCell = NTFNewRequestCell()
+    var selectedEventId: String?
+    var selectedUserId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +31,7 @@ class NotificationViewController: UIViewController {
         tableView.register(NTFNewRequestCell.self, forCellReuseIdentifier: String(describing: NTFNewRequestCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsSelection = false
         
     }
     
@@ -94,7 +99,32 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         
         cell.userImageView.kf.setImage(with: URL(string: photo))
         cell.userNameLabel.text = userInfo[indexPath.row].name
-        cell.introLabel.text = "想參加您的\n(\(groupEvent[indexPath.row].title))喔！～"
+        cell.introLabel.text = "想參加您的\n\(groupEvent[indexPath.row].title)喔！～"
+        cell.acceptedButton.addTarget(self, action: #selector(accptedTheRequest), for: .touchUpInside)
+        cell.acceptedButton.tag = indexPath.row
+        cell.rejectedButton.addTarget(self, action: #selector(rejectTheRequest), for: .touchUpInside)
+        cell.rejectedButton.tag = indexPath.row
+        selectedEventId = groupEvent[cell.acceptedButton.tag].eventId
+        selectedUserId = userInfo[cell.acceptedButton.tag].userId
+        
         return cell
+    }
+    
+    @objc func accptedTheRequest() {
+        
+        guard let selectedEventId = self.selectedEventId else {
+            fatalError("error")
+        }
+        
+        guard let selectedUserId = self.selectedUserId else {
+            fatalError("error")
+        }
+    
+        FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
+        
+    }
+    
+    @objc func rejectTheRequest() {
+        
     }
 }

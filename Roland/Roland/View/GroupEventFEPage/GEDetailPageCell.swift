@@ -7,17 +7,16 @@
 
 import UIKit
 
+import Kingfisher
+
+import FirebaseFirestore
+
 class GEDetailPageTitleCell: UITableViewCell {
     
     // MARK: - init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTitleLabel()
-//        setupCancelButton()
-//        setupEditButton()
-//        setupShareEventButton()
-//        setupRegisButton()
-//        setupCancelRegisButton()
     }
     
     required init?(coder: NSCoder) {
@@ -43,120 +42,6 @@ class GEDetailPageTitleCell: UITableViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
         ])
     }
-    
-//    lazy var cancelButton: UIButton = {
-//        let cancelButton = UIButton()
-//        cancelButton.setTitle("取消活動", for: .normal)
-//        cancelButton.layer.cornerRadius = 10
-//        cancelButton.layer.borderWidth = 1
-//        cancelButton.setTitleColor(UIColor.black, for: .normal)
-//        cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-//        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        cancelButton.isEnabled = true
-//        return cancelButton
-//    }()
-//    lazy var editButton: UIButton = {
-//        let editButton = UIButton()
-//        editButton.setTitle("編輯活動", for: .normal)
-//        editButton.layer.cornerRadius = 10
-//        editButton.backgroundColor = UIColor.themeColor
-//        editButton.setTitleColor(UIColor.white, for: .normal)
-//        editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        editButton.isEnabled = true
-//        return editButton
-//    }()
-//
-//    private func setupCancelButton() {
-//        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.addSubview(cancelButton)
-//        NSLayoutConstraint.activate([
-//            cancelButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-//            cancelButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-//            cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-//            cancelButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-//            cancelButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-//        ])
-//    }
-//
-//    private func setupEditButton() {
-//        editButton.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.addSubview(editButton)
-//        NSLayoutConstraint.activate([
-//            editButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
-//            editButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
-//            editButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-//            editButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-//        ])
-//    }
-//
-//    lazy var shareEventButton: UIButton = {
-//        let shareEventButton = UIButton()
-//        shareEventButton.setTitle("分享活動", for: .normal)
-//        shareEventButton.layer.cornerRadius = 10
-//        shareEventButton.layer.borderWidth = 1
-//        shareEventButton.setTitleColor(UIColor.black, for: .normal)
-//        shareEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-//        shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        shareEventButton.isEnabled = true
-//        return shareEventButton
-//    }()
-//    lazy var regisButton: UIButton = {
-//        let regisButton = UIButton()
-//        regisButton.setTitle("報名活動", for: .normal)
-//        regisButton.layer.cornerRadius = 10
-//        regisButton.backgroundColor = UIColor.themeColor
-//        regisButton.setTitleColor(UIColor.white, for: .normal)
-//        regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        regisButton.isEnabled = true
-//        return regisButton
-//    }()
-//
-//    lazy var cancelRegisButton: UIButton = {
-//        let cancelRegisButton = UIButton()
-//        cancelRegisButton.setTitle("取消報名", for: .normal)
-//        cancelRegisButton.layer.cornerRadius = 10
-//        cancelRegisButton.layer.borderWidth = 1
-//        cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
-//        cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-//        cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        cancelRegisButton.isEnabled = true
-//        return cancelRegisButton
-//    }()
-//
-//    private func setupRegisButton() {
-//        regisButton.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.addSubview(regisButton)
-//        NSLayoutConstraint.activate([
-//            regisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-//            regisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-//            regisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-//            regisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-//            regisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-//        ])
-//    }
-//
-//    private func setupCancelRegisButton() {
-//        cancelRegisButton.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.addSubview(cancelRegisButton)
-//        NSLayoutConstraint.activate([
-//            cancelRegisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-//            cancelRegisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-//            cancelRegisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-//            cancelRegisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-//            cancelRegisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-//        ])
-//    }
-//
-//    private func setupShareEventButton() {
-//        shareEventButton.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.addSubview(shareEventButton)
-//        NSLayoutConstraint.activate([
-//            shareEventButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
-//            shareEventButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
-//            shareEventButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-//            shareEventButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-//        ])
-//    }
 }
 // MARK: - PhotoCell
 class GEPhotoCell: UITableViewCell {
@@ -188,7 +73,7 @@ class GEPhotoCell: UITableViewCell {
         eventImageButton.setImage(UIImage(named: "camera"), for: .normal)
         eventImageButton.layer.masksToBounds = true
         eventImageButton.alpha = 0.7
-//        eventImageButton.tintColor = .black
+        //        eventImageButton.tintColor = .black
         eventImageButton.addTarget(self, action: #selector(eventImageButtonTapped), for: .touchUpInside)
         return eventImageButton
     }()
@@ -384,7 +269,7 @@ class GEMessageCell: UITableViewCell {
         commentLabel.textAlignment = .left
         return commentLabel
     }()
-
+    
     private func setupCommentLabel() {
         commentLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(commentLabel)
@@ -394,7 +279,7 @@ class GEMessageCell: UITableViewCell {
             commentLabel.heightAnchor.constraint(equalToConstant: 30),
             commentLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             commentLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
-        
+            
         ])
     }
 }
@@ -431,7 +316,7 @@ class GEDateCell: UITableViewCell {
         dateLabel.lineBreakMode = .byWordWrapping
         return dateLabel
     }()
-
+    
     private func setupIconImageView() {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(iconImageView)
@@ -454,7 +339,7 @@ class GEDateCell: UITableViewCell {
     }
 }
 
-// MARK: - DateCell
+// MARK: - LocationCell
 class GElocationCell: UITableViewCell {
     
     // MARK: - init
@@ -464,7 +349,7 @@ class GElocationCell: UITableViewCell {
         setupIconImageView()
         setuplocationLabel()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -484,7 +369,7 @@ class GElocationCell: UITableViewCell {
         locationLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         return locationLabel
     }()
-
+    
     private func setupIconImageView() {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(iconImageView)
@@ -502,22 +387,58 @@ class GElocationCell: UITableViewCell {
             locationLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor),
             locationLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
             locationLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30)
-        
+            
         ])
     }
     
 }
+// MARK: - HostandAttendeesCell
 
-// MARK: - DateCell
 class GEHostandAttendeesCell: UITableViewCell {
+    
+    var hostAndAttendeeCollectionView: UICollectionView!
+    
+    let layout = UICollectionViewFlowLayout()
+    
+    let dispatchGroup = DispatchGroup()
+    
+    var userInfo = [UserInfo]()
+    
+    var userId: [String]? {
+        
+        didSet {
+            
+            self.dispatchGroup.enter()
+            
+            guard let userId = self.userId else {
+                
+                fatalError("error")
+            }
+            
+            FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
+                
+                self.userInfo = result
+                
+                self.dispatchGroup.leave()
+            }
+        }
+    }
     
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTitleLable()
+        
+        configureCellSize()
+        hostAndAttendeeCollectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
+        setupHostAndAttendeeCollectionView()
+        hostAndAttendeeCollectionView.register(HostAndAttendeeCollectionViewCell.self, forCellWithReuseIdentifier: HostAndAttendeeCollectionViewCell.identifier)
+        hostAndAttendeeCollectionView.dataSource = self
+        hostAndAttendeeCollectionView.delegate = self
+        hostAndAttendeeCollectionView.backgroundColor = .white
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -530,14 +451,77 @@ class GEHostandAttendeesCell: UITableViewCell {
         return titleLabel
     }()
     
+    func configureCellSize() {
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 10
+        layout.itemSize = CGSize(width: ((UIScreen.width) - 60 ) / 5, height: ((UIScreen.width) - 60 ) / 5)
+    }
+    
+    private func setupHostAndAttendeeCollectionView() {
+        hostAndAttendeeCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(hostAndAttendeeCollectionView)
+        NSLayoutConstraint.activate([
+            hostAndAttendeeCollectionView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            hostAndAttendeeCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            hostAndAttendeeCollectionView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            hostAndAttendeeCollectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            hostAndAttendeeCollectionView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+    }
+    
     private func setupTitleLable() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            titleLabel.heightAnchor.constraint(equalToConstant: 30),
-            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -50)
+            titleLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+}
+
+extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        guard let userId = userId else {
+            fatalError("error")
+        }
+        
+        return userId.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = hostAndAttendeeCollectionView.dequeueReusableCell(withReuseIdentifier: HostAndAttendeeCollectionViewCell.identifier,
+                                                                           for: indexPath) as? HostAndAttendeeCollectionViewCell else {
+            fatalError("error")
+        }
+        
+        self.dispatchGroup.notify(queue: .main) {
+            
+            guard let photo = self.userInfo[indexPath.row].photo else {
+                
+                fatalError("error")
+            }
+            
+            cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photo))
+            
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: ((UIScreen.width) - 60 ) / 5, height: ((UIScreen.width) - 60 ) / 5)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 }

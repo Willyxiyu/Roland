@@ -16,7 +16,6 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupEventPhoto()
-//        setupEventHostPhoto()
         setupEventDateLabel()
         setupEventTitleLabel()
         setupEventLocationLabel()

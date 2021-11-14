@@ -58,7 +58,6 @@ class NTFNewRequestCell: UITableViewCell {
         introLabel.textAlignment = .left
         introLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         introLabel.text = "想參加您的\n聖誕活動喔！～"
-        
         return introLabel
     }()
     

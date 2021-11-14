@@ -37,6 +37,7 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
         setupNavigationBarItem()
         configureSearchController()
         setupBorderlineView()
+        
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()
