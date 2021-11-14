@@ -7,4 +7,15 @@ target 'Roland' do
 
   # Pods for Roland
     pod 'SwiftLint'
+    pod 'Firebase/Firestore'
+    pod 'FirebaseFirestoreSwift'
+    pod 'Firebase/Auth'
+    pod 'MessageKit'
+    pod 'JGProgressHUD'
+    pod 'RealmSwift'
+    pod 'SDWebImage'
+    pod 'Firebase/Storage'
+    pod 'lottie-ios'
+    pod 'Kingfisher'
+    pod 'MultiSlider'
 end
