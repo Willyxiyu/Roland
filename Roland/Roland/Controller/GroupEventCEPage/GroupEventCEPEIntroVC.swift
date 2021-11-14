@@ -130,7 +130,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
             textView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            textView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7),
+            textView.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3)
         ])
     }

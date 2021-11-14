@@ -129,6 +129,7 @@ extension FirebaseManger {
             "isAccepted": false,
             "isPending": true,
             "isRejected": false
+//            "documentId": docId
         ]
         ref.document(docId).setData(applyList) { error in
             if let error = error {
@@ -390,4 +391,15 @@ extension FirebaseManger {
             }
         }
     }
+    
+    public func deleteUserIdFromApplyList(documentId: String) {
+        database.collection("ApplyList").document(documentId).delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
 }

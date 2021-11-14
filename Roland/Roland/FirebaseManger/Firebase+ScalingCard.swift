@@ -71,6 +71,28 @@ extension FirebaseManger {
         
     }
     
+    
+    // 將對方的ID移除自己的likelist
+    func removeAccepterIdFromSelflikeList(accepterId: String) {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        let ref = database.collection("UserInfo").document(userId)
+        
+        ref.updateData(["likeList": FieldValue.arrayRemove([accepterId])]) { error in
+            
+            if let error = error {
+                
+                print("Error writing document: \(error)")
+                
+            } else {
+                
+                print("Document data: \("likeList")")
+            }
+        }
+        
+    }
+    
     // 將對方的ID加入到自己的dislikeList
     func postAccepterIdtoSelfDislikeList(accepterId: String) {
         

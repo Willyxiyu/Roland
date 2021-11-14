@@ -10,6 +10,8 @@ import UIKit
 
 class NTFNewRequestCell: UITableViewCell {
     
+    var deleteCellRowNumberForClosure: (() -> Void)?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

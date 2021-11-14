@@ -15,6 +15,7 @@ struct ApplyList: Codable {
     let isAccepted: Bool
     let isPending: Bool
     let isRejected: Bool
+//    let documentId: String
 
     enum CodingKeys: String, CodingKey {
         case eventId
@@ -23,5 +24,6 @@ struct ApplyList: Codable {
         case isAccepted
         case isPending
         case isRejected
+//        case documentId
     }
 }

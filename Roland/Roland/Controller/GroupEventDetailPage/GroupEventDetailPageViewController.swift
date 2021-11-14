@@ -396,7 +396,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         case 8:
             
             COcell.commentLabel.text = commentList[0]
-            
+        
             return COcell
             
         case 9:

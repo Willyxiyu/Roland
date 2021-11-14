@@ -178,11 +178,14 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
 
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if searching {
             
-//            return self.searchChatRoomList.count
             return self.searchUserInfo.count
             
         } else {
@@ -231,5 +234,33 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            tableView.beginUpdates()
+            
+            guard let userId = userInfo[indexPath.row].userId else {
+                return
+            }
+            FirebaseManger.shared.removeAccepterIdFromSelflikeList(accepterId: userId)
+            
+            FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
+            
+            userInfo.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            tableView.endUpdates()
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        "封鎖"
     }
 }

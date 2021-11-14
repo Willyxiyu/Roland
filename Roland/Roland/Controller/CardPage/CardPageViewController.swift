@@ -167,25 +167,3 @@ extension UIImageView {
         self.tintColor = color
     }
 }
-
-//extension CardPageViewController: CardInfoProtocol {
-//    
-//    func didDislikeUser(_ card: CardView) {
-//        
-//        guard let userId = card.userIdLabel.text else {
-//            return
-//        }
-//        
-//        FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
-//    }
-//    
-//    func didLikeUser(_ card: CardView) {
-//        
-//        guard let userId = card.userIdLabel.text else {
-//            return
-//        }
-//        
-//        FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
-//    }
-//    
-//}

@@ -10,14 +10,14 @@ import Firebase
 import FirebaseFirestore
 
 struct UserInfo: Codable {
-    let name: String
-    let gender: String
-    let age: String
-    let email: String
-    let createTime: Timestamp
+    let name: String //
+    let gender: String //
+    let age: String //
+    let email: String //
+    let createTime: Timestamp //
     let phoneNumber: Int64?
-    let photo: String?
-    let userId: String?
+    let photo: String? //
+    let userId: String? //
     let block: Bool?
     let friendList: [FriendList]?
     let accountState: Bool?

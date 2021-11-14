@@ -22,6 +22,7 @@ class NotificationViewController: UIViewController {
     let nTFNewRequestCell = NTFNewRequestCell()
     var selectedEventId: String?
     var selectedUserId: String?
+    var selectedDocumentId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,8 +105,14 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         cell.acceptedButton.tag = indexPath.row
         cell.rejectedButton.addTarget(self, action: #selector(rejectTheRequest), for: .touchUpInside)
         cell.rejectedButton.tag = indexPath.row
+        
         selectedEventId = groupEvent[cell.acceptedButton.tag].eventId
         selectedUserId = userInfo[cell.acceptedButton.tag].userId
+//        selectedDocumentId = applyList[cell.acceptedButton.tag].documentId
+        
+//        selectedEventId = groupEvent[cell.rejectedButton.tag].eventId
+//        selectedUserId = userInfo[cell.rejectedButton.tag].userId
+//        selectedDocumentId = applyList[cell.rejectedButton.tag].documentId
         
         return cell
     }
@@ -119,12 +126,28 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         guard let selectedUserId = self.selectedUserId else {
             fatalError("error")
         }
-    
-        FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
+//
+//        guard let selectedDocumentId = self.selectedDocumentId else {
+//            fatalError("error")
+//        }
         
+        FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
+//
+//        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
+//
+//        tableView.reloadData()
+       
     }
     
     @objc func rejectTheRequest() {
         
+//        guard let selectedDocumentId = self.selectedDocumentId else {
+//            fatalError("error")
+//        }
+        
+//        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
+//
+//        tableView.reloadData()
+
     }
 }

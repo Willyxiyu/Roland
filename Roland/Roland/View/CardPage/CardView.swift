@@ -91,7 +91,7 @@ class CardView: UIView {
             
         } else if translation.x < 0 {
             self.cardIconImage.alpha = -ratioValue
-            self.cardIconImage.image = UIImage(named: "no")
+            self.cardIconImage.image = UIImage(named: "no-entry")
 
         }
     }
@@ -118,8 +118,6 @@ class CardView: UIView {
                 
                 FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
                 
-//                self.delegate?.didDislikeUser(self)
-                
 //                print("dislike")
                 
                 self.removeFromSuperview()
@@ -135,8 +133,6 @@ class CardView: UIView {
                 self.layoutIfNeeded()
                 
             } completion: { _ in
-
-//                self.delegate?.didLikeUser(self)
                 
                 guard let userId = self.userIdLabel.text else {
                     return
@@ -160,13 +156,6 @@ class CardView: UIView {
                         
                     }
                 }
-          
-//                     在對方的likelist，找自己的id
-//                if 若對方表列無自己的id {
-//                    則加對方的id到自己的likeList裡(postAccepterIdtoSelflikeList)。
-//                } else if 若對方表列有自己的id {
-//                    若有自己的id，代表對方有滑喜歡，此時建立聊天室
-//                }
                 
                 self.removeFromSuperview()
                 
@@ -241,7 +230,7 @@ class CardView: UIView {
             userIdLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor),
             userIdLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor)
         ])
-        userIdLabel.text = user.userId
+        userIdLabel.text = ""
     }
     
     private func setupIntroductionLabel(user: UserInfo) {
