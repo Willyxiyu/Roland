@@ -107,11 +107,11 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         
         let startDate = eventStartDatePicker.date
         let startDateFormatter = DateFormatter()
-        startDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
         let startTime = startDateFormatter.string(from: startDate)
         let endDate = eventEndDatePicker.date
         let endDateFormatter = DateFormatter()
-        endDateFormatter.dateFormat = "yyyy.MM.dd.h:mm"
+        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
         let endTime = endDateFormatter.string(from: endDate)
         
         groupEventCEPELocationVC.eventTitle = eventTitle

@@ -10,11 +10,13 @@ import Firebase
 import UIKit
 import FirebaseStorage
 import Kingfisher
+import AVFoundation
 
 class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     let publicCommentViewController = PublicCommentViewController()
     let privateCommentViewController = PrivateCommentViewController()
+    let reEditGroupEventViewController = ReEditGroupEventViewController()
     
     let tableView = UITableView()
     var isTheHost: Bool?
@@ -58,6 +60,12 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
         
+        guard let docId = selectedGroupEvent?.eventId else {
+            fatalError("error")
+        }
+        FirebaseManger.shared.fetchUpdateGEventInfoFromReEditPage(docId: docId) { result in
+            self.selectedGroupEvent = result
+        }
         guard let isTheHost = isTheHost else { fatalError("error") }
         
         if isTheHost == true && isExpired == false {
@@ -132,9 +140,30 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         cancelButton.setTitleColor(UIColor.black, for: .normal)
         cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
         cancelButton.isEnabled = true
         return cancelButton
     }()
+    
+    @objc func cancelEvent() {
+        
+        guard let eventId = selectedGroupEvent?.eventId else { return }
+        
+        let alert = UIAlertController(title: "刪除活動", message: "刪除後無法回復", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "敵不動我不動", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "確認刪除", style: .default, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
+            self.navigationController?.popViewController(animated: true)
+            
+        })
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     lazy var editButton: UIButton = {
         let editButton = UIButton()
@@ -143,9 +172,17 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         editButton.backgroundColor = UIColor.themeColor
         editButton.setTitleColor(UIColor.white, for: .normal)
         editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        editButton.addTarget(self, action: #selector(editEvent), for: .touchUpInside)
         editButton.isEnabled = true
         return editButton
     }()
+    
+    @objc func editEvent() {
+        reEditGroupEventViewController.selectedGroupEvent = self.selectedGroupEvent
+        navigationController?.pushViewController(reEditGroupEventViewController, animated: true)
+        
+    }
+    
     // left
     lazy var regisButton: UIButton = {
         let regisButton = UIButton()
@@ -155,8 +192,21 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         regisButton.setTitleColor(UIColor.black, for: .normal)
         regisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
         return regisButton
     }()
+    
+    @objc func registerEvent() {
+        
+        guard let requestSenderId = requestSenderId else { return }
+        
+        guard let eventId = selectedGroupEvent?.eventId else { return }
+        
+        guard let acceptedId = selectedGroupEvent?.senderId else { return }
+        
+        FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, requestSenderId: requestSenderId, acceptedId: acceptedId)
+    }
+    
     // left
     lazy var cancelRegisButton: UIButton = {
         let cancelRegisButton = UIButton()
@@ -166,8 +216,13 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
         cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        cancelRegisButton.addTarget(self, action: #selector(cancelRegister), for: .touchUpInside)
         return cancelRegisButton
     }()
+    
+    @objc func cancelRegister() {
+        
+    }
     
     lazy var shareEventButton: UIButton = {
         let shareEventButton = UIButton()
@@ -176,9 +231,14 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         shareEventButton.backgroundColor = UIColor.themeColor
         shareEventButton.setTitleColor(UIColor.white, for: .normal)
         shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        shareEventButton.addTarget(self, action: #selector(shareEvent), for: .touchUpInside)
         shareEventButton.isEnabled = true
         return shareEventButton
     }()
+    
+    @objc func shareEvent() {
+        
+    }
     
     private func setupCancelButton() {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -245,7 +305,8 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let HAlist = ["活動主辦", "參與者"]
-        let commentList = ["公開留言板", "團員留言板", "影音區"]
+//        let commentList = ["公開留言板", "團員留言板", "影音區"]
+        let commentList = ["公開留言板", "團員留言板"]
         
         guard let HAcell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEHostandAttendeesCell.self)"), for: indexPath) as? GEHostandAttendeesCell else { fatalError("Error") }
         
@@ -259,7 +320,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
             guard let photo = selectedGroupEvent?.eventPhoto else { fatalError("Error") }
             cell.photoImageView.kf.setImage(with: URL(string: photo))
-            
+            cell.eventImageButton.isHidden = true
             return cell
             
         case 1:
@@ -267,10 +328,6 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEDetailPageTitleCell.self)"),
                                                            for: indexPath) as? GEDetailPageTitleCell else { fatalError("Error") }
             cell.titleLabel.text = selectedGroupEvent?.title
-            
-//            cell.cancelButton.addTarget(self, action: #selector(cancelEvent), for: .touchUpInside)
-            //            cell.shareEventButton.addTarget(self, action: #selector(shareEvent), for: .touchUpInside)
-//            cell.regisButton.addTarget(self, action: #selector(registerEvent), for: .touchUpInside)
             
             return cell
             
@@ -342,12 +399,6 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
             return COcell
             
-        case 10:
-            
-            COcell.commentLabel.text = commentList[2]
-            
-            return COcell
-            
         default:
             
             break
@@ -403,36 +454,4 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             break
         }
     }
-    
-    @objc func cancelEvent() {
-        
-        guard let eventId = selectedGroupEvent?.eventId else { return }
-        
-        let alert = UIAlertController(title: "刪除活動", message: "刪除後無法回復", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "敵不動我不動", style: .cancel, handler: nil)
-        let confirm = UIAlertAction(title: "確認刪除", style: .default, handler: { [weak self] _ in
-            
-            guard let self = self else { return }
-            FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
-            self.navigationController?.popViewController(animated: true)
-            
-        })
-        alert.addAction(confirm)
-        alert.addAction(cancel)
-        
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
-    @objc func registerEvent() {
-        
-        guard let requestSenderId = requestSenderId else { return }
-        
-        guard let eventId = selectedGroupEvent?.eventId else { return }
-        
-        guard let acceptedId = selectedGroupEvent?.senderId else { return }
-        
-        FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, requestSenderId: requestSenderId, acceptedId: acceptedId)
-    }
-    
 }

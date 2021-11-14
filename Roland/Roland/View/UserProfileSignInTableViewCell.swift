@@ -29,7 +29,6 @@ enum NameEmailCell {
     case emailCell
 }
 
-
 class UserProfileSignInTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
@@ -172,7 +171,6 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
 
 // user name & email address
 class UserProfileNameEmailTableViewCell: UITableViewCell {
-    
     
     weak var delegate: CellDelegate?
     

@@ -17,7 +17,7 @@ extension FirebaseManger {
         let ref = database.collection("GroupEvent")
         let docId = ref.document().documentID
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
+        
         let groupEventCreatingInfo: [String: Any] = [
             "senderId": userId,
             "eventId": docId,
@@ -329,4 +329,52 @@ extension FirebaseManger {
                 }
             }
     }
+    // reedit the group event form the reedit page after done edit back to detail page should fetch the info and update.
+    public func updateGroupEventInfo(docId: String, eventPhoto: String, title: String, maximumOfPeople: Int, startTime: String, endTime: String, location: String, info: String ) {
+        let ref = database.collection("GroupEvent").document(docId)
+        ref.updateData([
+            "eventPhoto": eventPhoto,
+            "title": title,
+            "maximumOfPeople": maximumOfPeople,
+            "startTime": startTime,
+            "endTime": endTime,
+            "location": location,
+            "info": info
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
+    public func fetchUpdateGEventInfoFromReEditPage(docId: String, completion: @escaping(GroupEvent) -> Void) {
+        
+        let ref = database.collection("GroupEvent").document(docId)
+        
+        ref.getDocument { (document, error) in
+        
+        let result = Result {
+            
+             try document?.data(as: GroupEvent.self)
+           }
+           switch result {
+           case .success(let groupEvent):
+               
+               if let groupEvent = groupEvent {
+                   
+                   completion(groupEvent)
+                   
+                   print("GroupEvent: \(groupEvent)")
+               } else {
+                 
+                   print("Document does not exist")
+               }
+           case .failure(let error):
+           
+               print("Error decoding groupEvent: \(error)")
+           }
+       }
+}
 }

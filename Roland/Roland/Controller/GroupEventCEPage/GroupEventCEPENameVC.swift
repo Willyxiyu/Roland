@@ -81,7 +81,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Yeeee"
+        textField.placeholder = "活動名稱"
         textField.backgroundColor = UIColor.clear
         textField.layer.borderColor = UIColor.clear.cgColor
         textField.setLeftPaddingPoints(10)

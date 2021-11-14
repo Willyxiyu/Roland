@@ -25,6 +25,8 @@
 		3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */; };
 		3F0D2B17272B9D2C00B90B4D /* Firebase+GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */; };
 		3F0D2B19272B9D4E00B90B4D /* Firebase+ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */; };
+		3F1A62A9273E736C00E1E6C5 /* ReEditGroupEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */; };
+		3F1A62AB273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */; };
 		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
 		3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */; };
 		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
@@ -89,6 +91,8 @@
 		3F0D2B14272B9CFE00B90B4D /* Firebase+ChatRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ChatRoomList.swift"; sourceTree = "<group>"; };
 		3F0D2B16272B9D2C00B90B4D /* Firebase+GroupEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+GroupEvent.swift"; sourceTree = "<group>"; };
 		3F0D2B18272B9D4E00B90B4D /* Firebase+ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+ScalingCard.swift"; sourceTree = "<group>"; };
+		3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGroupEventViewController.swift; sourceTree = "<group>"; };
+		3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGEDPageTableViewCell.swift; sourceTree = "<group>"; };
 		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
 		3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
@@ -182,10 +186,10 @@
 			isa = PBXGroup;
 			children = (
 				3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */,
+				3F225402272E7F310002F135 /* ReEditGroupEventDetailPage */,
 				3F22541327325A870002F135 /* NotificationPage */,
 				3F2254222732E89C0002F135 /* GEPrivateCommentPage */,
 				3F22541F2732E8440002F135 /* GEPubCommentPage */,
-				3F225402272E7F310002F135 /* GroupEventDetailPage */,
 				3F0D2B0C2729A8F900B90B4D /* GroupEventFEPage */,
 				3F0D2AF427285EF600B90B4D /* GroupEventHomePage */,
 				3FD82C6527271A410055C33E /* ChatroomlistPage */,
@@ -258,15 +262,17 @@
 			isa = PBXGroup;
 			children = (
 				3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */,
+				3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */,
 			);
 			path = GroupEventDetailPage;
 			sourceTree = "<group>";
 		};
-		3F225402272E7F310002F135 /* GroupEventDetailPage */ = {
+		3F225402272E7F310002F135 /* ReEditGroupEventDetailPage */ = {
 			isa = PBXGroup;
 			children = (
+				3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */,
 			);
-			path = GroupEventDetailPage;
+			path = ReEditGroupEventDetailPage;
 			sourceTree = "<group>";
 		};
 		3F225407272EE7BB0002F135 /* ProfilePage */ = {
@@ -625,6 +631,8 @@
 				3F22541527325AA60002F135 /* NotificationTableViewCell.swift in Sources */,
 				3F38782C27219A5500203DD6 /* CardInfoLabel.swift in Sources */,
 				3F0D2B0327292AC300B90B4D /* UserProfileSignInViewController.swift in Sources */,
+				3F1A62AB273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift in Sources */,
+				3F1A62A9273E736C00E1E6C5 /* ReEditGroupEventViewController.swift in Sources */,
 				3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */,
 				3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */,
 				3F0D2B13272B9CE100B90B4D /* Firebase+UserInfo.swift in Sources */,

@@ -44,119 +44,119 @@ class GEDetailPageTitleCell: UITableViewCell {
         ])
     }
     
-    lazy var cancelButton: UIButton = {
-        let cancelButton = UIButton()
-        cancelButton.setTitle("取消活動", for: .normal)
-        cancelButton.layer.cornerRadius = 10
-        cancelButton.layer.borderWidth = 1
-        cancelButton.setTitleColor(UIColor.black, for: .normal)
-        cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        cancelButton.isEnabled = true
-        return cancelButton
-    }()
-    lazy var editButton: UIButton = {
-        let editButton = UIButton()
-        editButton.setTitle("編輯活動", for: .normal)
-        editButton.layer.cornerRadius = 10
-        editButton.backgroundColor = UIColor.themeColor
-        editButton.setTitleColor(UIColor.white, for: .normal)
-        editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        editButton.isEnabled = true
-        return editButton
-    }()
-    
-    private func setupCancelButton() {
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(cancelButton)
-        NSLayoutConstraint.activate([
-            cancelButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            cancelButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-            cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            cancelButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-            cancelButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-        ])
-    }
-    
-    private func setupEditButton() {
-        editButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(editButton)
-        NSLayoutConstraint.activate([
-            editButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
-            editButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
-            editButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-            editButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-        ])
-    }
-    
-    lazy var shareEventButton: UIButton = {
-        let shareEventButton = UIButton()
-        shareEventButton.setTitle("分享活動", for: .normal)
-        shareEventButton.layer.cornerRadius = 10
-        shareEventButton.layer.borderWidth = 1
-        shareEventButton.setTitleColor(UIColor.black, for: .normal)
-        shareEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-        shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        shareEventButton.isEnabled = true
-        return shareEventButton
-    }()
-    lazy var regisButton: UIButton = {
-        let regisButton = UIButton()
-        regisButton.setTitle("報名活動", for: .normal)
-        regisButton.layer.cornerRadius = 10
-        regisButton.backgroundColor = UIColor.themeColor
-        regisButton.setTitleColor(UIColor.white, for: .normal)
-        regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        regisButton.isEnabled = true
-        return regisButton
-    }()
-    
-    lazy var cancelRegisButton: UIButton = {
-        let cancelRegisButton = UIButton()
-        cancelRegisButton.setTitle("取消報名", for: .normal)
-        cancelRegisButton.layer.cornerRadius = 10
-        cancelRegisButton.layer.borderWidth = 1
-        cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
-        cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
-        cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        cancelRegisButton.isEnabled = true
-        return cancelRegisButton
-    }()
-    
-    private func setupRegisButton() {
-        regisButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(regisButton)
-        NSLayoutConstraint.activate([
-            regisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            regisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-            regisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            regisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-            regisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-        ])
-    }
-    
-    private func setupCancelRegisButton() {
-        cancelRegisButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(cancelRegisButton)
-        NSLayoutConstraint.activate([
-            cancelRegisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            cancelRegisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
-            cancelRegisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            cancelRegisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-            cancelRegisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-        ])
-    }
-    
-    private func setupShareEventButton() {
-        shareEventButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(shareEventButton)
-        NSLayoutConstraint.activate([
-            shareEventButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
-            shareEventButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
-            shareEventButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
-            shareEventButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
-        ])
-    }
+//    lazy var cancelButton: UIButton = {
+//        let cancelButton = UIButton()
+//        cancelButton.setTitle("取消活動", for: .normal)
+//        cancelButton.layer.cornerRadius = 10
+//        cancelButton.layer.borderWidth = 1
+//        cancelButton.setTitleColor(UIColor.black, for: .normal)
+//        cancelButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+//        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        cancelButton.isEnabled = true
+//        return cancelButton
+//    }()
+//    lazy var editButton: UIButton = {
+//        let editButton = UIButton()
+//        editButton.setTitle("編輯活動", for: .normal)
+//        editButton.layer.cornerRadius = 10
+//        editButton.backgroundColor = UIColor.themeColor
+//        editButton.setTitleColor(UIColor.white, for: .normal)
+//        editButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        editButton.isEnabled = true
+//        return editButton
+//    }()
+//
+//    private func setupCancelButton() {
+//        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.addSubview(cancelButton)
+//        NSLayoutConstraint.activate([
+//            cancelButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+//            cancelButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+//            cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+//            cancelButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+//            cancelButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+//        ])
+//    }
+//
+//    private func setupEditButton() {
+//        editButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.addSubview(editButton)
+//        NSLayoutConstraint.activate([
+//            editButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
+//            editButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
+//            editButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+//            editButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+//        ])
+//    }
+//
+//    lazy var shareEventButton: UIButton = {
+//        let shareEventButton = UIButton()
+//        shareEventButton.setTitle("分享活動", for: .normal)
+//        shareEventButton.layer.cornerRadius = 10
+//        shareEventButton.layer.borderWidth = 1
+//        shareEventButton.setTitleColor(UIColor.black, for: .normal)
+//        shareEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+//        shareEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        shareEventButton.isEnabled = true
+//        return shareEventButton
+//    }()
+//    lazy var regisButton: UIButton = {
+//        let regisButton = UIButton()
+//        regisButton.setTitle("報名活動", for: .normal)
+//        regisButton.layer.cornerRadius = 10
+//        regisButton.backgroundColor = UIColor.themeColor
+//        regisButton.setTitleColor(UIColor.white, for: .normal)
+//        regisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        regisButton.isEnabled = true
+//        return regisButton
+//    }()
+//
+//    lazy var cancelRegisButton: UIButton = {
+//        let cancelRegisButton = UIButton()
+//        cancelRegisButton.setTitle("取消報名", for: .normal)
+//        cancelRegisButton.layer.cornerRadius = 10
+//        cancelRegisButton.layer.borderWidth = 1
+//        cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
+//        cancelRegisButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
+//        cancelRegisButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+//        cancelRegisButton.isEnabled = true
+//        return cancelRegisButton
+//    }()
+//
+//    private func setupRegisButton() {
+//        regisButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.addSubview(regisButton)
+//        NSLayoutConstraint.activate([
+//            regisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+//            regisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+//            regisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+//            regisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+//            regisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+//        ])
+//    }
+//
+//    private func setupCancelRegisButton() {
+//        cancelRegisButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.addSubview(cancelRegisButton)
+//        NSLayoutConstraint.activate([
+//            cancelRegisButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+//            cancelRegisButton.trailingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: -10),
+//            cancelRegisButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+//            cancelRegisButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+//            cancelRegisButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+//        ])
+//    }
+//
+//    private func setupShareEventButton() {
+//        shareEventButton.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.addSubview(shareEventButton)
+//        NSLayoutConstraint.activate([
+//            shareEventButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
+//            shareEventButton.leadingAnchor.constraint(equalTo: self.contentView.centerXAnchor, constant: 10),
+//            shareEventButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25),
+//            shareEventButton.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.07)
+//        ])
+//    }
 }
 // MARK: - PhotoCell
 class GEPhotoCell: UITableViewCell {

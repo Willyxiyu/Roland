@@ -45,7 +45,7 @@ class PrivateCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate
         let commentTextField = UITextField()
         commentTextField.setLeftPaddingPoints(10)
         commentTextField.backgroundColor = UIColor.clear
-        commentTextField.placeholder = "新增公開留言"
+        commentTextField.placeholder = "新增留言"
         return commentTextField
     }()
     lazy var sendButton: UIButton = {

@@ -162,4 +162,3 @@ class GEPrivateCommentCell: UITableViewCell {
         ])
     }
 }
-
