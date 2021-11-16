@@ -75,9 +75,42 @@ extension FirebaseManger {
         }
     }
     
-    func fetchGroupEventforHost(eventId: [String], completion: @escaping ([GroupEvent]) -> Void) {
-        let ref = database.collection("GroupEvent").whereField("eventId", in: eventId)
-        ref.getDocuments {(querySnapshot, error) in
+    //    func fetchGroupEventforHost(eventId: [String], completion: @escaping ([GroupEvent]) -> Void) {
+    //        let ref = database.collection("GroupEvent").whereField("eventId", in: eventId)
+    //        ref.getDocuments {(querySnapshot, error) in
+    //
+    //            if let error = error {
+    //
+    //                print(error)
+    //
+    //                return
+    //
+    //            } else {
+    //
+    //                var groupEvent = [GroupEvent]()
+    //
+    //                for document in querySnapshot!.documents {
+    //
+    //                    do {
+    //
+    //                        if let groupEventInfo = try document.data(as: GroupEvent.self) {
+    //
+    //                            groupEvent.append(groupEventInfo)
+    //
+    //                            print(groupEventInfo)
+    //                        }
+    //
+    //                    } catch {
+    //
+    //                    }
+    //                }
+    //                completion(groupEvent)
+    //            }
+    //        }
+    //    }
+    
+    public func fetchGroupEventforHost(eventId: String, completion: @escaping (GroupEvent?) -> Void) {
+        database.collection("GroupEvent").whereField("eventId", isEqualTo: eventId).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 
@@ -87,7 +120,7 @@ extension FirebaseManger {
                 
             } else {
                 
-                var groupEvent = [GroupEvent]()
+                var groupEvent: GroupEvent?
                 
                 for document in querySnapshot!.documents {
                     
@@ -95,7 +128,7 @@ extension FirebaseManger {
                         
                         if let groupEventInfo = try document.data(as: GroupEvent.self) {
                             
-                            groupEvent.append(groupEventInfo)
+                            groupEvent = groupEventInfo
                             
                             print(groupEventInfo)
                         }
@@ -108,7 +141,6 @@ extension FirebaseManger {
             }
         }
     }
-    
     public func deleteGroupEventCreatingInfo(docId: String) {
         database.collection("GroupEvent").document(docId).delete { error in
             if let error = error {
@@ -129,7 +161,7 @@ extension FirebaseManger {
             "isAccepted": false,
             "isPending": true,
             "isRejected": false
-//            "documentId": docId
+            //            "documentId": docId
         ]
         ref.document(docId).setData(applyList) { error in
             if let error = error {

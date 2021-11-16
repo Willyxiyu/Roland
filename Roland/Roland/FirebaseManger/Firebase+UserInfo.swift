@@ -203,11 +203,45 @@ extension FirebaseManger {
         
     }
     
-    func fetchOtherUserInfo(otherUserId: [String], completion: @escaping ([UserInfo]) -> Void  ) {
-        let ref = database.collection("UserInfo").whereField("userId", in: otherUserId)
-        
+    //    func fetchOtherUserInfo(otherUserId: [String], completion: @escaping ([UserInfo]) -> Void  ) {
+    //        let ref = database.collection("UserInfo").whereField("userId", in: otherUserId)
+    //
+    //        ref.getDocuments { (querySnapshot, error) in
+    //
+    //            if let error = error {
+    //
+    //                print(error)
+    //
+    //                return
+    //
+    //            } else {
+    //
+    //                var userInfo = [UserInfo]()
+    //
+    //                for document in querySnapshot!.documents {
+    //
+    //                    do {
+    //
+    //                        if let user = try document.data(as: UserInfo.self) {
+    //
+    //                            userInfo.append(user)
+    //
+    //                            print(user)
+    //                        }
+    //
+    //                    } catch {
+    //
+    //                    }
+    //                }
+    //
+    //                completion(userInfo)
+    //            }
+    //        }
+    //    }
+    
+    func fetchOtherUserInfo(otherUserId: String, completion: @escaping (UserInfo?) -> Void ) {
+        let ref = database.collection("UserInfo").whereField("userId", isEqualTo: otherUserId)
         ref.getDocuments { (querySnapshot, error) in
-            
             if let error = error {
                 
                 print(error)
@@ -216,7 +250,7 @@ extension FirebaseManger {
                 
             } else {
                 
-                var userInfo = [UserInfo]()
+                var userInfo: UserInfo?
                 
                 for document in querySnapshot!.documents {
                     
@@ -224,9 +258,8 @@ extension FirebaseManger {
                         
                         if let user = try document.data(as: UserInfo.self) {
                             
-                            userInfo.append(user)
+                            userInfo = user
                             
-                            print(user)
                         }
                         
                     } catch {

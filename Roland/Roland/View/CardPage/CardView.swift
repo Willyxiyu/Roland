@@ -230,7 +230,7 @@ class CardView: UIView {
             userIdLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor),
             userIdLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor)
         ])
-        userIdLabel.text = ""
+        userIdLabel.text = user.userId
     }
     
     private func setupIntroductionLabel(user: UserInfo) {

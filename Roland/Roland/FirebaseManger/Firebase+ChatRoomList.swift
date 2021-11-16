@@ -19,7 +19,7 @@ extension FirebaseManger {
     public func createNewChatRoom(accepterId: String, firstMessage: Message) {
         
         guard let senderId = Auth.auth().currentUser?.uid else { return }
-
+        
         let ref = database.collection("ChatRoomList")
         let docId = ref.document().documentID
         let messageDate = firstMessage.sentDate
@@ -83,7 +83,7 @@ extension FirebaseManger {
     public func getAllChatRoom(completion: @escaping([ChatRoomList]) -> Void) {
         
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
+        
         database.collection("ChatRoomList").whereField("userId", arrayContains: userId)
         
             .getDocuments { querySnapshot, error in
@@ -122,9 +122,9 @@ extension FirebaseManger {
         
         let docId = ref.document().documentID
         
-//        let messageDate = newMessage.sentDate
+        //        let messageDate = newMessage.sentDate
         
-//        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
+        //        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
         
         var message = ""
         
@@ -206,5 +206,39 @@ extension FirebaseManger {
                 }
                 
             }
+    }
+    
+    public func chatRoomListListener(completion: @escaping([ChatRoomList]) -> Void ) {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        database.collection("ChatRoomList").whereField("userId", arrayContains: userId).addSnapshotListener { querySnapshot, error in
+            
+            if let error = error {
+                
+                print(error)
+                
+                return
+                
+            } else {
+                
+                var chatRoomList = [ChatRoomList]()
+                
+                for document in querySnapshot!.documents {
+                    
+                    do {
+                        
+                        if let chatRoom = try document.data(as: ChatRoomList.self) {
+                            
+                            chatRoomList.append(chatRoom)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+                completion(chatRoomList)
+            }
+        }
     }
 }

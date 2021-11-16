@@ -408,19 +408,27 @@ class GEHostandAttendeesCell: UITableViewCell {
         
         didSet {
             
+            self.userInfo.removeAll()
+            
             self.dispatchGroup.enter()
             
-            guard let userId = self.userId else {
+            guard let userIds = self.userId else {
                 
                 fatalError("error")
             }
             
-            FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
+            for userId in userIds {
                 
-                self.userInfo = result
-                
-                self.dispatchGroup.leave()
+                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
+                    
+                    guard let result = result else {
+                        fatalError("error")
+                    }
+                    
+                    self.userInfo.append(result)
+                }
             }
+            self.dispatchGroup.leave()
         }
     }
     
