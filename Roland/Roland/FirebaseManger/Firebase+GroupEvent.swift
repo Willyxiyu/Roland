@@ -31,6 +31,7 @@ extension FirebaseManger {
             "isFull": false,
             "startTime": groupEventCreatingInfo.startTime,
             "endTime": groupEventCreatingInfo.endTime,
+            "attendee": "",
             "createTime": Timestamp(date: Date())
         ]
         ref.document(docId).setData(groupEventCreatingInfo) { error in
@@ -75,40 +76,6 @@ extension FirebaseManger {
         }
     }
     
-    //    func fetchGroupEventforHost(eventId: [String], completion: @escaping ([GroupEvent]) -> Void) {
-    //        let ref = database.collection("GroupEvent").whereField("eventId", in: eventId)
-    //        ref.getDocuments {(querySnapshot, error) in
-    //
-    //            if let error = error {
-    //
-    //                print(error)
-    //
-    //                return
-    //
-    //            } else {
-    //
-    //                var groupEvent = [GroupEvent]()
-    //
-    //                for document in querySnapshot!.documents {
-    //
-    //                    do {
-    //
-    //                        if let groupEventInfo = try document.data(as: GroupEvent.self) {
-    //
-    //                            groupEvent.append(groupEventInfo)
-    //
-    //                            print(groupEventInfo)
-    //                        }
-    //
-    //                    } catch {
-    //
-    //                    }
-    //                }
-    //                completion(groupEvent)
-    //            }
-    //        }
-    //    }
-    
     public func fetchGroupEventforHost(eventId: String, completion: @escaping (GroupEvent?) -> Void) {
         database.collection("GroupEvent").whereField("eventId", isEqualTo: eventId).getDocuments { (querySnapshot, error) in
             
@@ -151,17 +118,15 @@ extension FirebaseManger {
         }
     }
     
-    public func postSenderIdtoApplyList(eventId: String, requestSenderId: String, acceptedId: String ) {
+    public func postSenderIdtoApplyList(eventId: String, acceptedId: String ) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("ApplyList")
         let docId = ref.document().documentID
         let applyList: [String: Any] = [
             "eventId": eventId,
-            "requestSenderId": requestSenderId,
+            "requestSenderId": userId,
             "acceptedId": acceptedId,
-            "isAccepted": false,
-            "isPending": true,
-            "isRejected": false
-            //            "documentId": docId
+            "documentId": docId
         ]
         ref.document(docId).setData(applyList) { error in
             if let error = error {
@@ -434,4 +399,41 @@ extension FirebaseManger {
         }
     }
     
+    public func fetchApplyListforCancelRegister(eventId: String, completion: @escaping(ApplyList?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        database.collection("ApplyList").whereField("eventId", isEqualTo: eventId).whereField("requestSenderId", isEqualTo: userId)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var applyList: ApplyList?
+                    
+                    guard let documents = querySnapshot?.documents else {
+                        return
+                    }
+                    
+                    for document in documents {
+                        
+                        do {
+                            
+                            if let applyListInfo = try document.data(as: ApplyList.self) {
+                                
+                                applyList = applyListInfo
+                                
+                                print(applyListInfo)
+                            }
+                            
+                        } catch {
+                            
+                        }
+                    }
+                    completion(applyList)
+                }
+            }
+    }
 }

@@ -402,35 +402,48 @@ class GEHostandAttendeesCell: UITableViewCell {
     
     let dispatchGroup = DispatchGroup()
     
-    var userInfo = [UserInfo]()
-    
-    var userId: [String]? {
+    var userInfo = [UserInfo]() {
         
         didSet {
             
-            self.userInfo.removeAll()
-            
-            self.dispatchGroup.enter()
-            
-            guard let userIds = self.userId else {
-                
-                fatalError("error")
-            }
-            
-            for userId in userIds {
-                
-                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
-                    
-                    guard let result = result else {
-                        fatalError("error")
-                    }
-                    
-                    self.userInfo.append(result)
-                }
-            }
-            self.dispatchGroup.leave()
+            hostAndAttendeeCollectionView.reloadData()
         }
     }
+    
+    var userId: [String]?
+//    {
+        
+//        didSet {
+//            self.userInfo.removeAll()
+            
+//            guard let userIds = self.userId else {
+//
+//                fatalError("error")
+//            }
+            
+//            for userId in userIds {
+                
+//                FirebaseManger.shared.fetchUserInfobyUserIdTesr(userId: userId) { resultTest in
+//
+//                    if let resultTest = resultTest {
+//
+//                        print(resultTest)
+//                    }
+//
+//                }
+//
+//                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
+//
+//                    guard let result = result else {
+//                        fatalError("error")
+//                    }
+//
+//                    self.userInfo.append(result)
+//                }
+//            }
+//            dispatchGroup.leave()
+//        }
+//    }
     
     // MARK: - init
     
@@ -492,6 +505,7 @@ extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         guard let userId = userId else {
+            
             fatalError("error")
         }
         
@@ -504,17 +518,11 @@ extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewData
             fatalError("error")
         }
         
-        self.dispatchGroup.notify(queue: .main) {
             
-            guard let photo = self.userInfo[indexPath.row].photo else {
-                
-                fatalError("error")
-            }
-            
-            cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photo))
-            
-        }
-        
+//            if let photoString = self.userInfo[indexPath.row].photo {
+//
+//                cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photoString))
+//            }
         return cell
     }
     

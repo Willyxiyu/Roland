@@ -116,8 +116,8 @@ extension FirebaseManger {
     }
     
     /// Sends a message with target conversation and message
-    public func sendMessage(chatRoomId: String, newMessage: Message) {
-        
+    public func sendMessage(chatRoomId: String, accepterId: String, newMessage: Message) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist")
         
         let docId = ref.document().documentID
@@ -157,8 +157,8 @@ extension FirebaseManger {
         }
         
         let newMessage: [String: Any] = [
-            "senderId": "DoIscQXJzIbQfJDTnBVm",
-            "accepterId": "GW9pTXyhawNoomsCeoZc",
+            "senderId": userId,
+            "accepterId": accepterId,
             "createTime": Timestamp.init(date: Date()),
             "isRead": false,
             "text": message,

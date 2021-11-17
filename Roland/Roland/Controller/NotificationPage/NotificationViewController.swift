@@ -15,7 +15,13 @@ class NotificationViewController: UIViewController {
     let tableView = UITableView()
     let dispatchGroup = DispatchGroup()
     var applyList = [ApplyList]()
-    var userInfo = [UserInfo]()
+    var userInfo = [UserInfo]() {
+        
+        didSet {
+            
+            tableView.reloadData()
+        }
+    }
     var groupEvent = [GroupEvent]()
     var applyListRequestSenderId = [String]()
     var applyListEventId = [String]()
@@ -27,6 +33,7 @@ class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.title = "Notification"
         tableView.separatorStyle = .none
         setupTableView()
         tableView.register(NTFNewRequestCell.self, forCellReuseIdentifier: String(describing: NTFNewRequestCell.self))
@@ -44,37 +51,41 @@ class NotificationViewController: UIViewController {
         
         // 幫團長拿申請doc
         FirebaseManger.shared.fetchApplyListforHost { result in
-            self.applyList = result
-            for applyInfo in self.applyList {
-                self.applyListRequestSenderId.append(applyInfo.requestSenderId)
-                self.applyListEventId.append(applyInfo.eventId)
-            }
             
-            // 從doc的otherUserid去fetchUserInfo的userid
-            self.dispatchGroup.enter()
-            self.userInfo.removeAll()
-            for otherUserId in self.applyListRequestSenderId {
-                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
-                    guard let result = result else { fatalError("error") }
-                    self.userInfo.append(result)
+            if result.isEmpty {
+                
+                self.tableView.isHidden = true
+                
+                self.view.backgroundColor = .white
+                
+            } else {
+                
+                self.tableView.isHidden = false
+                
+                self.applyList = result
+                for applyInfo in self.applyList {
+                    self.applyListRequestSenderId.append(applyInfo.requestSenderId)
+                    self.applyListEventId.append(applyInfo.eventId)
                 }
-                self.dispatchGroup.leave()
-            }
-            // 從doc的eventid去fetch GroupEvent的eventid
-            self.dispatchGroup.enter()
-            self.groupEvent.removeAll()
-            for groupEventId in self.applyListEventId {
-                FirebaseManger.shared.fetchGroupEventforHost(eventId: groupEventId) { result in
-                    guard let result = result else { fatalError("error") }
-                    self.groupEvent.append(result)
+                
+                // 從doc的otherUserid去fetchUserInfo的userid
+                self.userInfo.removeAll()
+                for otherUserId in self.applyListRequestSenderId {
+                    FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
+                        guard let result = result else { fatalError("error") }
+                        self.userInfo.append(result)
+                    }
                 }
-                self.dispatchGroup.leave()
+                // 從doc的eventid去fetch GroupEvent的eventid
+                self.groupEvent.removeAll()
+                for groupEventId in self.applyListEventId {
+                    FirebaseManger.shared.fetchGroupEventforHost(eventId: groupEventId) { result in
+                        guard let result = result else { fatalError("error") }
+                        self.groupEvent.append(result)
+                    }
+                }
             }
-            
-           
-            
         }
-        
     }
     
     private func setupTableView() {
@@ -93,7 +104,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // one is new applyrequest
         // one is new message from groupevent
-        return applyList.count
+        return userInfo.count
         
     }
     
@@ -102,31 +113,27 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
             fatalError("Error")
         }
         
-        
-        self.dispatchGroup.notify(queue: .main) {
-          
-            guard let photo = self.userInfo[indexPath.row].photo else {
-                fatalError("error")
-            }
-            cell.userImageView.kf.setImage(with: URL(string: photo))
-            cell.userNameLabel.text = self.userInfo[indexPath.row].name
-            cell.introLabel.text = "想參加您的\n\(self.groupEvent[indexPath.row].title)喔！～"
-            cell.acceptedButton.addTarget(self, action: #selector(self.accptedTheRequest), for: .touchUpInside)
-            cell.acceptedButton.tag = indexPath.row
-            cell.rejectedButton.addTarget(self, action: #selector(self.rejectTheRequest), for: .touchUpInside)
-            cell.rejectedButton.tag = indexPath.row
+        if let photo = self.userInfo[indexPath.row].photo {
             
-            self.selectedEventId = self.groupEvent[cell.acceptedButton.tag].eventId
-            self.selectedUserId = self.userInfo[cell.acceptedButton.tag].userId
+            cell.userImageView.kf.setImage(with: URL(string: photo))
+            
         }
-      
+        cell.userNameLabel.text = self.userInfo[indexPath.row].name
         
- 
-        //        selectedDocumentId = applyList[cell.acceptedButton.tag].documentId
+        cell.introLabel.text = "想參加您的\n\(self.groupEvent[indexPath.row].title)喔！～"
         
-        //        selectedEventId = groupEvent[cell.rejectedButton.tag].eventId
-        //        selectedUserId = userInfo[cell.rejectedButton.tag].userId
-        //        selectedDocumentId = applyList[cell.rejectedButton.tag].documentId
+        cell.acceptedButton.addTarget(self, action: #selector(self.accptedTheRequest), for: .touchUpInside)
+        cell.acceptedButton.tag = indexPath.row
+        cell.rejectedButton.addTarget(self, action: #selector(self.rejectTheRequest), for: .touchUpInside)
+        cell.rejectedButton.tag = indexPath.row
+        
+        self.selectedEventId = self.groupEvent[cell.acceptedButton.tag].eventId
+        self.selectedUserId = self.userInfo[cell.acceptedButton.tag].userId
+        self.selectedDocumentId = self.applyList[cell.acceptedButton.tag].documentId
+        
+        self.selectedEventId = self.groupEvent[cell.rejectedButton.tag].eventId
+        self.selectedUserId = self.userInfo[cell.rejectedButton.tag].userId
+        self.selectedDocumentId = self.applyList[cell.rejectedButton.tag].documentId
         
         return cell
     }
@@ -140,28 +147,26 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         guard let selectedUserId = self.selectedUserId else {
             fatalError("error")
         }
-        //
-        //        guard let selectedDocumentId = self.selectedDocumentId else {
-        //            fatalError("error")
-        //        }
+        
+        guard let selectedDocumentId = self.selectedDocumentId else {
+            fatalError("error")
+        }
         
         FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
-        //
-        //        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-        //
-        //        tableView.reloadData()
+        
+        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
+        
+        tableView.reloadData()
         
     }
     
     @objc func rejectTheRequest() {
         
-        //        guard let selectedDocumentId = self.selectedDocumentId else {
-        //            fatalError("error")
-        //        }
+        guard let selectedDocumentId = self.selectedDocumentId else { fatalError("error") }
         
-        //        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-        //
-        //        tableView.reloadData()
+        FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
+
+        tableView.reloadData()
         
     }
 }

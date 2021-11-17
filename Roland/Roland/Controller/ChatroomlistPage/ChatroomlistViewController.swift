@@ -242,6 +242,9 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         
         chatRoomViewController.selectedChatroomId = chatRoomList[indexPath.row].chatRoomId
         
+        chatRoomViewController.userInChatRoom = chatRoomList[indexPath.row].userId
+        
+        
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
