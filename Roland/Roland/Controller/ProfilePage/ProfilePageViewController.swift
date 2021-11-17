@@ -50,10 +50,8 @@ class ProfilePageViewController: UIViewController {
                 
                 userNameLabel.text = userName
 
-                
             }
-            
-        
+                
         }
     }
     
@@ -200,6 +198,10 @@ class ProfilePageViewController: UIViewController {
     }()
     
     @objc func setting() {
+        
+        let vc = SettingPageViewController() // change this to your class name
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
         
     }
     
