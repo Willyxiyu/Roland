@@ -389,6 +389,20 @@ extension FirebaseManger {
         }
     }
     
+    public func deleteAttendeeIdForQuitEvent(docId: String) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let ref = database.collection("GroupEvent").document(docId)
+        ref.updateData(["attendee": FieldValue.arrayRemove([userId])]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
+    
+    
     public func deleteUserIdFromApplyList(documentId: String) {
         database.collection("ApplyList").document(documentId).delete { err in
             if let err = err {

@@ -246,7 +246,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             guard let eventId = selectedGroupEvent?.eventId else { return }
             
             guard let acceptedId = selectedGroupEvent?.senderId else { return }
-                        
+            
             FirebaseManger.shared.postSenderIdtoApplyList(eventId: eventId, acceptedId: acceptedId)
             
             print("我要報名")
@@ -268,6 +268,19 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     
     @objc func cancelRegister() {
         
+        if let eventId =  selectedGroupEvent?.eventId {
+            
+            FirebaseManger.shared.fetchApplyListforCancelRegister(eventId: eventId) { result in
+                
+                if let docId = result?.documentId {
+                    
+                    FirebaseManger.shared.deleteUserIdFromApplyList(documentId: docId)
+                    
+                    print("取消報名")
+                    
+                }
+            }
+        }
     }
     
     // left
@@ -280,11 +293,34 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         quitEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         quitEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         quitEventButton.addTarget(self, action: #selector(quitEvent), for: .touchUpInside)
+//        quitEventButton.setTitle("已退出活動", for: .disabled)
         return quitEventButton
     }()
     
     @objc func quitEvent() {
         
+            if let eventId =  selectedGroupEvent?.eventId {
+                
+                let alert = UIAlertController(title: "退出活動", message: "刪除後無法反悔", preferredStyle: .alert)
+                
+                let cancel = UIAlertAction(title: "懸崖勒馬", style: .cancel, handler: nil)
+                
+                let confirm = UIAlertAction(title: "確認退出", style: .default, handler: { [weak self] _ in
+                    
+                    guard let self = self else { return }
+                    
+                    FirebaseManger.shared.deleteAttendeeIdForQuitEvent(docId: eventId)
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    
+                })
+                
+                alert.addAction(confirm)
+                
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
     }
     
     lazy var shareEventButton: UIButton = {
