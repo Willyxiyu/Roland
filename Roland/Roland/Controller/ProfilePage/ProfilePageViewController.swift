@@ -45,7 +45,13 @@ class ProfilePageViewController: UIViewController {
             userPhotoImageView.kf.setImage(with: URL(string: userProfilePhoto ))
             
             self.reloadInputViews()
-        
+            
+            if let userName = userInfo?.name {
+                
+                userNameLabel.text = userName
+
+            }
+                
         }
     }
     
@@ -155,7 +161,6 @@ class ProfilePageViewController: UIViewController {
         let userNameLabel = UILabel()
         userNameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         userNameLabel.textAlignment = .center
-        userNameLabel.text = "WillyBoy,26"
         return userNameLabel
     }()
     
@@ -194,6 +199,10 @@ class ProfilePageViewController: UIViewController {
     
     @objc func setting() {
         
+        let vc = SettingPageViewController() // change this to your class name
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
+        
     }
     
     lazy var newPhotoButton: UIButton = {
@@ -220,6 +229,9 @@ class ProfilePageViewController: UIViewController {
     
     @objc func editInfo() {
         
+        let vc = NotReadyPageViewController() // change this to your class name
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
     private func setupUserPhotoImageView() {

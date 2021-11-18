@@ -27,7 +27,7 @@ struct GroupEvent: Codable {
     var comment: [Comment]?
     var privateComment: [PrivateComment]?
     var host: [String]?
-    var attendee: [String]?
+    var attendee: [String]
     
     enum CodingKeys: String, CodingKey {
         case senderId

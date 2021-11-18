@@ -119,7 +119,7 @@ class CardPageViewController: UIViewController {
     }
     
     func fetchUserLikeAndDislikeList() {
-        
+        // 抓我自己的使用者Info
         guard let ownUserId = Auth.auth().currentUser?.uid else { return }
         // fetch the userId in userInfo's likelist and dislikelist array
         FirebaseManger.shared.fetchUserInfobyUserId { result in
@@ -133,33 +133,34 @@ class CardPageViewController: UIViewController {
                     self.userInfoForScalingCard.append(userId)
                 }
             }
-            
+                        
             if let  dislikeList = result?.dislikeList {
                 
                 for userId in dislikeList {
                     
                     self.userInfoForScalingCard.append(userId)
                 }
-                
             }
-            // use the array to do the notIn function, make the card show up with correct user without user in bothlist and ourself.
-            FirebaseManger.shared.fetchUserListForScalingCard(userId: self.userInfoForScalingCard) { userInfo in
-                
-                self.userInfo.removeAll()
-                
-                self.userInfo = userInfo
-                
-                self.userInfo.forEach { (userInfo) in
+
+            // use isnotequalto function, make the card show up with correct user without user in both lists and ourself.
+            
+            self.userInfo.removeAll()
+            
+            // 除了我以外的使用者Info
+            FirebaseManger.shared.fetchUserListForScalingCard(userId: ownUserId) { result in
+                let array = result.filter { userInfo -> Bool in
+                    guard let idd = userInfo.userId else { return false }
+                    return !(self.userInfoForScalingCard.contains(idd))
+                }
+            
+                array.forEach { (userInfo) in
                     
                     self.setupCard(CardView(user: userInfo))
                 }
-                
             }
-            
         }
     }
 }
-
 extension UIImageView {
     func setImageColor(color: UIColor) {
         let templateImage = self.image?.withRenderingMode(.alwaysTemplate)

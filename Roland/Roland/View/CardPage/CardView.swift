@@ -46,6 +46,7 @@ class CardView: UIView {
         setupResidenceLabel(user: user)
         setupUserIdLabel(user: user)
         setupIntroductionLabel(user: user)
+        userIdLabel.alpha = 0
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panCardView))
         self.addGestureRecognizer(panGesture)
     }
@@ -230,7 +231,7 @@ class CardView: UIView {
             userIdLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor),
             userIdLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor)
         ])
-        userIdLabel.text = ""
+        userIdLabel.text = user.userId
     }
     
     private func setupIntroductionLabel(user: UserInfo) {

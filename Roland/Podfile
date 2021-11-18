@@ -9,6 +9,8 @@ target 'Roland' do
     pod 'SwiftLint'
     pod 'Firebase/Firestore'
     pod 'FirebaseFirestoreSwift'
+    pod 'Firebase/Crashlytics'
+    pod 'Firebase/Analytics'
     pod 'Firebase/Auth'
     pod 'MessageKit'
     pod 'JGProgressHUD'
@@ -18,4 +20,6 @@ target 'Roland' do
     pod 'lottie-ios'
     pod 'Kingfisher'
     pod 'MultiSlider'
+    pod 'IQKeyboardManagerSwift'
+
 end

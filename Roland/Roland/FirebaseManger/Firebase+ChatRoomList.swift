@@ -19,7 +19,7 @@ extension FirebaseManger {
     public func createNewChatRoom(accepterId: String, firstMessage: Message) {
         
         guard let senderId = Auth.auth().currentUser?.uid else { return }
-
+        
         let ref = database.collection("ChatRoomList")
         let docId = ref.document().documentID
         let messageDate = firstMessage.sentDate
@@ -83,7 +83,7 @@ extension FirebaseManger {
     public func getAllChatRoom(completion: @escaping([ChatRoomList]) -> Void) {
         
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
+        
         database.collection("ChatRoomList").whereField("userId", arrayContains: userId)
         
             .getDocuments { querySnapshot, error in
@@ -116,15 +116,15 @@ extension FirebaseManger {
     }
     
     /// Sends a message with target conversation and message
-    public func sendMessage(chatRoomId: String, newMessage: Message) {
-        
+    public func sendMessage(chatRoomId: String, accepterId: String, newMessage: Message) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist")
         
         let docId = ref.document().documentID
         
-//        let messageDate = newMessage.sentDate
+        //        let messageDate = newMessage.sentDate
         
-//        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
+        //        let dateString = ChatRoomViewController.dateFormatter.string(from: messageDate)
         
         var message = ""
         
@@ -157,8 +157,8 @@ extension FirebaseManger {
         }
         
         let newMessage: [String: Any] = [
-            "senderId": "DoIscQXJzIbQfJDTnBVm",
-            "accepterId": "GW9pTXyhawNoomsCeoZc",
+            "senderId": userId,
+            "accepterId": accepterId,
             "createTime": Timestamp.init(date: Date()),
             "isRead": false,
             "text": message,
@@ -207,4 +207,49 @@ extension FirebaseManger {
                 
             }
     }
+    
+    public func chatRoomListListener(completion: @escaping([ChatRoomList]) -> Void ) {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        database.collection("ChatRoomList").whereField("userId", arrayContains: userId).addSnapshotListener { querySnapshot, error in
+            
+            if let error = error {
+                
+                print(error)
+                
+                return
+                
+            } else {
+                
+                var chatRoomList = [ChatRoomList]()
+                
+                for document in querySnapshot!.documents {
+                    
+                    do {
+                        
+                        if let chatRoom = try document.data(as: ChatRoomList.self) {
+                            
+                            chatRoomList.append(chatRoom)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+                completion(chatRoomList)
+            }
+        }
+    }
+    
+    public func deleteChatroomForBlocking(documentId: String) {
+        database.collection("ChatRoomList").document(documentId).delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
 }
