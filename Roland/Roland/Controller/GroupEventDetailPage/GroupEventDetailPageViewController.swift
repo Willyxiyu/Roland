@@ -84,7 +84,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         } else if isTheHost == false && isRigisted == true && isExpired == false {
             
             cancelRegisButton.isHidden = false
-            shareEventButton.isHidden = false
+            shareEventButton.isHidden = true
             cancelButton.isHidden = true
             editButton.isHidden = true
             regisButton.isHidden = true
@@ -92,7 +92,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             
         } else if isTheHost == false && isRigisted == false && isAttendee == false && isExpired == false {
             
-            shareEventButton.isHidden = false
+            shareEventButton.isHidden = true
             regisButton.isHidden = false
             cancelButton.isHidden = true
             editButton.isHidden = true
@@ -101,7 +101,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             
         } else if isTheHost == false && isRigisted == false && isAttendee == true && isExpired == false {
             
-            shareEventButton.isHidden = false
+            shareEventButton.isHidden = true
             regisButton.isHidden = true
             cancelButton.isHidden = true
             editButton.isHidden = true
@@ -122,8 +122,10 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+        regisButton.isSelected = false
         
     }
+    
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(tableView)
@@ -233,7 +235,9 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
                         
                         FirebaseManger.shared.deleteUserIdFromApplyList(documentId: docId)
                         
-                        print("取消報名")
+                        self.navigationController?.popViewController(animated: true)
+                        
+                        print("取消申請")
                         
                     }
                 }
@@ -256,7 +260,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     // left
     lazy var cancelRegisButton: UIButton = {
         let cancelRegisButton = UIButton()
-        cancelRegisButton.setTitle("取消報名", for: .normal)
+        cancelRegisButton.setTitle("取消申請", for: .normal)
         cancelRegisButton.layer.cornerRadius = 10
         cancelRegisButton.layer.borderWidth = 1
         cancelRegisButton.setTitleColor(UIColor.black, for: .normal)
@@ -276,7 +280,9 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
                     
                     FirebaseManger.shared.deleteUserIdFromApplyList(documentId: docId)
                     
-                    print("取消報名")
+                    self.navigationController?.popViewController(animated: true)
+                    
+                    print("取消申請")
                     
                 }
             }

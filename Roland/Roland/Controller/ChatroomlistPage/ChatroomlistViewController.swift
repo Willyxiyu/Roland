@@ -13,125 +13,25 @@ import Kingfisher
 // class ChatroomlistViewController: UIViewController {
 class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        guard let text = searchController.searchBar.text else { return }
-        
-        if !text.isEmpty {
-            
-//            searching = true
-            
-            searchUserInfos.removeAll()
-            
-            otherUserId.removeAll()
-            
-            for userInfo in userInfos {
-                
-                if  userInfo.value.name.lowercased().contains(text.lowercased()) {
-                    
-                    searchUserInfos[userInfo.key] = userInfo.value
-                    
-                    otherUserId.append(userInfo.key)
-                }
-                
-                searchUserInfosResult = searchUserInfos
-            }
-            
-        } else {
-            
-//            searching = false
-            
-            searchUserInfos.removeAll()
-            
-            otherUserId.removeAll()
-            
-            userInfos.forEach { (key, value) in
-                
-                otherUserId.append(key)
-            }
-            
-            searchUserInfos = userInfos
-            
-            searchUserInfosResult = userInfos
-        }
-        
-        self.chatRoomListTableView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-//        searching = false
-//
-//        searchChatRoomList.removeAll()
-        
-        searchUserInfosResult = userInfos
-        
-        self.chatRoomListTableView.reloadData()
-    }
     
     private let spinner = JGProgressHUD(style: .dark)
-    
-    let dispatchGroup = DispatchGroup()
     
     private var chatRoomList = [ChatRoomList]() {
         
         didSet {
             
-            self.otherUserId.removeAll()
-            
-            self.searchUserInfosResult.removeAll()
-            
-            guard let userId = Auth.auth().currentUser?.uid else { return }
-            
-            for chatRoom in chatRoomList {
-                
-                for otherUserId in chatRoom.userId {
-                    
-                    if otherUserId != userId {
-                        
-                        self.otherUserId.append(otherUserId)
-                        
-                        FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { [weak self] result in
-                            
-                            guard let self = self else { return }
-                            
-                            self.userInfos[otherUserId] = result
-                        }
-                    }
-                }
-            }
-            self.chatRoomListTableView.reloadData()
+            chatRoomListTableView.reloadData()
         }
+        
     }
     
-    var searchUserInfosResult: [String: UserInfo] = [:] {
-        
-        didSet {
-            
-//            if isDeleting == false {
-//
-//                chatRoomListTableView.reloadData()
-//
-//            }
-            
-        }
-    }
+    var searchChatRoomList  = [ChatRoomList]()
     
-    var userInfos: [String: UserInfo] = [:] {
-        
-        didSet {
-            
-            searchUserInfosResult = userInfos
-            
-        }
-    }
+    var searchUserInfosResult: [String: UserInfo] = [:]
+    
+    var userInfos: [String: UserInfo] = [:]
     
     var searchUserInfos: [String: UserInfo] = [:]
-    
-    // todo - remove it
-    var otherUserId = [String]()
-    
-    private var searchChatRoomList = [ChatRoomList]()
     
     var searching = false
     
@@ -157,9 +57,23 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
             
             self.chatRoomList.removeAll()
             
-            results.forEach { result in
+            results.forEach { chatRoom in
                 
-                self.chatRoomList.append(result)
+                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: chatRoom.otherUserID) { [weak self] result in
+                    
+                    guard let self = self else { return }
+                    
+                    if let userId = result?.userId {
+                        
+                        self.userInfos[userId] = result
+                    }
+                    
+                    self.chatRoomList.append(chatRoom)
+                    
+                    self.searchChatRoomList.append(chatRoom)
+                    
+                }
+                
             }
         }
     }
@@ -202,6 +116,50 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         definesPresentationContext = true
         searchController.searchBar.placeholder = "Search a chatroom!"
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let text = searchController.searchBar.text else { return }
+        
+        if !text.isEmpty {
+            
+            searching = true
+            
+            searchUserInfos.removeAll()
+            
+            for userInfo in userInfos {
+                
+                if  userInfo.value.name.lowercased().contains(text.lowercased()) {
+                    
+                    searchUserInfos[userInfo.key] = userInfo.value
+                    
+                    searchChatRoomList = searchChatRoomList.filter { $0.otherUserID == userInfo.key }
+                    
+                }
+            }
+            
+        } else {
+            
+            searching = false
+            
+            searchUserInfos = userInfos
+            
+            searchChatRoomList = chatRoomList
+            
+        }
+        
+        self.chatRoomListTableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        searching = false
+        
+        searchChatRoomList = chatRoomList
+        
+        self.chatRoomListTableView.reloadData()
+    }
+    
 }
 
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {
@@ -215,7 +173,7 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         
         if searching {
             
-            return self.searchUserInfos.count
+            return self.searchChatRoomList.count
             
         } else {
             
@@ -229,21 +187,41 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         
         guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatroomListTableViewCell.self)"),
                                                                    for: indexPath) as? ChatroomListTableViewCell else { fatalError("No cell") }
-        
-        let chatRoom = self.chatRoomList[indexPath.row]
-        
-        //
-        let otherUserId = chatRoom.otherUserID
-        
-        let userInfo = self.searchUserInfosResult[otherUserId]
-        
-        cell.userNameLabel.text = userInfo?.name
-        
-        cell.userMessageLabel.text = chatRoom.latestMessage.text
-        
-        if let photo = userInfo?.photo {
+        if searching {
             
-            cell.userImageView.kf.setImage(with: URL(string: photo))
+            let chatRoom = self.searchChatRoomList[indexPath.row]
+            
+            let otherUserId = chatRoom.otherUserID
+            
+            let userInfo = self.userInfos[otherUserId]
+            
+            cell.userNameLabel.text = userInfo?.name
+            
+            cell.userMessageLabel.text = chatRoom.latestMessage.text
+            
+            if let photo = userInfo?.photo {
+                
+                cell.userImageView.kf.setImage(with: URL(string: photo))
+                
+            }
+            
+        } else {
+            
+            let chatRoom = self.chatRoomList[indexPath.row]
+            
+            let otherUserId = chatRoom.otherUserID
+            
+            let userInfo = self.userInfos[otherUserId]
+            
+            cell.userNameLabel.text = userInfo?.name
+            
+            cell.userMessageLabel.text = chatRoom.latestMessage.text
+            
+            if let photo = userInfo?.photo {
+                
+                cell.userImageView.kf.setImage(with: URL(string: photo))
+                
+            }
             
         }
         
@@ -279,11 +257,9 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
             
             isDeleting = true
             
-            let otherUserId = self.otherUserId[indexPath.row]
+            let otherUserId = self.chatRoomList[indexPath.row].otherUserID
             
             searchUserInfosResult.removeValue(forKey: otherUserId)
-            
-            self.otherUserId.remove(at: indexPath.row)
             
             guard let chatRoomId = chatRoomList[indexPath.row].chatRoomId else {
                 return

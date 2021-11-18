@@ -41,6 +41,8 @@ class SettingPageViewController: UIViewController {
         tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
+        deleteAccountButton.isHidden = true
+        logoutButton.isHidden = true
         
         // Do any additional setup after loading the view.
     }
