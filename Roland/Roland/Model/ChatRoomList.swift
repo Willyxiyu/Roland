@@ -27,6 +27,12 @@ struct ChatRoomList: Codable {
         case userId
         case messagelist
     }
+    
+    var otherUserID: String {
+        userId.first { id in
+            id != Auth.auth().currentUser?.uid
+        }!
+    }
 }
 // lateMessage is for the chatlist label
 struct LatestMessage: Codable {

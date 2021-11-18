@@ -11,7 +11,7 @@ import AuthenticationServices
 import CryptoKit
 import FirebaseAuth
 
-class SignInViewContoller: UIViewController {
+class SignInViewContoller: UIViewController, UITextViewDelegate {
     
     let userProfileSignInViewController = UserProfileSignInViewController()
     var userInfo: UserInfo?
@@ -21,6 +21,7 @@ class SignInViewContoller: UIViewController {
         self.view.backgroundColor = UIColor.themeColor
         setupLogingButton()
         setupAppIconImage()
+        setupTextView()
         
     }
     
@@ -41,6 +42,26 @@ class SignInViewContoller: UIViewController {
         logingButton.addTarget(self, action: #selector(appleLoginButtonTapped), for: .touchUpInside)
         return logingButton
     }()
+    
+    lazy var textView: UITextView = {
+        
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        textView.textAlignment = .center
+        let attributedString = NSMutableAttributedString(string: "點擊登入，即代表你同意我們的條款，如要了解我們如何處理你的資料，請參考我們的隱私條款。")
+        
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 12, weight: .bold), range: NSRange(location: 38, length: 4))
+        attributedString.addAttribute(.link, value: "https://www.privacypolicies.com/live/c00148f6-b426-435c-a4d8-dd4e599b9e25", range: NSRange(location: 38, length: 4))
+        textView.attributedText = attributedString
+        textView.backgroundColor = .clear
+        textView.isEditable = false
+        return textView
+    }()
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        UIApplication.shared.open(URL)
+        return false
+    }
     
     lazy var appIconImageView: UIImageView = {
         let appIconImageView = UIImageView()
@@ -94,6 +115,17 @@ class SignInViewContoller: UIViewController {
             appIconImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             appIconImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.2),
             appIconImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
+        ])
+    }
+    
+    private func setupTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(textView)
+        NSLayoutConstraint.activate([
+            textView.centerXAnchor.constraint(equalTo: logingButton.centerXAnchor),
+            textView.bottomAnchor.constraint(equalTo: logingButton.topAnchor, constant: -20),
+            textView.heightAnchor.constraint(equalToConstant: 50),
+            textView.widthAnchor.constraint(equalTo: logingButton.widthAnchor)
         ])
     }
     
@@ -176,32 +208,33 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                     
                 } else {
                     
-                    if let name = appleIDCredential.fullName?.givenName,
-                       let email = appleIDCredential.email {
-                            
-                        FirebaseManger.shared.postNewUserInfo(name: name, gender: "", age: "", photo: "", email: email)
-                    }
+                    let name = appleIDCredential.fullName?.givenName
+                    let email = appleIDCredential.email
+                    
+                    self.userProfileSignInViewController.userName = name
+                    self.userProfileSignInViewController.userEmail = email
+                    
                     // User is signed in to Firebase with Apple.
                     // ...
                     FirebaseManger.shared.fetchUserInfobyUserId { result in
+                        
                         self.userInfo = result
+                        
+                        if result == nil {
+                            let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)
+                            nav.modalPresentationStyle = .fullScreen
+                            self.present(nav, animated: true, completion: nil)
+                            
+                        } else {
+                            
+                            let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
+                            
+                            guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
+                            tabBarVC.modalPresentationStyle = .fullScreen
+                            self.show(tabBarVC, sender: nil)
+                        }
                     }
                     
-                    if self.userInfo?.name.isEmpty == true {
-                        
-                        let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)
-                        nav.modalPresentationStyle = .fullScreen
-                        self.present(nav, animated: true, completion: nil)
-                        
-                    } else {
-                        
-                        let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
-                        
-                        guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
-                        tabBarVC.modalPresentationStyle = .fullScreen
-                        self.show(tabBarVC, sender: nil)
-                    }
-
                 }
                 return
             }

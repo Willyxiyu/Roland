@@ -14,29 +14,14 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
 
     let tableView = UITableView()
     
-    var profileList = [String]()
-    
     let storage = Storage.storage().reference()
     
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
     
     let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
         
-    var userInfo: UserInfo? {
-        
-        didSet {
+    let profileList: [String] = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
             
-            profileList = ["photo", "name", "email", "intro1", "age", "gender", "intro2"]
-            
-            tableView.reloadData()
-            
-            userName = userInfo?.name
-            
-            userEmail = userInfo?.email
-
-        }
-    }
-    
     var userName: String?
     
     var userEmail: String?
@@ -85,10 +70,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
-        FirebaseManger.shared.fetchUserInfobyUserId { result in
-            self.userInfo = result
-        }
-        
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -115,7 +97,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         guard let userEmail = userEmail else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-        FirebaseManger.shared.updateUserInfo(name: userName, email: userEmail, age: userAge, gender: userGender, photo: eventUrlString)
+        FirebaseManger.shared.postNewUserInfo(name: userName, gender: userGender, age: userAge, photo: eventUrlString, email: userEmail)
         
         let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
@@ -148,7 +130,6 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let nameEmailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileNameEmailTableViewCell.self)"),
                                                                 for: indexPath) as? UserProfileNameEmailTableViewCell else { fatalError("Error") }
-        guard let userInfo = userInfo else { fatalError("error") }
         
         switch indexPath.row {
             
@@ -166,7 +147,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             
         case 1:
             
-            nameEmailCell.userNameEmailTextField.text = userInfo.name
+            nameEmailCell.userNameEmailTextField.text = userName
                                     
             nameEmailCell.name = .nameCell
             
@@ -176,7 +157,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             
         case 2:
             
-            nameEmailCell.userNameEmailTextField.text = userInfo.email
+            nameEmailCell.userNameEmailTextField.text = userEmail
                         
             nameEmailCell.name = .emailCell
             

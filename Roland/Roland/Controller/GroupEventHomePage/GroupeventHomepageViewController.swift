@@ -37,7 +37,6 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
         setupNavigationBarItem()
         configureSearchController()
         setupBorderlineView()
-        
         configureCellSize()
         groupEventCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         setupGroupEventCollectionView()
@@ -247,27 +246,43 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             
             let int = DateClass.compareOneDay(oneDay: self.groupEvent[selectedRow].endTime, withAnotherDay: Date())
             
+            // 如果活動的senderId == 自己的Id 代表自己是團長（活動主辦）
             if selectedGroupEvent.senderId == userId {
                 
                 self.groupEventDetailPageViewController.isTheHost = true
                 
+                // 如果申請表列中有evenfId 且自己的Id是申請者Id，代表活動申請中（報名中）
             } else if self.applyList.isEmpty == false {
                 
                 self.groupEventDetailPageViewController.isTheHost = false
                 self.groupEventDetailPageViewController.isRigisted = true
                 
-            } else if self.applyList.isEmpty == true {
+                // 如果申請表列沒有，且活動的attendee有自己的Id，代表已經加入該活動，（已是團員）
+            } else if self.applyList.isEmpty == true && selectedGroupEvent.attendee.contains(userId) == true {
                 
                 self.groupEventDetailPageViewController.isTheHost = false
                 self.groupEventDetailPageViewController.isRigisted = false
+                self.groupEventDetailPageViewController.isAttendee = true
+                
+                // 如果申請表列沒有，且活動的attendee沒有自己的Id，代表（未報名）
+            } else if self.applyList.isEmpty == true && selectedGroupEvent.attendee.contains(userId) == false {
+                
+                self.groupEventDetailPageViewController.isTheHost = false
+                self.groupEventDetailPageViewController.isRigisted = false
+                self.groupEventDetailPageViewController.isAttendee = false
+                
+                print("還沒報名")
+                
             }
             
             if int == 1 || int == 0 {
                 
+                // 活動尚未過期
                 self.groupEventDetailPageViewController.isExpired = false
                 
             } else {
                 
+                // 活動過期
                 self.groupEventDetailPageViewController.isExpired = true
             }
             

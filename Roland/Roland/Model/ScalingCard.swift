@@ -9,12 +9,12 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
- struct ScalingCardList: Codable {
-    let userId: [String]?
-    let createTime: Timestamp
-     
-    enum CodingKeys: String, CodingKey {
-        case userId
-        case createTime
-    }
-}
+// struct ScalingCardList: Codable {
+//    let userId: [String]?
+//    let createTime: Timestamp
+//
+//    enum CodingKeys: String, CodingKey {
+//        case userId
+//        case createTime
+//    }
+//}
