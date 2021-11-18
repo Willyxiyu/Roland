@@ -28,6 +28,10 @@
 		3F1A62A9273E736C00E1E6C5 /* ReEditGroupEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */; };
 		3F1A62AB273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */; };
 		3F1A62AD2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62AC2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift */; };
+		3F1A62B12744ED6A00E1E6C5 /* SettingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B02744ED6600E1E6C5 /* SettingPageViewController.swift */; };
+		3F1A62B62745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B52745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift */; };
+		3F1A62B92745476200E1E6C5 /* SettingPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B82745476100E1E6C5 /* SettingPageTableViewCell.swift */; };
+		3F1A62BB2745E83900E1E6C5 /* NotReadyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */; };
 		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
 		3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */; };
 		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
@@ -42,7 +46,6 @@
 		3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254272732EEAC0002F135 /* PrivateCommentFooterView.swift */; };
 		3F22542A2733B8460002F135 /* DateClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2254292733B8460002F135 /* DateClass.swift */; };
 		3F22542C2734D23B0002F135 /* SignInViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22542B2734D23B0002F135 /* SignInViewContoller.swift */; };
-		3F2254302734E61F0002F135 /* UserProfileSignInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */; };
 		3F387824271FE0A300203DD6 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387823271FE0A300203DD6 /* UserInfo.swift */; };
 		3F387826271FE84F00203DD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F387825271FE84F00203DD6 /* GoogleService-Info.plist */; };
 		3F387828271FF02200203DD6 /* ScalingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F387827271FF02200203DD6 /* ScalingCard.swift */; };
@@ -95,6 +98,10 @@
 		3F1A62A8273E736C00E1E6C5 /* ReEditGroupEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGroupEventViewController.swift; sourceTree = "<group>"; };
 		3F1A62AA273FB82800E1E6C5 /* ReEditGEDPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReEditGEDPageTableViewCell.swift; sourceTree = "<group>"; };
 		3F1A62AC2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HostAndAttendeeCollectionViewCell.swift; path = Roland/View/HostAndAttendeeCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		3F1A62B02744ED6600E1E6C5 /* SettingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPageViewController.swift; sourceTree = "<group>"; };
+		3F1A62B52745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileSignInTableViewCell.swift; sourceTree = "<group>"; };
+		3F1A62B82745476100E1E6C5 /* SettingPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPageTableViewCell.swift; sourceTree = "<group>"; };
+		3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotReadyPageViewController.swift; path = Roland/Controller/NotReadyPageViewController.swift; sourceTree = SOURCE_ROOT; };
 		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
 		3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
@@ -110,7 +117,6 @@
 		3F2254292733B8460002F135 /* DateClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DateClass.swift; path = Roland/Extension/DateClass.swift; sourceTree = SOURCE_ROOT; };
 		3F22542B2734D23B0002F135 /* SignInViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewContoller.swift; sourceTree = "<group>"; };
 		3F22542E2734D8BB0002F135 /* Roland.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Roland.entitlements; sourceTree = "<group>"; };
-		3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserProfileSignInTableViewCell.swift; path = Roland/View/UserProfileSignInTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		3F387823271FE0A300203DD6 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3F387825271FE84F00203DD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F387827271FF02200203DD6 /* ScalingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingCard.swift; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */,
 				3F22542D2734D24D0002F135 /* SignInPage */,
 				3F22541827325BE00002F135 /* GroupEventCommentPage */,
 				3F225410273259BC0002F135 /* NotificationPage */,
@@ -187,7 +194,8 @@
 		3F06CDB3271D77B400FFA4E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3F22542F2734E61F0002F135 /* UserProfileSignInTableViewCell.swift */,
+				3F1A62B72745475000E1E6C5 /* ProfilePage */,
+				3F1A62B4274546F900E1E6C5 /* SignInPage */,
 				3F225402272E7F310002F135 /* ReEditGroupEventDetailPage */,
 				3F22541327325A870002F135 /* NotificationPage */,
 				3F2254222732E89C0002F135 /* GEPrivateCommentPage */,
@@ -261,6 +269,22 @@
 			path = FirebaseManger;
 			sourceTree = "<group>";
 		};
+		3F1A62B4274546F900E1E6C5 /* SignInPage */ = {
+			isa = PBXGroup;
+			children = (
+				3F1A62B52745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift */,
+			);
+			path = SignInPage;
+			sourceTree = "<group>";
+		};
+		3F1A62B72745475000E1E6C5 /* ProfilePage */ = {
+			isa = PBXGroup;
+			children = (
+				3F1A62B82745476100E1E6C5 /* SettingPageTableViewCell.swift */,
+			);
+			path = ProfilePage;
+			sourceTree = "<group>";
+		};
 		3F225400272E770A0002F135 /* GroupEventDetailPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */,
+				3F1A62B02744ED6600E1E6C5 /* SettingPageViewController.swift */,
 			);
 			path = ProfilePage;
 			sourceTree = "<group>";
@@ -477,6 +502,7 @@
 				3F754006271D1EA800F9092E /* Frameworks */,
 				3F754007271D1EA800F9092E /* Resources */,
 				876CE803CB6CEB4F3798724F /* [CP] Embed Pods Frameworks */,
+				3FD5321D2745FA7D00B2BE37 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -553,6 +579,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		3FD5321D2745FA7D00B2BE37 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		671548C99FCBAF467F23EFD1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -639,18 +684,21 @@
 				3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */,
 				3F0D2B15272B9CFE00B90B4D /* Firebase+ChatRoomList.swift in Sources */,
 				3F0D2B13272B9CE100B90B4D /* Firebase+UserInfo.swift in Sources */,
-				3F2254302734E61F0002F135 /* UserProfileSignInTableViewCell.swift in Sources */,
 				3F0D2B0727293FD400B90B4D /* UIView+Extension.swift in Sources */,
 				3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */,
 				3F22541E27327B340002F135 /* PublicCommentFooterView.swift in Sources */,
 				3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */,
+				3F1A62B62745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift in Sources */,
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
 				3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */,
 				3F22540F273106220002F135 /* ApplyList.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
+				3F1A62BB2745E83900E1E6C5 /* NotReadyPageViewController.swift in Sources */,
+				3F1A62B92745476200E1E6C5 /* SettingPageTableViewCell.swift in Sources */,
 				3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */,
 				3F1A62AD2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift in Sources */,
+				3F1A62B12744ED6A00E1E6C5 /* SettingPageViewController.swift in Sources */,
 				3F0D2B0127292A4400B90B4D /* GroupEventCEPEIntroVC.swift in Sources */,
 				3F2254242732E90D0002F135 /* GEPCommentCell.swift in Sources */,
 				3F22542C2734D23B0002F135 /* SignInViewContoller.swift in Sources */,
@@ -717,7 +765,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -820,11 +868,12 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.2;
+				MARKETING_VERSION = 0.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Willy.Roland;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -852,11 +901,12 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.2;
+				MARKETING_VERSION = 0.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Willy.Roland;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

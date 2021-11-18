@@ -12,18 +12,12 @@ struct ApplyList: Codable {
     let eventId: String
     let requestSenderId: String
     let acceptedId: String
-    let isAccepted: Bool
-    let isPending: Bool
-    let isRejected: Bool
-//    let documentId: String
+    let documentId: String
 
     enum CodingKeys: String, CodingKey {
         case eventId
         case requestSenderId
         case acceptedId
-        case isAccepted
-        case isPending
-        case isRejected
-//        case documentId
+        case documentId
     }
 }

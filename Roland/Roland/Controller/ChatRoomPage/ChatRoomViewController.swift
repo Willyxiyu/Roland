@@ -69,13 +69,57 @@ class ChatRoomViewController: MessagesViewController {
         return dateFormatter
     }()
     
+    var userInfo: UserInfo? {
+        
+        didSet {
+            
+            guard let photoURL = userInfo?.photo else {
+                fatalError("error")
+            }
+            
+            guard let senderId = userInfo?.userId else {
+                fatalError("error")
+            }
+            
+            guard let displayName = userInfo?.name else {
+                fatalError("error")
+            }
+            
+            var selfSender: Sender? {
+                
+                return Sender(photoURL: photoURL,
+                              senderId: senderId,
+                              displayName: displayName)
+            }
+        }
+    }
+    
     var selectedChatroomId: String?
     
-    public var isNewConversation = false
+    var userInChatRoom: [String]? {
+        
+        didSet {
+            
+            guard let userId = Auth.auth().currentUser?.uid else { return }
+            
+            if let userInChatRoom = userInChatRoom {
+                
+                for user in userInChatRoom {
+                    
+                    if user != userId {
+                        
+                        accepterId = user
+                    }
+                }
+            }
+        }
+    }
     
-    public let accepterId: String = ""
+    var isNewConversation = false
     
-    private var messages = [Message]() {
+    var accepterId: String?
+    
+    var messages = [Message]() {
         
         didSet {
             
@@ -92,6 +136,10 @@ class ChatRoomViewController: MessagesViewController {
             messagesCollectionView.reloadData()
         }
     }
+    
+    
+    var senderPhotoURL: URL?
+    var otherSenderPhotoURL: URL?
     
     var eventUrlString = String() {
         
@@ -114,11 +162,13 @@ class ChatRoomViewController: MessagesViewController {
                 fatalError("error")
             }
             
+            guard let accepterId = accepterId else { fatalError("error") }
+            
             let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
             
             let photoMessage = Message(sender: selfSender, messageId: "", sentDate: Date(), kind: .photo(media))
             
-            FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: photoMessage)
+            FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, accepterId: accepterId, newMessage: photoMessage)
             
             self.messagesCollectionView.reloadData()
             
@@ -126,9 +176,10 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     var selfSender: Sender? {
-        return Sender(photoURL: "",
-                      senderId: "DoIscQXJzIbQfJDTnBVm",
-                      displayName: "Willy Boy")
+        
+        return Sender(photoURL: "photoURL",
+                      senderId: "senderId",
+                      displayName: "displayName")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,6 +194,12 @@ class ChatRoomViewController: MessagesViewController {
         
         guard let selectedChatroomId = selectedChatroomId  else {
             fatalError("error")
+        }
+        
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            
+            self.userInfo = result
+            
         }
         
         FirebaseManger.shared.messageListener(chatRoomId: selectedChatroomId) { results in
@@ -357,18 +414,73 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             break
         }
     }
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        let sender = message.sender
+        
+        if sender.senderId == selfSender?.senderId {
+            return .link
+        }
+        return .secondarySystemBackground
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        
+        if sender.senderId == selfSender?.senderId {
+            
+            if let currentUserImageURL = self.senderPhotoURL {
+                
+                avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
+                
+            } else {
+                // fetch URL
+                FirebaseManger.shared.fetchUserInfobyUserId { result in
+                    
+                    if let photoString = result?.photo {
+                        // data 下來是正確的，但是否轉成可用的URL有待商確
+                        self.senderPhotoURL = URL(string: photoString)
+                    }
+                    
+                }
+            }
+            
+        } else {
+            
+            if let otherUserImageURL = self.otherSenderPhotoURL {
+                
+                avatarView.sd_setImage(with: otherUserImageURL, completed: nil)
+                
+            } else {
+                
+                // fetch URL
+                
+                if let accepterId = accepterId {
+                    
+                    FirebaseManger.shared.fetchUserInfobyUserIdTesr(userId: accepterId) { result in
+                        
+                        if let photoString = result?.photo {
+                            
+                            self.otherSenderPhotoURL = URL(string: photoString)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
-        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(text))
+        let message = Message(sender: selfSender!, messageId: "", sentDate: Date(), kind: .text(text))
         
         guard let selectedChatroomId = selectedChatroomId  else {
             fatalError("error")
         }
         
-        FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, newMessage: message)
+        guard let accepterId = self.accepterId else { fatalError("error") }
+        
+        FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, accepterId: accepterId, newMessage: message)
         
         self.messagesCollectionView.reloadData()
         
@@ -385,6 +497,8 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
         let dateString = Self.dateFormatter.string(from: Date())
         
+        guard let accepterId = accepterId else { fatalError("error") }
+        
         let newIdentifier = "\(accepterId)_\(currentUserEmail)_\(dateString)"
         
         print("create message id: \(newIdentifier)")
@@ -392,31 +506,35 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         return newIdentifier
         
     }
+    
+    
 }
- extension ChatRoomViewController: MessageCellDelegate {
-
+extension ChatRoomViewController: MessageCellDelegate {
+    
     func didTapImage(in cell: MessageCollectionViewCell) {
-
+        
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
-
+            
             return
         }
-
+        
         let message = messages[indexPath.section]
-
+        
         switch message.kind {
-
+            
         case .photo(let media):
-
+            
             guard let imageUrl = media.url else {
-
+                
                 return
             }
-
+            
             let viewController = PhotoViewerViewController(with: imageUrl)
             self.navigationController?.pushViewController(viewController, animated: true)
         default:
             break
         }
     }
- }
+    
+    
+}

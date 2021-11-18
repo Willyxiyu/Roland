@@ -18,14 +18,11 @@ struct UserInfo: Codable {
     let phoneNumber: Int64?
     let photo: String? //
     let userId: String? //
-    let block: Bool?
-    let friendList: [FriendList]?
     let accountState: Bool?
-    let myEventId: [String]?
-    let otherEventId: [String]?
     let likeList: [String]?
     let dislikeList: [String]?
-
+    let blockList: [String]?
+    
     enum CodingKeys: String, CodingKey {
         case name
         case gender
@@ -34,26 +31,11 @@ struct UserInfo: Codable {
         case photo
         case userId
         case createTime
-        case block
-        case friendList
         case accountState
-        case myEventId
-        case otherEventId
         case email
         case likeList
         case dislikeList
+        case blockList
 
-    }
-    
-}
-
-struct FriendList: Codable {
-    let userId: String?
-    let isBlock: Bool?
-    let isPending: Bool?
-    enum CodingKeys: String, CodingKey {
-        case userId
-        case isBlock
-        case isPending
     }
 }
