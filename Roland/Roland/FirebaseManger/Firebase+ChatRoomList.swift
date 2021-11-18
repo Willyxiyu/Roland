@@ -241,4 +241,15 @@ extension FirebaseManger {
             }
         }
     }
+    
+    public func deleteChatroomForBlocking(documentId: String) {
+        database.collection("ChatRoomList").document(documentId).delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
 }

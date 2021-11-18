@@ -402,7 +402,6 @@ extension FirebaseManger {
     }
     
     
-    
     public func deleteUserIdFromApplyList(documentId: String) {
         database.collection("ApplyList").document(documentId).delete { err in
             if let err = err {

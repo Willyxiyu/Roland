@@ -100,6 +100,7 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
                     }
                 }
             }
+            self.chatRoomListTableView.reloadData()
         }
     }
     
@@ -107,7 +108,12 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         
         didSet {
             
-            chatRoomListTableView.reloadData()
+//            if isDeleting == false {
+//
+//                chatRoomListTableView.reloadData()
+//
+//            }
+            
         }
     }
     
@@ -122,6 +128,7 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
     
     var searchUserInfos: [String: UserInfo] = [:]
     
+    // todo - remove it
     var otherUserId = [String]()
     
     private var searchChatRoomList = [ChatRoomList]()
@@ -132,12 +139,18 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
     
     var chatRoomOtherUserId = [String]()
     
+    var isDeleting = false
+    
     override func viewDidLoad() {
         
         setupChatRoomListTableView()
+        
         chatRoomListTableView.separatorStyle = .none
+        
         self.hideKeyboardWhenTappedAround()
+        
         self.title = "Message"
+        
         configureSearchController()
         
         FirebaseManger.shared.chatRoomListListener { results in
@@ -194,6 +207,7 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 1
     }
     
@@ -205,7 +219,7 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
             
         } else {
             
-            return self.searchUserInfosResult.count
+            return self.chatRoomList.count
             
         }
         
@@ -216,15 +230,16 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = chatRoomListTableView.dequeueReusableCell(withIdentifier: String(describing: "\(ChatroomListTableViewCell.self)"),
                                                                    for: indexPath) as? ChatroomListTableViewCell else { fatalError("No cell") }
         
-        // normal mode
+        let chatRoom = self.chatRoomList[indexPath.row]
         
-        let otherUserId = self.otherUserId[indexPath.row]
+        //
+        let otherUserId = chatRoom.otherUserID
         
         let userInfo = self.searchUserInfosResult[otherUserId]
         
         cell.userNameLabel.text = userInfo?.name
         
-        cell.userMessageLabel.text = self.chatRoomList[indexPath.row].latestMessage.text
+        cell.userMessageLabel.text = chatRoom.latestMessage.text
         
         if let photo = userInfo?.photo {
             
@@ -244,8 +259,8 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         
         chatRoomViewController.userInChatRoom = chatRoomList[indexPath.row].userId
         
-        
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
+        
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -258,23 +273,31 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        //        if editingStyle == .delete {
-        //
-        //            tableView.beginUpdates()
-        //
-        //            guard let userId = userInfo[indexPath.row].userId else {
-        //                return
-        //            }
-        //            FirebaseManger.shared.removeAccepterIdFromSelflikeList(accepterId: userId)
-        //
-        //            FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
-        //
-        //            userInfo.remove(at: indexPath.row)
-        //            tableView.deleteRows(at: [indexPath], with: .fade)
-        //
-        //            tableView.endUpdates()
-        //
-        //        }
+        if editingStyle == .delete {
+            
+            tableView.beginUpdates()
+            
+            isDeleting = true
+            
+            let otherUserId = self.otherUserId[indexPath.row]
+            
+            searchUserInfosResult.removeValue(forKey: otherUserId)
+            
+            self.otherUserId.remove(at: indexPath.row)
+            
+            guard let chatRoomId = chatRoomList[indexPath.row].chatRoomId else {
+                return
+            }
+            
+            FirebaseManger.shared.deleteChatroomForBlocking(documentId: chatRoomId)
+            
+            self.chatRoomList.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            tableView.endUpdates()
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
