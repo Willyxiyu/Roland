@@ -530,7 +530,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+                
         switch indexPath.row {
             
         case 0 : break

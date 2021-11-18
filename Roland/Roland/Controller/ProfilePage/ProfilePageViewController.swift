@@ -229,6 +229,9 @@ class ProfilePageViewController: UIViewController {
     
     @objc func editInfo() {
         
+        let vc = NotReadyPageViewController() // change this to your class name
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
     private func setupUserPhotoImageView() {

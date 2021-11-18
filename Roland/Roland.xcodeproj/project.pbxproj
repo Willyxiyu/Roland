@@ -31,6 +31,7 @@
 		3F1A62B12744ED6A00E1E6C5 /* SettingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B02744ED6600E1E6C5 /* SettingPageViewController.swift */; };
 		3F1A62B62745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B52745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift */; };
 		3F1A62B92745476200E1E6C5 /* SettingPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62B82745476100E1E6C5 /* SettingPageTableViewCell.swift */; };
+		3F1A62BB2745E83900E1E6C5 /* NotReadyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */; };
 		3F225404272E7F950002F135 /* GroupEventDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */; };
 		3F225406272EE7AC0002F135 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */; };
 		3F225409272EED740002F135 /* 72933-likelove-icon-micro-interaction.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */; };
@@ -100,6 +101,7 @@
 		3F1A62B02744ED6600E1E6C5 /* SettingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPageViewController.swift; sourceTree = "<group>"; };
 		3F1A62B52745472C00E1E6C5 /* UserProfileSignInTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileSignInTableViewCell.swift; sourceTree = "<group>"; };
 		3F1A62B82745476100E1E6C5 /* SettingPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPageTableViewCell.swift; sourceTree = "<group>"; };
+		3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotReadyPageViewController.swift; path = Roland/Controller/NotReadyPageViewController.swift; sourceTree = SOURCE_ROOT; };
 		3F225403272E7F940002F135 /* GroupEventDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEventDetailPageViewController.swift; sourceTree = "<group>"; };
 		3F225405272EE7AC0002F135 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		3F225408272EED730002F135 /* 72933-likelove-icon-micro-interaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "72933-likelove-icon-micro-interaction.json"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 		3F06CDB1271D773000FFA4E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */,
 				3F22542D2734D24D0002F135 /* SignInPage */,
 				3F22541827325BE00002F135 /* GroupEventCommentPage */,
 				3F225410273259BC0002F135 /* NotificationPage */,
@@ -671,6 +674,7 @@
 				3F22540F273106220002F135 /* ApplyList.swift in Sources */,
 				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
+				3F1A62BB2745E83900E1E6C5 /* NotReadyPageViewController.swift in Sources */,
 				3F1A62B92745476200E1E6C5 /* SettingPageTableViewCell.swift in Sources */,
 				3F0D2B10272AF91300B90B4D /* GroupEvent.swift in Sources */,
 				3F1A62AD2740E2EA00E1E6C5 /* HostAndAttendeeCollectionViewCell.swift in Sources */,

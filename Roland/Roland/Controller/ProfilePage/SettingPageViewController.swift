@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SettingCategory {
     var settingSection: String?
@@ -28,7 +29,7 @@ class SettingPageViewController: UIViewController {
         settingCategory.append(SettingCategory.init(settingSection: "帳號設定", settingItems: ["電話號碼", "電子郵件"]))
         settingCategory.append(SettingCategory.init(settingSection: "聯絡我們", settingItems: ["說明＆支援"]))
         settingCategory.append(SettingCategory.init(settingSection: "社群", settingItems: ["社群規範", "安全小秘訣"]))
-        settingCategory.append(SettingCategory.init(settingSection: "法務", settingItems: ["隱私設定", "服務條款", "授權", "隱私偏好設定"]))
+        settingCategory.append(SettingCategory.init(settingSection: "法務", settingItems: ["隱私政策", "服務條款", "授權", "隱私偏好設定"]))
         
         view.backgroundColor = .systemGray6
         setupSettingPageTitleLabel()
@@ -109,18 +110,18 @@ class SettingPageViewController: UIViewController {
         NSLayoutConstraint.activate([
             settingPageTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
             settingPageTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        
+            
         ])
     }
     
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(tableView)
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: settingPageTitleLabel.bottomAnchor, constant: 30),
-                tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: logoutButton.topAnchor)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: settingPageTitleLabel.bottomAnchor, constant: 30),
+            tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: logoutButton.topAnchor)
         ])
     }
     
@@ -166,6 +167,8 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
                                                        for: indexPath) as? SettingPageTableViewCell else { fatalError("error") }
         
         cell.settingItemsLabel.text = settingCategory[indexPath.section].settingItems?[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -194,5 +197,99 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 40
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+            
+        case 0 :
+            
+            switch indexPath.row {
+                
+            case 0 :
+                
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+                
+            case 1 :
+                
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+                
+            default: break
+                
+            }
+            
+        case 1 :
+            
+            switch indexPath.row {
+                
+            case 0 :
+                
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+                
+            default: break
+                
+            }
+            
+        case 2 :
+            
+            switch indexPath.row {
+                
+            case 0 :
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+                
+            case 1 :
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+                
+            default: break
+                
+            }
+            
+        case 3 :
+            
+            switch indexPath.row {
+                
+            case 0 :
+                
+                guard let url = URL(string: "https://www.privacypolicies.com/live/c00148f6-b426-435c-a4d8-dd4e599b9e25") else { return }
+                
+                let svc = SFSafariViewController(url: url)
+                
+                present(svc, animated: true, completion: nil)
+                
+                print("3.0")
+                
+            case 1 :
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+
+            case 2 :
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+
+            case 3 :
+                let vc = NotReadyPageViewController() // change this to your class name
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+
+            default: break
+            }
+            
+        default: break
+            
+        }
+        
     }
 }
