@@ -59,7 +59,7 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
     
     lazy var eventTitleLabel: UILabel = {
         let eventTitleLabel = UILabel()
-        eventTitleLabel.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        eventTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         eventTitleLabel.textColor = UIColor.black
         eventTitleLabel.textAlignment = .left
         eventTitleLabel.lineBreakMode = .byWordWrapping
@@ -114,7 +114,9 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             eventTitleLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
             eventTitleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            eventTitleLabel.topAnchor.constraint(equalTo: eventDateLabel.bottomAnchor, constant: 10)
+            eventTitleLabel.topAnchor.constraint(equalTo: eventDateLabel.bottomAnchor, constant: 10),
+            eventTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            eventTitleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -25)
         ])
     }
     
