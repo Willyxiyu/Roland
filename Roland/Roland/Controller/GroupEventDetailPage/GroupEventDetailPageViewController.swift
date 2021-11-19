@@ -372,7 +372,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         self.view.addSubview(regisButton)
         NSLayoutConstraint.activate([
             regisButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            regisButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10),
+            regisButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             regisButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
             regisButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
         ])
@@ -418,6 +418,10 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         return 11
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let HAlist = ["活動主辦", "參與者"]
@@ -437,6 +441,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let photo = selectedGroupEvent?.eventPhoto else { fatalError("Error") }
             cell.photoImageView.kf.setImage(with: URL(string: photo))
             cell.eventImageButton.isHidden = true
+            cell.buttonBackView.isHidden = true
             return cell
             
         case 1:
@@ -459,7 +464,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
                 fatalError("error")
             }
             
-            cell.dateLabel.text = String("\(startTime)\n\(endTime)")
+            cell.dateLabel.text = String("活動開始時間：\(startTime)\n活動結束時間：\(endTime)")
             
             return cell
             
@@ -479,6 +484,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let people = selectedGroupEvent?.maximumOfPeople else { fatalError("error")  }
             
             cell.eventDetailTitleLabel.text = "活動人數"
+            cell.eventDetailTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
             cell.eventDetailLabel.text = String("\(people)")
             
             return cell

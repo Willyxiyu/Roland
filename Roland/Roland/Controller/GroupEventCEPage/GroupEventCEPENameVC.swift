@@ -13,8 +13,13 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .secondThemeColor
         self.hideKeyboardWhenTappedAround()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.backButtonTitle = ""
+        
         setupQuestionView()
         setUpTextFiled()
         setupContinueButton()
@@ -22,10 +27,14 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         setupQuestionLabel()
         setupIntroLabel()
         setupBottomLineView()
+        
+        textField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,7 +57,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     private lazy var stepLabel: UILabel = {
         let stepLabel = UILabel()
-        stepLabel.textColor = UIColor.red
+        stepLabel.textColor = UIColor.themeColor
         stepLabel.text = "Step 1 of 6"
         stepLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         stepLabel.textAlignment = .left
@@ -60,7 +69,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var questionLabel: UILabel = {
         let questionLabel = UILabel()
         questionLabel.textColor = UIColor.black
-        questionLabel.text = "親，你的活動名稱是什麼?"
+        questionLabel.text = "你的活動名稱是什麼?"
         questionLabel.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         questionLabel.textAlignment = .left
         questionLabel.lineBreakMode = .byWordWrapping
@@ -71,7 +80,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "如此一來，我們才能幫親～建立活動."
+        introLabel.text = "如此一來，我們才能幫你建立活動."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -91,9 +100,10 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
     private lazy var continueButton: UIButton = {
         let continueButton = UIButton()
         continueButton.setTitle("Continue", for: .normal)
-        continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
         continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
         return continueButton
     }()
     
@@ -102,13 +112,14 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         guard let eventTitle = textField.text else { return }
         groupEventCEPETimeVC.eventTitle = eventTitle
         navigationController?.pushViewController(groupEventCEPETimeVC, animated: true)
+        
     }
     
     private func setupQuestionView() {
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)
         NSLayoutConstraint.activate([
-            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
             questionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             questionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9)
         ])
@@ -119,7 +130,7 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         textField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textField)
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
+            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 30),
             textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             textField.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textField.heightAnchor.constraint(equalToConstant: 40)
@@ -176,4 +187,26 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
             bottomLineView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.text?.isEmpty == true {
+            
+            continueButton.isEnabled = false
+            continueButton.setTitleColor(.gray, for: .normal)
+            
+        } else if textField.text?.isEmpty == false {
+            
+            continueButton.isEnabled = true
+            continueButton.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
+        
+    }
+    
 }

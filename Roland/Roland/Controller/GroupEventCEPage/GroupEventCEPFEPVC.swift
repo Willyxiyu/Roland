@@ -55,6 +55,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
 
     }
     
@@ -93,14 +94,21 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
         return 7
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let gEDetailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEDetailCell.self)"), for: indexPath) as? GEDetailCell else { fatalError("Error") }
+        
+        
         
         switch indexPath.row {
             
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPhotoCell.self)"), for: indexPath) as? GEPhotoCell else { fatalError("Error") }
+            
             cell.photoImageView.image = eventPhoto
             cell.addNewPhoto = { [weak self] in
                 guard let self = self else { return }

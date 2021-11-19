@@ -86,6 +86,8 @@ class ReEditGroupEventViewController: UIViewController {
         
         guard let endTime = selectedGroupEvent?.endTime else { fatalError("Error") }
         
+        guard let attendee = selectedGroupEvent?.attendee else { fatalError("Error") }
+        
         FirebaseManger.shared.updateGroupEventInfo(
             docId: docId,
             eventPhoto: eventPhotoString ?? eventPhoto,
@@ -94,7 +96,8 @@ class ReEditGroupEventViewController: UIViewController {
             startTime: eventStartTime ?? startTime,
             endTime: eventEndTime ?? endTime,
             location: eventlocation ?? location,
-            info: eventIntro ?? info
+            info: eventIntro ?? info,
+            attendee: attendee
         )
         self.navigationController?.popViewController(animated: true)
     }

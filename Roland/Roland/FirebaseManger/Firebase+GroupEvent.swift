@@ -31,7 +31,7 @@ extension FirebaseManger {
             "isFull": false,
             "startTime": groupEventCreatingInfo.startTime,
             "endTime": groupEventCreatingInfo.endTime,
-            "attendee": "",
+            "attendee": [],
             "createTime": Timestamp(date: Date())
         ]
         ref.document(docId).setData(groupEventCreatingInfo) { error in
@@ -328,7 +328,8 @@ extension FirebaseManger {
             }
     }
     // reedit the group event form the reedit page after done edit back to detail page should fetch the info and update.
-    public func updateGroupEventInfo(docId: String, eventPhoto: String, title: String, maximumOfPeople: Int, startTime: String, endTime: String, location: String, info: String ) {
+    // swiftlint:disable function_parameter_count
+    public func updateGroupEventInfo(docId: String, eventPhoto: String, title: String, maximumOfPeople: Int, startTime: String, endTime: String, location: String, info: String, attendee: [String] ) {
         let ref = database.collection("GroupEvent").document(docId)
         ref.updateData([
             "eventPhoto": eventPhoto,
@@ -337,6 +338,7 @@ extension FirebaseManger {
             "startTime": startTime,
             "endTime": endTime,
             "location": location,
+            "attendee": attendee,
             "info": info
         ]) { err in
             if let err = err {

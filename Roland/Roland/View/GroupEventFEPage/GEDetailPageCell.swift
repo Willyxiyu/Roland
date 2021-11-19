@@ -17,6 +17,7 @@ class GEDetailPageTitleCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTitleLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -53,12 +54,20 @@ class GEPhotoCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupPhotoImageView()
+        setupButtonBackView()
         setupEventImageButton()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        buttonBackView.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 * 0.5
     }
     
     lazy var photoImageView: UIImageView = {
@@ -68,12 +77,22 @@ class GEPhotoCell: UITableViewCell {
         return photoImageView
     }()
     
+    lazy var buttonBackView: UIView = {
+        let buttonBackView = UIView()
+        buttonBackView.backgroundColor = .white
+        buttonBackView.alpha = 0.5
+        buttonBackView.clipsToBounds = true
+        return buttonBackView
+    }()
+    
     lazy var eventImageButton: UIButton = {
+        
         let eventImageButton = UIButton()
-        eventImageButton.setImage(UIImage(named: "camera"), for: .normal)
+        let origImage = UIImage(named: "addpicture")
+        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+        eventImageButton.setImage(tintedImage, for: .normal)
+        eventImageButton.tintColor = .themeColor
         eventImageButton.layer.masksToBounds = true
-        eventImageButton.alpha = 0.7
-        //        eventImageButton.tintColor = .black
         eventImageButton.addTarget(self, action: #selector(eventImageButtonTapped), for: .touchUpInside)
         return eventImageButton
     }()
@@ -94,15 +113,25 @@ class GEPhotoCell: UITableViewCell {
             photoImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 9 / 16)
         ])
     }
+    private func setupButtonBackView() {
+        buttonBackView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(buttonBackView)
+        NSLayoutConstraint.activate([
+            buttonBackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
+            buttonBackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
+            buttonBackView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
+            buttonBackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2)
+        ])
+    }
     
     private func setupEventImageButton() {
         eventImageButton.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventImageButton)
         NSLayoutConstraint.activate([
-            eventImageButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
-            eventImageButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
-            eventImageButton.heightAnchor.constraint(equalToConstant: 20),
-            eventImageButton.widthAnchor.constraint(equalToConstant: 20)
+            eventImageButton.centerXAnchor.constraint(equalTo: buttonBackView.centerXAnchor),
+            eventImageButton.centerYAnchor.constraint(equalTo: buttonBackView.centerYAnchor),
+            eventImageButton.heightAnchor.constraint(equalTo: buttonBackView.widthAnchor, multiplier: 0.8),
+            eventImageButton.widthAnchor.constraint(equalTo: buttonBackView.widthAnchor, multiplier: 0.8)
         ])
     }
     
@@ -116,6 +145,7 @@ class GETitleCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTitleLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -152,6 +182,7 @@ class GEDetailCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupEDTLabel()
         setupEDLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -162,7 +193,7 @@ class GEDetailCell: UITableViewCell {
     lazy var eventDetailTitleLabel: UILabel = {
         let eventDetailTitleLabel = UILabel()
         eventDetailTitleLabel.textColor = UIColor.black
-        eventDetailTitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        eventDetailTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         eventDetailTitleLabel.textAlignment = .left
         return eventDetailTitleLabel
     }()
@@ -170,7 +201,7 @@ class GEDetailCell: UITableViewCell {
     lazy var eventDetailLabel: UILabel = {
         let eventDetailLabel = UILabel()
         eventDetailLabel.textColor = UIColor.black
-        eventDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        eventDetailLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         eventDetailLabel.textAlignment = .right
         return eventDetailLabel
     }()
@@ -188,7 +219,7 @@ class GEDetailCell: UITableViewCell {
         self.contentView.addSubview(eventDetailLabel)
         NSLayoutConstraint.activate([
             eventDetailLabel.leadingAnchor.constraint(equalTo: eventDetailTitleLabel.leadingAnchor),
-            eventDetailLabel.topAnchor.constraint(equalTo: eventDetailTitleLabel.bottomAnchor, constant: 2),
+            eventDetailLabel.topAnchor.constraint(equalTo: eventDetailTitleLabel.bottomAnchor, constant: 10),
             eventDetailLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
     }
@@ -203,6 +234,7 @@ class GEIntroCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupEventIntroTitleLabel()
         setupEventIntroLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -213,7 +245,7 @@ class GEIntroCell: UITableViewCell {
     lazy var eventIntroTitleLabel: UILabel = {
         let eventIntroTitleLabel = UILabel()
         eventIntroTitleLabel.textColor = UIColor.black
-        eventIntroTitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        eventIntroTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         eventIntroTitleLabel.textAlignment = .left
         eventIntroTitleLabel.text = "關於"
         return eventIntroTitleLabel
@@ -222,7 +254,7 @@ class GEIntroCell: UITableViewCell {
     lazy var eventIntroLabel: UILabel = {
         let eventIntroLabel = UILabel()
         eventIntroLabel.textColor = UIColor.black
-        eventIntroLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        eventIntroLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         eventIntroLabel.textAlignment = .left
         eventIntroLabel.lineBreakMode = .byWordWrapping
         eventIntroLabel.numberOfLines = 0
@@ -242,7 +274,7 @@ class GEIntroCell: UITableViewCell {
         eventIntroLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventIntroLabel)
         NSLayoutConstraint.activate([
-            eventIntroLabel.topAnchor.constraint(equalTo: eventIntroTitleLabel.bottomAnchor, constant: 2),
+            eventIntroLabel.topAnchor.constraint(equalTo: eventIntroTitleLabel.bottomAnchor, constant: 10),
             eventIntroLabel.leadingAnchor.constraint(equalTo: eventIntroTitleLabel.leadingAnchor),
             eventIntroLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
             eventIntroLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
@@ -257,6 +289,7 @@ class GEMessageCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCommentLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -293,6 +326,7 @@ class GEDateCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupIconImageView()
         setupDateLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -311,7 +345,7 @@ class GEDateCell: UITableViewCell {
     lazy var dateLabel: UILabel = {
         let dateLabel = UILabel()
         dateLabel.textAlignment = .left
-        dateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        dateLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         dateLabel.numberOfLines = 0
         dateLabel.lineBreakMode = .byWordWrapping
         return dateLabel
@@ -321,7 +355,7 @@ class GEDateCell: UITableViewCell {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(iconImageView)
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 30),
             iconImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             iconImageView.heightAnchor.constraint(equalToConstant: 20),
             iconImageView.widthAnchor.constraint(equalToConstant: 20)
@@ -331,7 +365,7 @@ class GEDateCell: UITableViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(dateLabel)
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor),
             dateLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
             dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30),
             dateLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)
@@ -348,6 +382,7 @@ class GElocationCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupIconImageView()
         setuplocationLabel()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -366,7 +401,7 @@ class GElocationCell: UITableViewCell {
     lazy var locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textAlignment = .center
-        locationLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        locationLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return locationLabel
     }()
     
@@ -374,7 +409,7 @@ class GElocationCell: UITableViewCell {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(iconImageView)
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             iconImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             iconImageView.heightAnchor.constraint(equalToConstant: 20),
             iconImageView.widthAnchor.constraint(equalToConstant: 20)
@@ -384,9 +419,9 @@ class GElocationCell: UITableViewCell {
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(locationLabel)
         NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor),
+            locationLabel.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor),
             locationLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
-            locationLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -30)
+            locationLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20)
             
         ])
     }
@@ -411,6 +446,7 @@ class GEHostandAttendeesCell: UITableViewCell {
     }
     
     var userId: [String]?
+    
 //    {
         
 //        didSet {
@@ -458,6 +494,7 @@ class GEHostandAttendeesCell: UITableViewCell {
         hostAndAttendeeCollectionView.dataSource = self
         hostAndAttendeeCollectionView.delegate = self
         hostAndAttendeeCollectionView.backgroundColor = .white
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -467,7 +504,7 @@ class GEHostandAttendeesCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .left
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
         return titleLabel
     }()
@@ -518,7 +555,6 @@ extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewData
             fatalError("error")
         }
         
-            
 //            if let photoString = self.userInfo[indexPath.row].photo {
 //
 //                cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photoString))
