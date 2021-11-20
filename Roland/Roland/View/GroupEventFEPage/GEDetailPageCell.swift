@@ -445,41 +445,31 @@ class GEHostandAttendeesCell: UITableViewCell {
         }
     }
     
-    var userId: [String]?
-    
-//    {
+    var userId: [String]? {
         
-//        didSet {
-//            self.userInfo.removeAll()
+        didSet {
             
-//            guard let userIds = self.userId else {
-//
-//                fatalError("error")
-//            }
+            self.userInfo.removeAll()
             
-//            for userId in userIds {
+            guard let userIds = self.userId else {
+
+                fatalError("error")
+            }
+            
+            for userId in userIds {
                 
-//                FirebaseManger.shared.fetchUserInfobyUserIdTesr(userId: userId) { resultTest in
-//
-//                    if let resultTest = resultTest {
-//
-//                        print(resultTest)
-//                    }
-//
-//                }
-//
-//                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
-//
-//                    guard let result = result else {
-//                        fatalError("error")
-//                    }
-//
-//                    self.userInfo.append(result)
-//                }
-//            }
-//            dispatchGroup.leave()
-//        }
-//    }
+                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: userId) { result in
+
+                    guard let result = result else {
+                        
+                        fatalError("error")
+                    }
+
+                    self.userInfo.append(result)
+                }
+            }
+        }
+    }
     
     // MARK: - init
     
@@ -541,12 +531,7 @@ class GEHostandAttendeesCell: UITableViewCell {
 extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        guard let userId = userId else {
-            
-            fatalError("error")
-        }
-        
-        return userId.count
+        return userInfo.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -555,10 +540,11 @@ extension GEHostandAttendeesCell: UICollectionViewDelegate, UICollectionViewData
             fatalError("error")
         }
         
-//            if let photoString = self.userInfo[indexPath.row].photo {
-//
-//                cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photoString))
-//            }
+            if let photoString = self.userInfo[indexPath.row].photo {
+
+                cell.hostAndAttendeePhoto.kf.setImage(with: URL(string: photoString))
+            }
+        
         return cell
     }
     

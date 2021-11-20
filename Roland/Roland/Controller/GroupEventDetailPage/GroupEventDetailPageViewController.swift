@@ -46,7 +46,6 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         tableView.register(GEIntroCell.self, forCellReuseIdentifier: String(describing: GEIntroCell.self))
         tableView.register(GEHostandAttendeesCell.self, forCellReuseIdentifier: String(describing: GEHostandAttendeesCell.self))
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
-        tableView.allowsSelection = false
         tableView.dataSource = self
         tableView.delegate = self
         setupBorderLine()
@@ -299,34 +298,34 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         quitEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         quitEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         quitEventButton.addTarget(self, action: #selector(quitEvent), for: .touchUpInside)
-//        quitEventButton.setTitle("已退出活動", for: .disabled)
+        //        quitEventButton.setTitle("已退出活動", for: .disabled)
         return quitEventButton
     }()
     
     @objc func quitEvent() {
         
-            if let eventId =  selectedGroupEvent?.eventId {
+        if let eventId =  selectedGroupEvent?.eventId {
+            
+            let alert = UIAlertController(title: "退出活動", message: "刪除後無法反悔", preferredStyle: .alert)
+            
+            let cancel = UIAlertAction(title: "懸崖勒馬", style: .cancel, handler: nil)
+            
+            let confirm = UIAlertAction(title: "確認退出", style: .default, handler: { [weak self] _ in
                 
-                let alert = UIAlertController(title: "退出活動", message: "刪除後無法反悔", preferredStyle: .alert)
+                guard let self = self else { return }
                 
-                let cancel = UIAlertAction(title: "懸崖勒馬", style: .cancel, handler: nil)
+                FirebaseManger.shared.deleteAttendeeIdForQuitEvent(docId: eventId)
                 
-                let confirm = UIAlertAction(title: "確認退出", style: .default, handler: { [weak self] _ in
-                    
-                    guard let self = self else { return }
-                    
-                    FirebaseManger.shared.deleteAttendeeIdForQuitEvent(docId: eventId)
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    
-                })
+                self.navigationController?.popViewController(animated: true)
                 
-                alert.addAction(confirm)
-                
-                alert.addAction(cancel)
-                
-                self.present(alert, animated: true, completion: nil)
-            }
+            })
+            
+            alert.addAction(confirm)
+            
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     lazy var shareEventButton: UIButton = {
@@ -542,7 +541,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-                
+        
         switch indexPath.row {
             
         case 0 : break
@@ -563,26 +562,22 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
         case 8 :
             
-            guard let eventId = selectedGroupEvent?.eventId else {
-                fatalError("error")
+            if let eventId = selectedGroupEvent?.eventId {
+                
+                publicCommentViewController.eventId = eventId
+                
+                navigationController?.pushViewController(publicCommentViewController, animated: true)
             }
-            
-            publicCommentViewController.eventId = eventId
-            
-            navigationController?.pushViewController(publicCommentViewController, animated: true)
             
         case 9 :
             
-            guard let eventId = selectedGroupEvent?.eventId else {
-                fatalError("error")
+            if let eventId = selectedGroupEvent?.eventId {
+                
+                privateCommentViewController.eventId = eventId
+                
+                navigationController?.pushViewController(privateCommentViewController, animated: true)
             }
-            
-            privateCommentViewController.eventId = eventId
-            
-            navigationController?.pushViewController(privateCommentViewController, animated: true)
-            
-        case 10 : break
-            
+                        
         default:
             
             break

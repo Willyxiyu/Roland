@@ -38,7 +38,7 @@ class GroupEventCEPFEPVC: UIViewController, UITextViewDelegate, UITextFieldDeleg
              groupEvent = GroupEvent(
                 senderId: "", eventId: "", createTime: Timestamp(date: Date()), eventPhoto: eventUrlString,
                 title: eventTitle, startTime: startTime, endTime: endTime, location: eventLocation,
-                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, comment: [], attendee: [""])
+                maximumOfPeople: maxPeople, info: eventIntro, isClose: false, isPending: true, isFull: false, attendee: [])
 
         }
     }
@@ -101,9 +101,7 @@ extension GroupEventCEPFEPVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let gEDetailCell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEDetailCell.self)"), for: indexPath) as? GEDetailCell else { fatalError("Error") }
-        
-        
-        
+    
         switch indexPath.row {
             
         case 0:

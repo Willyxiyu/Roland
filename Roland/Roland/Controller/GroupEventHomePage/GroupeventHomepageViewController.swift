@@ -274,7 +274,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
                 print("還沒報名")
                 
             }
-            
+                    
             if int == 1 || int == 0 {
                 
                 // 活動尚未過期

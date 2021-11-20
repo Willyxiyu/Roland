@@ -86,7 +86,7 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
 
         footerView.sendText = { (text) in
             
-            FirebaseManger.shared.postPrivateComment(eventId: self.eventId, commentSenderId: "54321", comment: text)
+            FirebaseManger.shared.postPrivateComment(eventId: self.eventId, comment: text)
         }
         
         return footerView

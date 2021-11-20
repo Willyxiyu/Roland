@@ -213,12 +213,13 @@ extension FirebaseManger {
             }
     }
     
-    public func postPublicComment(eventId: String, commentSenderId: String, comment: String) {
+    public func postPublicComment(eventId: String, comment: String) {
         let ref = database.collection("GroupEvent").document(eventId).collection("Comment")
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         let docId = ref.document().documentID
         
         let newComment: [String: Any] = [
-            "commentSenderId": commentSenderId,
+            "commentSenderId": userId,
             "comment": comment,
             "createTime": NSDate().timeIntervalSince1970
         ]
@@ -269,15 +270,17 @@ extension FirebaseManger {
             }
     }
     
-    public func postPrivateComment(eventId: String, commentSenderId: String, comment: String) {
+    public func postPrivateComment(eventId: String, comment: String) {
         
         let ref = database.collection("GroupEvent").document(eventId).collection("PrivateComment")
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
         let docId = ref.document().documentID
         
         let newComment: [String: Any] = [
             
-            "commentSenderId": commentSenderId,
+            "commentSenderId": userId,
             "comment": comment,
             "createTime": NSDate().timeIntervalSince1970
         ]

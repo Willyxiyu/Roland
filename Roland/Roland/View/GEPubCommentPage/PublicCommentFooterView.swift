@@ -19,6 +19,7 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
         setupUserPhotoImageView()
         setupCommentTextField()
         setupSendButton()
+        commentTextField.delegate = self
         
     }
     
@@ -31,9 +32,9 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
         userPhotoImageView.layer.cornerRadius = UIScreen.main.bounds.width * 0.1 * 0.5
     }
     lazy var userPhotoImageView: UIImageView = {
-        let photoImage = UIImage(named: "photo")
+//        let photoImage = UIImage(named: "photo")
         let userPhotoImageView = UIImageView()
-        userPhotoImageView.image = photoImage
+//        userPhotoImageView.image = photoImage
         userPhotoImageView.contentMode = .scaleAspectFill
         userPhotoImageView.clipsToBounds = true
         return userPhotoImageView
@@ -54,6 +55,7 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
         sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         sendButton.isEnabled = true
         sendButton.addTarget(self, action: #selector(sendTexttoMessage), for: .touchUpInside)
+        sendButton.isEnabled = false
         return sendButton
     }()
     
@@ -65,6 +67,8 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
         }
         
         commentTextField.text?.removeAll()
+        sendButton.isEnabled = false
+        sendButton.setTitleColor(.gray, for: .normal)
         
     }
     
@@ -89,6 +93,7 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
             commentTextField.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -50),
             commentTextField.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.1)
         ])
+        commentTextField.delegate = self
     }
     
     private func setupSendButton() {
@@ -99,4 +104,26 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
             sendButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15)
         ])
     }
+    
+    func textFieldDidEndEditing(_ commentTextField: UITextField) {
+        
+        if commentTextField.text?.isEmpty == true {
+            
+            sendButton.isEnabled = false
+            sendButton.setTitleColor(.gray, for: .normal)
+            
+        } else if commentTextField.text?.isEmpty == false {
+            
+            sendButton.isEnabled = true
+            sendButton.setTitleColor(.link, for: .normal)
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ commentTextField: UITextField) {
+        
+        sendButton.isEnabled = false
+        sendButton.setTitleColor(.gray, for: .normal)
+        
+    }
+    
 }

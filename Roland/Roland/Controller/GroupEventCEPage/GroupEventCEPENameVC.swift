@@ -27,7 +27,6 @@ class GroupEventCEPENameVC: UIViewController, UITextViewDelegate, UITextFieldDel
         setupQuestionLabel()
         setupIntroLabel()
         setupBottomLineView()
-        
         textField.delegate = self
         
     }
