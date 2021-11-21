@@ -51,7 +51,7 @@ class PublicCommentFooterView: UITableViewHeaderFooterView, UITextFieldDelegate 
     lazy var sendButton: UIButton = {
         let sendButton = UIButton()
         sendButton.setTitle("Send", for: .normal)
-        sendButton.setTitleColor(UIColor.lightGray, for: .normal)
+        sendButton.setTitleColor(UIColor.gray, for: .normal)
         sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         sendButton.isEnabled = true
         sendButton.addTarget(self, action: #selector(sendTexttoMessage), for: .touchUpInside)

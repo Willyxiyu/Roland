@@ -174,7 +174,9 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         let confirm = UIAlertAction(title: "確認刪除", style: .default, handler: { [weak self] _ in
             
             guard let self = self else { return }
+            
             FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
+            
             self.navigationController?.popViewController(animated: true)
             
         })
@@ -574,10 +576,24 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             if let eventId = selectedGroupEvent?.eventId {
                 
                 privateCommentViewController.eventId = eventId
+            }
+            
+            if isAttendee == true || isTheHost == true {
                 
                 navigationController?.pushViewController(privateCommentViewController, animated: true)
+                
+            } else {
+                
+                let alert = UIAlertController(title: "請先提出申請加入活動", message: "通過申請，便可以進入團員留言板留言囉！", preferredStyle: .alert)
+                
+                let cancel = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
+                
             }
-                        
+        
         default:
             
             break
