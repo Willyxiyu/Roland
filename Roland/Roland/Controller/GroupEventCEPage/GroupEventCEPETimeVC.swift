@@ -16,8 +16,11 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.setBackgroundImage(imageName: "CEBGVertical")
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .secondThemeColor
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.backButtonTitle = ""
 
         setupQuestionView()
         setupEventStartLabel()
@@ -28,16 +31,12 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
-        
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
     }
-    
-    //    override func viewWillDisappear(_ animated: Bool) {
-    //        tabBarController?.tabBar.isHidden = false
-    //    }
     
     private lazy var questionView: UIView = {
         let questionView = UIView()
@@ -49,7 +48,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     private lazy var stepLabel: UILabel = {
         let stepLabel = UILabel()
-        stepLabel.textColor = UIColor.red
+        stepLabel.textColor = UIColor.themeColor
         stepLabel.text = "Step 2 of 6"
         stepLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         stepLabel.textAlignment = .left
@@ -82,14 +81,14 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     
     private lazy var eventStartLabel: UILabel = {
         let eventStartLabel = UILabel()
-        eventStartLabel.text = "活動開始時間"
+        eventStartLabel.text = "開始時間"
         eventStartLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return eventStartLabel
     }()
     
     private lazy var eventEndLabel: UILabel = {
         let eventEndLabel = UILabel()
-        eventEndLabel.text = "活動結束時間"
+        eventEndLabel.text = "結束時間"
         eventEndLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return eventEndLabel
     }()
@@ -104,20 +103,55 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
     }()
     
     @objc func continueNextPage() {
-        
+    
         let startDate = eventStartDatePicker.date
         let startDateFormatter = DateFormatter()
-        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
+        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm a"
+        startDateFormatter.locale = Locale(identifier: "en")
         let startTime = startDateFormatter.string(from: startDate)
         let endDate = eventEndDatePicker.date
         let endDateFormatter = DateFormatter()
-        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
+        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm a"
+        endDateFormatter.locale = Locale(identifier: "en")
         let endTime = endDateFormatter.string(from: endDate)
         
-        groupEventCEPELocationVC.eventTitle = eventTitle
-        groupEventCEPELocationVC.startTime = startTime
-        groupEventCEPELocationVC.endTime = endTime
-        navigationController?.pushViewController(groupEventCEPELocationVC, animated: true)
+        // startTime && endTime should not in the past time
+        // endtime should not before startTime
+        
+        let startTimeDateTimeInt = DateClass.compareOneDay(oneDay: startTime, withAnotherDay: Date())
+        
+        let endTimeDateTimeInt = DateClass.compareOneDay(oneDay: endTime, withAnotherDay: Date())
+        
+        let endTimetSartTimeInt = DateClass.compareOneDayWithBothSting(oneDay: endTime, withAnotherDay: startTime)
+        
+        if startTimeDateTimeInt == 1 && endTimeDateTimeInt == 1 && endTimetSartTimeInt == 1 {
+            
+            // 活動時間都在未來，且結束時間晚於開始時間
+            groupEventCEPELocationVC.eventTitle = eventTitle
+            groupEventCEPELocationVC.startTime = startTime
+            groupEventCEPELocationVC.endTime = endTime
+            navigationController?.pushViewController(groupEventCEPELocationVC, animated: true)
+            
+        } else if  startTimeDateTimeInt == 2 || endTimeDateTimeInt == 2 {
+            
+            // 開始時間或結束時間其一晚於當下時刻
+            
+            let alert = UIAlertController(title: "輸入無效", message: "開始或結束時間不得在過去", preferredStyle: .alert)
+            let confirm = UIAlertAction(title: "ok", style: .default, handler: nil)
+            alert.addAction(confirm)
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if endTimetSartTimeInt == 2 || endTimetSartTimeInt == 0 {
+            
+            // 結束時間早於開始時間，或等於開始時間
+            
+            let alert = UIAlertController(title: "輸入無效", message: "結束時間不得早於或等於開始時間", preferredStyle: .alert)
+            let confirm = UIAlertAction(title: "ok", style: .default, handler: nil)
+            alert.addAction(confirm)
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+    
     }
     private lazy var eventStartDatePicker: UIDatePicker = {
         let eventStartDatePicker = UIDatePicker()
@@ -144,7 +178,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)
         NSLayoutConstraint.activate([
-            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
             questionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             questionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9)
         ])
@@ -212,7 +246,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         self.view.addSubview(eventStartDatePicker)
         NSLayoutConstraint.activate([
             eventStartDatePicker.centerYAnchor.constraint(equalTo: eventStartLabel.centerYAnchor),
-            eventStartDatePicker.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            eventStartDatePicker.trailingAnchor.constraint(equalTo: questionView.trailingAnchor),
             eventStartDatePicker.heightAnchor.constraint(equalTo: eventStartLabel.heightAnchor)
         ])
     }
@@ -222,7 +256,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
         self.view.addSubview(eventEndDatePicker)
         NSLayoutConstraint.activate([
             eventEndDatePicker.centerYAnchor.constraint(equalTo: eventEndLabel.centerYAnchor),
-            eventEndDatePicker.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            eventEndDatePicker.trailingAnchor.constraint(equalTo: questionView.trailingAnchor),
             eventEndDatePicker.heightAnchor.constraint(equalTo: eventEndLabel.heightAnchor)
         ])
     }

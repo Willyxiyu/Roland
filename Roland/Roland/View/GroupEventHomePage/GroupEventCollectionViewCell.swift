@@ -18,7 +18,7 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         setupEventPhoto()
         setupEventDateLabel()
         setupEventTitleLabel()
-        setupEventLocationLabel()
+//        setupEventLocationLabel()
         setupEventViewsImageView()
     }
     
@@ -52,14 +52,13 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         eventDateLabel.textColor = UIColor.hexStringToUIColor(hex: "a5a58d")
         eventDateLabel.textAlignment = .left
         eventDateLabel.lineBreakMode = .byWordWrapping
-        eventDateLabel.numberOfLines = 0
-        eventDateLabel.text = "2021.10.31"
+        eventDateLabel.numberOfLines = 2
         return eventDateLabel
     }()
     
     lazy var eventTitleLabel: UILabel = {
         let eventTitleLabel = UILabel()
-        eventTitleLabel.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        eventTitleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         eventTitleLabel.textColor = UIColor.black
         eventTitleLabel.textAlignment = .left
         eventTitleLabel.lineBreakMode = .byWordWrapping
@@ -75,7 +74,7 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         eventLocationLabel.textAlignment = .left
         eventLocationLabel.lineBreakMode = .byWordWrapping
         eventLocationLabel.numberOfLines = 0
-        eventLocationLabel.text = "台北市信義區"
+//        eventLocationLabel.text = "台北市信義區"
         return eventLocationLabel
     }()
   
@@ -104,7 +103,8 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             eventDateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             eventDateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            eventDateLabel.topAnchor.constraint(equalTo: eventPhoto.bottomAnchor, constant: 10)
+            eventDateLabel.topAnchor.constraint(equalTo: eventPhoto.bottomAnchor, constant: 10),
+            eventDateLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -114,7 +114,9 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             eventTitleLabel.leadingAnchor.constraint(equalTo: eventDateLabel.leadingAnchor),
             eventTitleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            eventTitleLabel.topAnchor.constraint(equalTo: eventDateLabel.bottomAnchor, constant: 10)
+            eventTitleLabel.topAnchor.constraint(equalTo: eventDateLabel.bottomAnchor, constant: 10),
+            eventTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            eventTitleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
     }
     

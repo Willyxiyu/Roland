@@ -19,7 +19,11 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .secondThemeColor
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.backButtonTitle = ""
         self.hideKeyboardWhenTappedAround()
         setupQuestionView()
         setUpTextFiled()
@@ -28,6 +32,8 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         setupQuestionLabel()
         setupIntroLabel()
         setupBottomLineView()
+        
+        textField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +60,7 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     private lazy var stepLabel: UILabel = {
         let stepLabel = UILabel()
-        stepLabel.textColor = UIColor.red
+        stepLabel.textColor = UIColor.themeColor
         stepLabel.text = "Step 4 of 6"
         stepLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         stepLabel.textAlignment = .left
@@ -77,7 +83,7 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "同是天涯淪落人，相逢何必曾相識."
+        introLabel.text = "活動人數預估越精準，越能完善活動安排."
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -87,10 +93,11 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Yeeee"
+        textField.placeholder = "活動人數"
         textField.backgroundColor = UIColor.clear
         textField.layer.borderColor = UIColor.clear.cgColor
         textField.setLeftPaddingPoints(10)
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -100,6 +107,8 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
         continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
         return continueButton
     }()
     
@@ -120,7 +129,7 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)
         NSLayoutConstraint.activate([
-            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
             questionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             questionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9)
         ])
@@ -131,7 +140,7 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
         textField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textField)
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
+            textField.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 30),
             textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             textField.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textField.heightAnchor.constraint(equalToConstant: 40)
@@ -187,5 +196,25 @@ class GroupEventCEPEAoPVC: UIViewController, UITextViewDelegate, UITextFieldDele
             bottomLineView.widthAnchor.constraint(equalTo: textField.widthAnchor),
             bottomLineView.heightAnchor.constraint(equalToConstant: 1)
         ])
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.text?.isEmpty == true {
+            
+            continueButton.isEnabled = false
+            continueButton.setTitleColor(.gray, for: .normal)
+            
+        } else if textField.text?.isEmpty == false {
+            
+            continueButton.isEnabled = true
+            continueButton.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
+        
     }
 }

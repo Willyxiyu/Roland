@@ -46,7 +46,6 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         tableView.register(GEIntroCell.self, forCellReuseIdentifier: String(describing: GEIntroCell.self))
         tableView.register(GEHostandAttendeesCell.self, forCellReuseIdentifier: String(describing: GEHostandAttendeesCell.self))
         tableView.register(GEMessageCell.self, forCellReuseIdentifier: String(describing: GEMessageCell.self))
-        tableView.allowsSelection = false
         tableView.dataSource = self
         tableView.delegate = self
         setupBorderLine()
@@ -175,7 +174,9 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         let confirm = UIAlertAction(title: "確認刪除", style: .default, handler: { [weak self] _ in
             
             guard let self = self else { return }
+            
             FirebaseManger.shared.deleteGroupEventCreatingInfo(docId: eventId)
+            
             self.navigationController?.popViewController(animated: true)
             
         })
@@ -299,34 +300,34 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         quitEventButton.layer.borderColor = UIColor.secondThemeColor?.cgColor
         quitEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         quitEventButton.addTarget(self, action: #selector(quitEvent), for: .touchUpInside)
-//        quitEventButton.setTitle("已退出活動", for: .disabled)
+        //        quitEventButton.setTitle("已退出活動", for: .disabled)
         return quitEventButton
     }()
     
     @objc func quitEvent() {
         
-            if let eventId =  selectedGroupEvent?.eventId {
+        if let eventId =  selectedGroupEvent?.eventId {
+            
+            let alert = UIAlertController(title: "退出活動", message: "刪除後無法反悔", preferredStyle: .alert)
+            
+            let cancel = UIAlertAction(title: "懸崖勒馬", style: .cancel, handler: nil)
+            
+            let confirm = UIAlertAction(title: "確認退出", style: .default, handler: { [weak self] _ in
                 
-                let alert = UIAlertController(title: "退出活動", message: "刪除後無法反悔", preferredStyle: .alert)
+                guard let self = self else { return }
                 
-                let cancel = UIAlertAction(title: "懸崖勒馬", style: .cancel, handler: nil)
+                FirebaseManger.shared.deleteAttendeeIdForQuitEvent(docId: eventId)
                 
-                let confirm = UIAlertAction(title: "確認退出", style: .default, handler: { [weak self] _ in
-                    
-                    guard let self = self else { return }
-                    
-                    FirebaseManger.shared.deleteAttendeeIdForQuitEvent(docId: eventId)
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    
-                })
+                self.navigationController?.popViewController(animated: true)
                 
-                alert.addAction(confirm)
-                
-                alert.addAction(cancel)
-                
-                self.present(alert, animated: true, completion: nil)
-            }
+            })
+            
+            alert.addAction(confirm)
+            
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     lazy var shareEventButton: UIButton = {
@@ -372,7 +373,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         self.view.addSubview(regisButton)
         NSLayoutConstraint.activate([
             regisButton.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            regisButton.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10),
+            regisButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             regisButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.25),
             regisButton.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.07)
         ])
@@ -418,6 +419,10 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
         return 11
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let HAlist = ["活動主辦", "參與者"]
@@ -437,6 +442,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let photo = selectedGroupEvent?.eventPhoto else { fatalError("Error") }
             cell.photoImageView.kf.setImage(with: URL(string: photo))
             cell.eventImageButton.isHidden = true
+            cell.buttonBackView.isHidden = true
             return cell
             
         case 1:
@@ -459,7 +465,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
                 fatalError("error")
             }
             
-            cell.dateLabel.text = String("\(startTime)\n\(endTime)")
+            cell.dateLabel.text = String("活動開始時間：\(startTime)\n活動結束時間：\(endTime)")
             
             return cell
             
@@ -479,6 +485,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             guard let people = selectedGroupEvent?.maximumOfPeople else { fatalError("error")  }
             
             cell.eventDetailTitleLabel.text = "活動人數"
+            cell.eventDetailTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
             cell.eventDetailLabel.text = String("\(people)")
             
             return cell
@@ -536,7 +543,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-                
+        
         switch indexPath.row {
             
         case 0 : break
@@ -557,26 +564,36 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
             
         case 8 :
             
-            guard let eventId = selectedGroupEvent?.eventId else {
-                fatalError("error")
+            if let eventId = selectedGroupEvent?.eventId {
+                
+                publicCommentViewController.eventId = eventId
+                
+                navigationController?.pushViewController(publicCommentViewController, animated: true)
             }
-            
-            publicCommentViewController.eventId = eventId
-            
-            navigationController?.pushViewController(publicCommentViewController, animated: true)
             
         case 9 :
             
-            guard let eventId = selectedGroupEvent?.eventId else {
-                fatalError("error")
+            if let eventId = selectedGroupEvent?.eventId {
+                
+                privateCommentViewController.eventId = eventId
             }
             
-            privateCommentViewController.eventId = eventId
-            
-            navigationController?.pushViewController(privateCommentViewController, animated: true)
-            
-        case 10 : break
-            
+            if isAttendee == true || isTheHost == true {
+                
+                navigationController?.pushViewController(privateCommentViewController, animated: true)
+                
+            } else {
+                
+                let alert = UIAlertController(title: "尚未成為團員", message: "通過申請，便可以進入團員留言板留言囉！", preferredStyle: .alert)
+                
+                let cancel = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+        
         default:
             
             break

@@ -20,6 +20,7 @@ class GEPrivateCommentCell: UITableViewCell {
         setupMessageLabel()
         setupThumbsupButton()
         setupEllipsisButton()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -33,9 +34,9 @@ class GEPrivateCommentCell: UITableViewCell {
     }
     
     lazy var userPhotoImageView: UIImageView = {
-        let photoImage = UIImage(named: "photo")
+//        let photoImage = UIImage(named: "photo")
         let userPhotoImageView = UIImageView()
-        userPhotoImageView.image = photoImage
+//        userPhotoImageView.image = photoImage
         userPhotoImageView.contentMode = .scaleAspectFill
         userPhotoImageView.clipsToBounds = true
         return userPhotoImageView
@@ -46,7 +47,7 @@ class GEPrivateCommentCell: UITableViewCell {
         userNameLabel.textColor = UIColor.black
         userNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         userNameLabel.textAlignment = .left
-        userNameLabel.text = "Willy Boy"
+//        userNameLabel.text = "Willy Boy"
         return userNameLabel
     }()
     
@@ -55,7 +56,7 @@ class GEPrivateCommentCell: UITableViewCell {
         dateLabel.textColor = UIColor.black
         dateLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         dateLabel.textAlignment = .right
-        dateLabel.text = "2021.11.03"
+//        dateLabel.text = "2021.11.03"
         return dateLabel
     }()
     

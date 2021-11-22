@@ -137,8 +137,8 @@ class ChatRoomViewController: MessagesViewController {
         }
     }
     
-    
     var senderPhotoURL: URL?
+    
     var otherSenderPhotoURL: URL?
     
     var eventUrlString = String() {
@@ -186,7 +186,6 @@ class ChatRoomViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        //        messagesCollectionView.delegate = self
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         setupInputButton()
@@ -226,6 +225,7 @@ class ChatRoomViewController: MessagesViewController {
                     kind = .photo(media)
                     
                 } else if result.text != "" {
+                    
                     kind = .text(result.text ?? "")
                 }
                 
@@ -435,9 +435,7 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             } else {
                 // fetch URL
                 FirebaseManger.shared.fetchUserInfobyUserId { result in
-                    
                     if let photoString = result?.photo {
-                        // data 下來是正確的，但是否轉成可用的URL有待商確
                         self.senderPhotoURL = URL(string: photoString)
                     }
                     
@@ -506,8 +504,6 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         return newIdentifier
         
     }
-    
-    
 }
 extension ChatRoomViewController: MessageCellDelegate {
     
@@ -535,6 +531,4 @@ extension ChatRoomViewController: MessageCellDelegate {
             break
         }
     }
-    
-    
 }

@@ -19,15 +19,22 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .secondThemeColor
         self.hideKeyboardWhenTappedAround()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.backButtonTitle = ""
+        
         setupQuestionView()
         setupTextView()
         setupContinueButton()
         setupStepLabel()
         setupQuestionLabel()
         setupIntroLabel()
-//        self.textView.pasteDelegate = self
+        
+        textView.pasteDelegate = self
+        textView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +55,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     
     private lazy var stepLabel: UILabel = {
         let stepLabel = UILabel()
-        stepLabel.textColor = UIColor.red
+        stepLabel.textColor = UIColor.themeColor
         stepLabel.text = "Step 5 of 6"
         stepLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         stepLabel.textAlignment = .left
@@ -71,7 +78,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
     private lazy var introLabel: UILabel = {
         let introLabel = UILabel()
         introLabel.textColor = UIColor.lightGray
-        introLabel.text = "橫看成嶺側成峰 遠近高低各不同."
+        introLabel.text = "簡易明瞭，帶點吸引人的文案，通常都能引起大家的注意喔！"
         introLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         introLabel.textAlignment = .left
         introLabel.lineBreakMode = .byWordWrapping
@@ -97,6 +104,8 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.backgroundColor = UIColor.black
         continueButton.addTarget(self, action: #selector(continueNextPage), for: .touchUpInside)
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
         return continueButton
     }()
     
@@ -117,7 +126,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         questionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(questionView)
         NSLayoutConstraint.activate([
-            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            questionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
             questionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             questionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9)
         ])
@@ -128,7 +137,7 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
         textView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textView)
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 20),
+            textView.topAnchor.constraint(equalTo: questionView.bottomAnchor, constant: 30),
             textView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             textView.widthAnchor.constraint(equalTo: questionView.widthAnchor),
             textView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3)
@@ -173,4 +182,26 @@ class GroupEventCEPEIntroVC: UIViewController, UITextViewDelegate, UITextFieldDe
             introLabel.bottomAnchor.constraint(equalTo: questionView.bottomAnchor, constant: -20)
         ])
     }
+    
+    internal func textViewDidEndEditing(_ textView: UITextView) {
+        
+        if textView.text?.isEmpty == true {
+            
+            continueButton.isEnabled = false
+            continueButton.setTitleColor(.gray, for: .normal)
+            
+        } else if textView.text?.isEmpty == false {
+            
+            continueButton.isEnabled = true
+            continueButton.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    internal func textViewDidBeginEditing(_ textView: UITextView) {
+        
+        continueButton.isEnabled = false
+        continueButton.setTitleColor(.gray, for: .normal)
+        
+    }
+
 }
