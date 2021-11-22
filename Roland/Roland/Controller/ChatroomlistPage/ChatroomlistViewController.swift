@@ -13,7 +13,6 @@ import Kingfisher
 // class ChatroomlistViewController: UIViewController {
 class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    
     private let spinner = JGProgressHUD(style: .dark)
     
     private var chatRoomList = [ChatRoomList]() {

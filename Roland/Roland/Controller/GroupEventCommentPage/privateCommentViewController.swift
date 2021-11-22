@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Firebase
+import Kingfisher
 
 class PrivateCommentViewController: UIViewController {
     
@@ -22,6 +23,15 @@ class PrivateCommentViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    var userInfos: [String: UserInfo] = [:] {
+        
+        didSet {
+            
+            tableView.reloadData()
+        }
+    }
+    
+    var selfUserInfo: UserInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +46,28 @@ class PrivateCommentViewController: UIViewController {
         tableView.delegate = self
         
         FirebaseManger.shared.fetchAllPrivateComment(eventId: eventId) { results in
+            
             self.privateComment.removeAll()
-            results.forEach { result in
-                self.privateComment.append(result)
+            
+            results.forEach { commentSender in
+                
+                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: commentSender.commentSenderId) { [weak self] result in
+                    guard let self = self else { return }
+                    
+                    if let userId = result?.userId {
+                        
+                        self.userInfos[userId] = result
+                    }
+                }
+                
+                self.privateComment.append(commentSender)
+            }
+        }
+        
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            if let result = result {
+                
+                self.selfUserInfo = result
             }
         }
     }
@@ -70,14 +99,33 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPrivateCommentCell.self)"), for: indexPath) as? GEPrivateCommentCell else { fatalError("Error") }
         
-        let date = Date(timeIntervalSince1970: privateComment[indexPath.row].createTime)
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "yyyy/MM/dd"
         
-        cell.messageLabel.text = privateComment[indexPath.row].comment
+        let commentSender = self.privateComment[indexPath.row]
+        
+        let date = Date(timeIntervalSince1970: commentSender.createTime)
+        
+        let userId = commentSender.commentSenderId
+       
+        let userInfo = self.userInfos[userId]
+        
+        cell.userNameLabel.text = userInfo?.name
+        
+        cell.messageLabel.text = commentSender.comment
+        
         cell.dateLabel.text = dateformatter.string(from: date)
         
+        
+        if let photo = userInfo?.photo {
+            cell.userPhotoImageView.kf.setImage(with: URL(string: photo))
+        }
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -86,7 +134,12 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
 
         footerView.sendText = { (text) in
             
-            FirebaseManger.shared.postPrivateComment(eventId: self.eventId, commentSenderId: "54321", comment: text)
+            FirebaseManger.shared.postPrivateComment(eventId: self.eventId, comment: text)
+        }
+        
+        if let photo = selfUserInfo?.photo {
+            
+            footerView.userPhotoImageView.kf.setImage(with: URL(string: photo))
         }
         
         return footerView
@@ -94,7 +147,7 @@ extension PrivateCommentViewController: UITableViewDataSource, UITableViewDelega
         }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-       return 80
+        UITableView.automaticDimension
     }
 
 }

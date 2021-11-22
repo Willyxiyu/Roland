@@ -248,7 +248,8 @@ class ReEditGETimeCell: UITableViewCell {
     @objc func editSTime() {
         let startDate = eventStartDatePicker.date
         let startDateFormatter = DateFormatter()
-        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
+        startDateFormatter.dateFormat = "yyyy.MM.dd h:mm a"
+        startDateFormatter.locale = Locale(identifier: "en")
         let startTime = startDateFormatter.string(from: startDate)
         delegate?.stimeUpdate(startTime: startTime)
     }
@@ -268,7 +269,8 @@ class ReEditGETimeCell: UITableViewCell {
     @objc func editETime() {
         let endDate = eventEndDatePicker.date
         let endDateFormatter = DateFormatter()
-        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm"
+        endDateFormatter.dateFormat = "yyyy.MM.dd h:mm a"
+        endDateFormatter.locale = Locale(identifier: "en")
         let endTime = endDateFormatter.string(from: endDate)
         delegate?.etimeUpdate(endTime: endTime)
     }

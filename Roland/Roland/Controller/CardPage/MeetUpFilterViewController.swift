@@ -55,8 +55,7 @@ class MeetUpFilterViewController: UIViewController {
         super.viewWillLayoutSubviews()
         confirmButton.clipsToBounds = true
         confirmButton.layer.cornerRadius = 15
-        //        filterSegmentedControl.clipsToBounds = true
-        //        filterSegmentedControl.layer.cornerRadius = 20
+       
     }
     
     @objc func closeFilter() {
@@ -95,15 +94,11 @@ class MeetUpFilterViewController: UIViewController {
     }()
     
     @objc func onChange(sender: UISegmentedControl) {
-        
-        //        print(sender.selectedSegmentIndex)
-        
+            
         if let selectedIndex = sender.titleForSegment(at: sender.selectedSegmentIndex) {
             
             favoriteGender = selectedIndex
-            
-//            print(favoriteGender)
-            
+                    
         }
         
     }
@@ -142,30 +137,23 @@ class MeetUpFilterViewController: UIViewController {
     @objc func sliderChanged() {
         
         let result = horizontalMultiSlider.value
-        
-//        print(result)
-        
+            
         var intResult: [Int] = []
         for iiii in result {
             let jjjj = Int(iiii)
             intResult.append(jjjj)
             
         }
-        
-//        print(intResult)
-        
+            
         var ageArrangeString: [String] = []
         for sss in intResult {
             let ooo = String(sss)
             ageArrangeString.append(ooo)
             
-            
         }
         
         self.ageArrangeString = ageArrangeString
-        
-//        print(ageArrangeString)
-        
+                
     }
     
     lazy var sliderView: UIView = {
@@ -216,9 +204,8 @@ class MeetUpFilterViewController: UIViewController {
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(likeLabel)
         NSLayoutConstraint.activate([
-            likeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            likeLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 50),
-            likeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            likeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            likeLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 50)
         ])
     }
     
@@ -226,7 +213,7 @@ class MeetUpFilterViewController: UIViewController {
         filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterSegmentedControl)
         NSLayoutConstraint.activate([
-            filterSegmentedControl.topAnchor.constraint(equalTo: likeLabel.bottomAnchor, constant: 10),
+            filterSegmentedControl.topAnchor.constraint(equalTo: likeLabel.bottomAnchor, constant: 20),
             filterSegmentedControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             filterSegmentedControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.85),
             filterSegmentedControl.heightAnchor.constraint(equalToConstant: 30)
@@ -238,7 +225,7 @@ class MeetUpFilterViewController: UIViewController {
         ageLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(ageLabel)
         NSLayoutConstraint.activate([
-            ageLabel.topAnchor.constraint(equalTo: filterSegmentedControl.bottomAnchor, constant: 20),
+            ageLabel.topAnchor.constraint(equalTo: filterSegmentedControl.bottomAnchor, constant: 50),
             ageLabel.leadingAnchor.constraint(equalTo: likeLabel.leadingAnchor)
         ])
     }

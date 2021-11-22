@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 import Firebase
+import Kingfisher
 
 class PublicCommentViewController: UIViewController {
     
     let tableView = UITableView()
     
     var eventId = String()
-            
+    
     var comment = [Comment]() {
         
         didSet {
@@ -22,6 +23,15 @@ class PublicCommentViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    var userInfos: [String: UserInfo] = [:] {
+        
+        didSet {
+            
+            tableView.reloadData()
+        }
+    }
+    
+    var selfUserInfo: UserInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +45,33 @@ class PublicCommentViewController: UIViewController {
         tableView.delegate = self
         
         FirebaseManger.shared.fetchAllPublicComment(eventId: eventId) { results in
+            
             self.comment.removeAll()
-            results.forEach { result in
-                print(result)
-                self.comment.append(result)
+            
+            results.forEach { commentSender in
+                
+                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: commentSender.commentSenderId) { [weak self] result in
+                    
+                    guard let self = self else { return }
+                    
+                    if let userId = result?.userId {
+                        
+                        self.userInfos[userId] = result
+                    }
+                }
+                
+                self.comment.append(commentSender)
             }
         }
-
+        
+        FirebaseManger.shared.fetchUserInfobyUserId { result in
+            
+            if let result = result {
+                
+                self.selfUserInfo = result
+                
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,41 +91,67 @@ class PublicCommentViewController: UIViewController {
     
 }
 extension PublicCommentViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return comment.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(GEPCommentCell.self)"), for: indexPath) as? GEPCommentCell else { fatalError("Error") }
         
-        let date = Date(timeIntervalSince1970: comment[indexPath.row].createTime)
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "yyyy/MM/dd"
         
-        cell.messageLabel.text = comment[indexPath.row].comment
+        let commentSender = self.comment[indexPath.row]
+        
+        let date = Date(timeIntervalSince1970: commentSender.createTime)
+        
+        let userId = commentSender.commentSenderId
+        
+        let userInfo = self.userInfos[userId]
+        
+        cell.userNameLabel.text = userInfo?.name
+        
+        cell.messageLabel.text = commentSender.comment
+        
         cell.dateLabel.text = dateformatter.string(from: date)
         
+        if let photo = userInfo?.photo {
+            
+            cell.userPhotoImageView.kf.setImage(with: URL(string: photo))
+        }
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PublicCommentFooterView.reuseIdentifier) as? PublicCommentFooterView else { fatalError("Error") }
-
+        
         footerView.sendText = { (text) in
             
-            FirebaseManger.shared.postPublicComment(eventId: self.eventId, commentSenderId: "12345", comment: text)
+            FirebaseManger.shared.postPublicComment(eventId: self.eventId, comment: text)
+        }
+        
+        if let photo = selfUserInfo?.photo {
+            
+            footerView.userPhotoImageView.kf.setImage(with: URL(string: photo))
         }
         
         return footerView
         
-        }
+    }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-       return 80
+        
+        UITableView.automaticDimension
     }
-
+    
 }
