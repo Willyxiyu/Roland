@@ -62,6 +62,8 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
         let notificationImage = UIImage.init(systemName: "bell")
         let plusButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(createNewEvent))
         let notificationButton = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(pushNotiVC))
+        notificationButton.tintColor = .themeColor
+        plusButton.tintColor = .themeColor
         self.navigationItem.setRightBarButtonItems([plusButton, notificationButton], animated: true)
         
     }
@@ -195,7 +197,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             cell.eventPhoto.kf.setImage(with: URL(string: self.searchGroupEvent[indexPath.row].eventPhoto))
             cell.eventTitleLabel.text = self.searchGroupEvent[indexPath.row].title
             cell.eventLocationLabel.text = self.searchGroupEvent[indexPath.row].location
-            cell.eventDateLabel.text = self.searchGroupEvent[indexPath.row].startTime
+            cell.eventDateLabel.text = "開始時間\n\(self.searchGroupEvent[indexPath.row].startTime)"
             cell.backgroundColor = UIColor.white
             cell.contentView.layer.cornerRadius = 15
             cell.contentView.layer.masksToBounds = true
@@ -206,7 +208,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             cell.eventPhoto.kf.setImage(with: URL(string: self.groupEvent[indexPath.row].eventPhoto))
             cell.eventTitleLabel.text = self.groupEvent[indexPath.row].title
             cell.eventLocationLabel.text = self.groupEvent[indexPath.row].location
-            cell.eventDateLabel.text = self.groupEvent[indexPath.row].startTime
+            cell.eventDateLabel.text = "開始時間\n\(self.groupEvent[indexPath.row].startTime)"
             cell.backgroundColor = UIColor.white
             cell.contentView.layer.cornerRadius = 15
             cell.contentView.layer.masksToBounds = true

@@ -584,7 +584,7 @@ extension GroupEventDetailPageViewController: UITableViewDelegate, UITableViewDa
                 
             } else {
                 
-                let alert = UIAlertController(title: "請先提出申請加入活動", message: "通過申請，便可以進入團員留言板留言囉！", preferredStyle: .alert)
+                let alert = UIAlertController(title: "尚未成為團員", message: "通過申請，便可以進入團員留言板留言囉！", preferredStyle: .alert)
                 
                 let cancel = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                 

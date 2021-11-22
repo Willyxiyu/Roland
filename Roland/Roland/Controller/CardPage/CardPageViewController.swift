@@ -22,7 +22,7 @@ class CardPageViewController: UIViewController {
         super.viewDidLoad()
         setupCardView()
         setupRolandImageView()
-        setupFilterButton()
+//        setupFilterButton()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
