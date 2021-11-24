@@ -19,6 +19,8 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
     let layout = UICollectionViewFlowLayout()
     var groupEventCollectionView: UICollectionView!
     var applyList = [ApplyList]()
+    var blockList = [String]()
+    
     var groupEvent = [GroupEvent]() {
         
         didSet {
@@ -28,6 +30,8 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
     }
     var searching = false
     var searchGroupEvent = [GroupEvent]()
+    
+    var selectedEventId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,9 +55,20 @@ class GroupEventHomePageViewController: UIViewController, UITextFieldDelegate, U
         super.viewWillAppear(animated)
         groupEventCollectionView.backgroundColor = .white
         
-        FirebaseManger.shared.fetchGroupEventCreatingInfo { (groupEvent) in
+        FirebaseManger.shared.blockListListener { userInfo in
+            self.blockList.removeAll()
+            if let blockList = userInfo?.blockList {
+                for blockId in blockList {
+                    self.blockList.append(blockId)
+                }
+            }
             
-            self.groupEvent = groupEvent
+            FirebaseManger.shared.fetchGroupEventCreatingInfo { (groupEvent) in
+                
+                self.groupEvent = groupEvent.filter({ groupEvent -> Bool in
+                    !(self.blockList.contains(groupEvent.eventId))
+                })
+            }
         }
     }
     
@@ -213,9 +228,41 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
             cell.contentView.layer.cornerRadius = 15
             cell.contentView.layer.masksToBounds = true
             cell.shadowDecorate()
+            
         }
         
+        cell.ellipsisButton.addTarget(self, action: #selector(ellipsis(sender:)), for: .touchUpInside)
+        cell.ellipsisButton.tag = indexPath.row
+        
         return cell
+    }
+    
+    @objc func ellipsis(sender: UIButton) {
+        
+        self.selectedEventId = self.groupEvent[sender.tag].eventId
+        
+        let alert = UIAlertController(title: "檢舉", message: "您的檢舉將會匿名，如果有人有立即的人身安全疑慮，請立即與當地緊急救護服務連絡，把握救援時間！檢舉內容：仇恨言論、符號、垃圾訊息、霸凌或騷擾、自殺或自殘、誤導或詐騙....等等", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        let confirm = UIAlertAction(title: "確認檢舉", style: .default, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            guard let eventId = self.selectedEventId else {
+                return
+            }
+            
+            FirebaseManger.shared.postGroupEventIdtoSelfBlockList(blockId: eventId)
+            
+        })
+        
+        alert.addAction(cancel)
+        
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -238,7 +285,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
+        
         guard let selectedRow = groupEventCollectionView.indexPathsForSelectedItems?.first?.row else { return }
         
         let selectedGroupEvent = groupEvent[selectedRow]
@@ -276,7 +323,7 @@ extension GroupEventHomePageViewController: UICollectionViewDelegate, UICollecti
                 print("還沒報名")
                 
             }
-                    
+            
             if int == 1 || int == 0 {
                 
                 // 活動尚未過期

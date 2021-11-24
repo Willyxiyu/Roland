@@ -33,6 +33,10 @@ class PublicCommentViewController: UIViewController {
     
     var selfUserInfo: UserInfo?
     
+    var selectedUserId: String?
+    
+    var blockList = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -44,38 +48,62 @@ class PublicCommentViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        FirebaseManger.shared.fetchAllPublicComment(eventId: eventId) { results in
-            
-            self.comment.removeAll()
-            
-            results.forEach { commentSender in
-                
-                FirebaseManger.shared.fetchOtherUserInfo(otherUserId: commentSender.commentSenderId) { [weak self] result in
-                    
-                    guard let self = self else { return }
-                    
-                    if let userId = result?.userId {
-                        
-                        self.userInfos[userId] = result
-                    }
-                }
-                
-                self.comment.append(commentSender)
-            }
-        }
-        
-        FirebaseManger.shared.fetchUserInfobyUserId { result in
-            
-            if let result = result {
-                
-                self.selfUserInfo = result
-                
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+        
+        FirebaseManger.shared.blockListListener { userInfo in
+            
+            self.blockList.removeAll()
+            
+            if let blockList = userInfo?.blockList {
+                
+                for blockId in blockList {
+                    
+                    self.blockList.append(blockId)
+                }
+            }
+            
+            FirebaseManger.shared.fetchAllPublicComment(eventId: self.eventId) { results in
+                
+                self.comment.removeAll()
+                
+                let filertComment = results.filter { comment -> Bool in
+                    !(self.blockList.contains(comment.commentSenderId))
+                    
+                }
+                
+                filertComment.forEach { commentSender in
+                    
+                    FirebaseManger.shared.fetchOtherUserInfo(otherUserId: commentSender.commentSenderId) { [weak self] result in
+                        
+                        guard let self = self else { return }
+                        
+                        if let userId = result?.userId {
+                            
+                            self.userInfos[userId] = result
+                        }
+                    }
+                    
+                    self.comment.append(commentSender)
+                }
+            }
+            
+            FirebaseManger.shared.fetchUserInfobyUserId { result in
+                
+                if let result = result {
+                    
+                    self.selfUserInfo = result
+                    
+                }
+            }
+        }
+        
+        
+        
+        
+        
     }
     
     private func setupTableView() {
@@ -123,9 +151,39 @@ extension PublicCommentViewController: UITableViewDataSource, UITableViewDelegat
             cell.userPhotoImageView.kf.setImage(with: URL(string: photo))
         }
         
+        cell.ellipsisButton.addTarget(self, action: #selector(ellipsis(sender:)), for: .touchUpInside)
+        cell.ellipsisButton.tag = indexPath.row
+        
         return cell
     }
     
+    @objc func ellipsis(sender: UIButton) {
+        
+        self.selectedUserId = self.comment[sender.tag].commentSenderId
+        
+        let alert = UIAlertController(title: "檢舉", message: "您的檢舉將會匿名，如果有人有立即的人身安全疑慮，請立即與當地緊急救護服務連絡，把握救援時間！檢舉內容：仇恨言論、符號、垃圾訊息、霸凌或騷擾、自殺或自殘、誤導或詐騙....等等", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        let confirm = UIAlertAction(title: "確認檢舉", style: .default, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            guard let userId = self.selectedUserId else {
+                return
+            }
+            
+            FirebaseManger.shared.postGroupEventIdtoSelfBlockList(blockId: userId)
+            
+        })
+        
+        alert.addAction(cancel)
+        
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         UITableView.automaticDimension

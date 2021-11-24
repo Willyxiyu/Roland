@@ -33,6 +33,8 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     
     var requestSenderId: String?
     
+    var selectedEventId: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -55,6 +57,8 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         setupShareEventButton()
         setupRegisButton()
         setupQuitEventButton()
+        setupNavigationBarItem()
+        setupExpiredLabel()
         
     }
     
@@ -73,12 +77,14 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
         guard let isTheHost = isTheHost else { fatalError("error") }
         
         if isTheHost == true && isExpired == false {
+            
             cancelButton.isHidden = false
             editButton.isHidden = false
             shareEventButton.isHidden = true
             regisButton.isHidden = true
             cancelRegisButton.isHidden = true
             quitEventButton.isHidden = true
+            expiredLabel.isHidden = true
             
         } else if isTheHost == false && isRigisted == true && isExpired == false {
             
@@ -88,6 +94,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             editButton.isHidden = true
             regisButton.isHidden = true
             quitEventButton.isHidden = true
+            expiredLabel.isHidden = true
             
         } else if isTheHost == false && isRigisted == false && isAttendee == false && isExpired == false {
             
@@ -97,6 +104,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             editButton.isHidden = true
             cancelRegisButton.isHidden = true
             quitEventButton.isHidden = true
+            expiredLabel.isHidden = true
             
         } else if isTheHost == false && isRigisted == false && isAttendee == true && isExpired == false {
             
@@ -106,6 +114,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             editButton.isHidden = true
             cancelRegisButton.isHidden = true
             quitEventButton.isHidden = false
+            expiredLabel.isHidden = true
             
         } else if isExpired == true {
             
@@ -115,6 +124,7 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
             shareEventButton.isHidden = true
             regisButton.isHidden = true
             quitEventButton.isHidden = true
+            expiredLabel.isHidden = false
             
         }
     }
@@ -122,6 +132,44 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
         regisButton.isSelected = false
+        
+    }
+    
+    func setupNavigationBarItem() {
+        let ellipsisImage = UIImage.init(systemName: "ellipsis")
+        let ellipsisButton = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: #selector(ellipsis))
+        
+        ellipsisButton.tintColor = .themeColor
+        self.navigationItem.setRightBarButton(ellipsisButton, animated: true)
+    }
+    
+    @objc func ellipsis(sender: UIButton) {
+        
+        self.selectedEventId = selectedGroupEvent?.eventId
+        
+        let alert = UIAlertController(title: "檢舉", message: "您的檢舉將會匿名，如果有人有立即的人身安全疑慮，請立即與當地緊急救護服務連絡，把握救援時間！檢舉內容：仇恨言論、符號、垃圾訊息、霸凌或騷擾、自殺或自殘、誤導或詐騙....等等", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        let confirm = UIAlertAction(title: "確認檢舉", style: .default, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            guard let eventId = self.selectedEventId else {
+                return
+            }
+            
+            self.navigationController?.popViewController(animated: true)
+
+            FirebaseManger.shared.postGroupEventIdtoSelfBlockList(blockId: eventId)
+            
+        })
+        
+        alert.addAction(cancel)
+        
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
         
     }
     
@@ -345,6 +393,28 @@ class GroupEventDetailPageViewController: UIViewController, UITextViewDelegate, 
     @objc func shareEvent() {
         
     }
+    
+    lazy var expiredLabel: UILabel = {
+        let expiredLabel = UILabel()
+        expiredLabel.text = "活動已過期"
+        expiredLabel.textAlignment = .center
+        expiredLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        expiredLabel.textColor = .themeColor
+        expiredLabel.isHidden = true
+        
+        return expiredLabel
+    }()
+    
+    private func setupExpiredLabel() {
+        expiredLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(expiredLabel)
+        NSLayoutConstraint.activate([
+            expiredLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            expiredLabel.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            expiredLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor)
+        ])
+    }
+    
     
     private func setupCancelButton() {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false

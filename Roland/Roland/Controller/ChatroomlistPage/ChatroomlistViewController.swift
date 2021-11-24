@@ -19,6 +19,8 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         
         didSet {
             
+            chatRoomIsEmpty()
+            
             chatRoomListTableView.reloadData()
         }
         
@@ -40,11 +42,15 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
     
     var isDeleting = false
     
+    var noChatroomImageView = UIImageView(image: UIImage(named: "尚無聊天室"))
+    
     override func viewDidLoad() {
         
         setupChatRoomListTableView()
         
         chatRoomListTableView.separatorStyle = .none
+        
+        chatRoomListTableView.backgroundColor = .white
         
         self.hideKeyboardWhenTappedAround()
         
@@ -75,11 +81,17 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
                 
             }
         }
+        
+        setupNochatroomImageView()
+        
+//        chatRoomIsEmpty()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+//        chatRoomIsEmpty()
         
     }
     
@@ -100,6 +112,18 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
             chatRoomListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             chatRoomListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             chatRoomListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+    }
+    
+    private func setupNochatroomImageView() {
+        noChatroomImageView.translatesAutoresizingMaskIntoConstraints = false
+        chatRoomListTableView.addSubview(noChatroomImageView)
+        NSLayoutConstraint.activate([
+            noChatroomImageView.centerXAnchor.constraint(equalTo: chatRoomListTableView.centerXAnchor),
+            noChatroomImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            noChatroomImageView.heightAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5),
+            noChatroomImageView.widthAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5)
+
         ])
     }
     
@@ -157,6 +181,19 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         searchChatRoomList = chatRoomList
         
         self.chatRoomListTableView.reloadData()
+    }
+    
+    func chatRoomIsEmpty() {
+        
+        if chatRoomList.count == 0 {
+            
+            noChatroomImageView.isHidden = false
+            
+        } else {
+            
+            noChatroomImageView.isHidden = true
+        }
+        
     }
     
 }

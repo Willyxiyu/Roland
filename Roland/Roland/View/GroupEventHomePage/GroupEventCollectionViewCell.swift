@@ -8,7 +8,7 @@
 import UIKit
 
 class GroupEventCollectionViewCell: UICollectionViewCell {
-    
+
     static let identifier = "GroupEventCollectionViewCell"
     
     // MARK: - init
@@ -86,6 +86,16 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         return eventViewsImageView
     }()
     
+    lazy var ellipsisButton: UIButton = {
+        let ellipsisButton = UIButton()
+        ellipsisButton.setImage(UIImage.init(systemName: "ellipsis"), for: .normal)
+        ellipsisButton.transform = ellipsisButton.transform.rotated(by: .pi / 2)
+        ellipsisButton.layer.masksToBounds = true
+        ellipsisButton.tintColor = .lightGray
+        return ellipsisButton
+    }()
+    
+
     private func setupEventPhoto() {
         eventPhoto.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventPhoto)
@@ -143,11 +153,11 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupEventViewsImageView() {
-        eventViewsImageView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(eventViewsImageView)
+        ellipsisButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(ellipsisButton)
         NSLayoutConstraint.activate([
-            eventViewsImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15),
-            eventViewsImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20)
+            ellipsisButton.topAnchor.constraint(equalTo: eventDateLabel.topAnchor),
+            ellipsisButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
         ])
     }
     

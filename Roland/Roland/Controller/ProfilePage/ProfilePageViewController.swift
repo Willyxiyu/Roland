@@ -10,6 +10,8 @@ import UIKit
 import Lottie
 import FirebaseStorage
 import Kingfisher
+import SafariServices
+
 
 class ProfilePageViewController: UIViewController {
 //    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
@@ -168,7 +170,7 @@ class ProfilePageViewController: UIViewController {
         let settingLabel = UILabel()
         settingLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         settingLabel.textAlignment = .center
-        settingLabel.text = "設定"
+        settingLabel.text = "隱私政策"
         return settingLabel
     }()
     
@@ -199,10 +201,15 @@ class ProfilePageViewController: UIViewController {
     
     @objc func setting() {
         
-        let vc = SettingPageViewController() // change this to your class name
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
+        guard let url = URL(string: "https://www.privacypolicies.com/live/c00148f6-b426-435c-a4d8-dd4e599b9e25") else { return }
         
+        let svc = SFSafariViewController(url: url)
+        
+        present(svc, animated: true, completion: nil)
+        
+//        let vc = SettingPageViewController() // change this to your class name
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: true, completion: nil)
     }
     
     lazy var newPhotoButton: UIButton = {

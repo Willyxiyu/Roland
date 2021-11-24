@@ -269,8 +269,6 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
                 
                 present(svc, animated: true, completion: nil)
                 
-                print("3.0")
-                
             case 1 :
                 let vc = NotReadyPageViewController() // change this to your class name
                 vc.modalPresentationStyle = .fullScreen
