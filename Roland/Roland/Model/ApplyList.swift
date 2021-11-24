@@ -20,4 +20,7 @@ struct ApplyList: Codable {
         case acceptedId
         case documentId
     }
+    
+//    static let `default` = ApplyList(eventId: "", requestSenderId: "", acceptedId: "", documentId: "")
 }
+

@@ -19,6 +19,8 @@ class NotificationViewController: UIViewController {
         
         didSet {
             
+            notiPageIsEmpty()
+            
             tableView.reloadData()
         }
     }
@@ -29,6 +31,7 @@ class NotificationViewController: UIViewController {
     var selectedEventId: String?
     var selectedUserId: String?
     var selectedDocumentId: String?
+    var noNotiImageView = UIImageView(image: UIImage(named: "尚無通知"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,28 +43,21 @@ class NotificationViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
+        setupNoNotiImageView()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.applyListRequestSenderId.removeAll()
-        self.applyListEventId.removeAll()
+        tabBarController?.tabBar.isHidden = true
         
         // 幫團長拿申請doc
         FirebaseManger.shared.fetchApplyListforHost { result in
             
-            if result.isEmpty {
-                
-                self.tableView.isHidden = true
-                
-                self.view.backgroundColor = .white
-                
-            } else {
-                
-                self.tableView.isHidden = false
-                
+            self.applyList.removeAll()
+            self.applyListRequestSenderId.removeAll()
+            self.applyListEventId.removeAll()
+        
                 self.applyList = result
                 for applyInfo in self.applyList {
                     self.applyListRequestSenderId.append(applyInfo.requestSenderId)
@@ -74,18 +70,24 @@ class NotificationViewController: UIViewController {
                     FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
                         guard let result = result else { fatalError("error") }
                         self.userInfo.append(result)
+                        self.notiPageIsEmpty()
                     }
                 }
                 // 從doc的eventid去fetch GroupEvent的eventid
                 self.groupEvent.removeAll()
                 for groupEventId in self.applyListEventId {
                     FirebaseManger.shared.fetchGroupEventforHost(eventId: groupEventId) { result in
-                        guard let result = result else { fatalError("error") }
+                        guard let result = result else {
+                            fatalError("error")
+                        }
                         self.groupEvent.append(result)
                     }
                 }
             }
         }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
     }
     
     private func setupTableView() {
@@ -97,6 +99,30 @@ class NotificationViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setupNoNotiImageView() {
+        noNotiImageView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.addSubview(noNotiImageView)
+        NSLayoutConstraint.activate([
+            noNotiImageView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            noNotiImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            noNotiImageView.heightAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.5),
+            noNotiImageView.widthAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.5)
+            
+        ])
+    }
+    
+    func notiPageIsEmpty() {
+        
+        if userInfo.count == 0 {
+            
+            noNotiImageView.isHidden = false
+            
+        } else {
+            
+            noNotiImageView.isHidden = true
+        }
     }
 }
 
@@ -113,32 +139,33 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
             fatalError("Error")
         }
         
-        if let photo = self.userInfo[indexPath.row].photo {
+        let user = self.userInfo[indexPath.row]
+        
+        if let photo = user.photo {
             
             cell.userImageView.kf.setImage(with: URL(string: photo))
             
         }
-        cell.userNameLabel.text = self.userInfo[indexPath.row].name
+        cell.userNameLabel.text = user.name
         
         cell.introLabel.text = "想參加您的\n\(self.groupEvent[indexPath.row].title)喔！～"
         
-        cell.acceptedButton.addTarget(self, action: #selector(self.accptedTheRequest), for: .touchUpInside)
+        cell.acceptedButton.addTarget(self, action: #selector(accptedTheRequest(sender:)), for: .touchUpInside)
         cell.acceptedButton.tag = indexPath.row
-        cell.rejectedButton.addTarget(self, action: #selector(self.rejectTheRequest), for: .touchUpInside)
+        
+        cell.rejectedButton.addTarget(self, action: #selector(rejectTheRequest(sender:)), for: .touchUpInside)
         cell.rejectedButton.tag = indexPath.row
-        
-        self.selectedEventId = self.groupEvent[cell.acceptedButton.tag].eventId
-        self.selectedUserId = self.userInfo[cell.acceptedButton.tag].userId
-        self.selectedDocumentId = self.applyList[cell.acceptedButton.tag].documentId
-        
-        self.selectedEventId = self.groupEvent[cell.rejectedButton.tag].eventId
-        self.selectedUserId = self.userInfo[cell.rejectedButton.tag].userId
-        self.selectedDocumentId = self.applyList[cell.rejectedButton.tag].documentId
         
         return cell
     }
     
-    @objc func accptedTheRequest() {
+    @objc func accptedTheRequest(sender: UIButton) {
+        
+        self.selectedEventId = self.groupEvent[sender.tag].eventId
+        
+        self.selectedUserId = self.userInfo[sender.tag].userId
+        
+        self.selectedDocumentId = self.applyList[sender.tag].documentId
         
         guard let selectedEventId = self.selectedEventId else {
             fatalError("error")
@@ -155,18 +182,20 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
         
         FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-        
-        tableView.reloadData()
-        
+                
     }
     
-    @objc func rejectTheRequest() {
+    @objc func rejectTheRequest(sender: UIButton) {
+        
+        self.selectedEventId = self.groupEvent[sender.tag].eventId
+        
+        self.selectedUserId = self.userInfo[sender.tag].userId
+        
+        self.selectedDocumentId = self.applyList[sender.tag].documentId
         
         guard let selectedDocumentId = self.selectedDocumentId else { fatalError("error") }
         
         FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-
-        tableView.reloadData()
-        
+            
     }
 }
