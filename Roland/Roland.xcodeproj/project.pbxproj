@@ -861,8 +861,8 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roland/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "APP需要取用您的相機";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "APP需要取用您的相簿";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許Roland取用您的相機來更換您的照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許Roland取用您的相簿來更換您的照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -894,8 +894,8 @@
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roland/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "APP需要取用您的相機";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "APP需要取用您的相簿";
+				INFOPLIST_KEY_NSCameraUsageDescription = "請允許Roland取用您的相機來更換您的照片";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "請允許Roland取用您的相簿來更換您的照片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

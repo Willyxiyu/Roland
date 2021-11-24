@@ -267,4 +267,70 @@ extension FirebaseManger {
                 }
             }
     }
+    
+    // 將group event的ID加入到自己的blocklist
+    func postGroupEventIdtoSelfBlockList(blockId: String) {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        let ref = database.collection("UserInfo").document(userId)
+        
+        ref.updateData(["blockList": FieldValue.arrayUnion([blockId])]) { error in
+            
+            if let error = error {
+                
+                print("Error writing document: \(error)")
+                
+            } else {
+                
+                print("Document data: \("blockList")")
+            }
+        }
+        
+    }
+    
+    // listen the blockList
+    
+    public func blockListListener(completion: @escaping(UserInfo?) -> Void) {
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        database.collection("UserInfo").whereField("userId", isEqualTo: userId)
+        
+            .addSnapshotListener { querySnapshot, error in
+                
+                if let error = error {
+                    
+                    print(error)
+                    
+                    return
+                    
+                } else {
+                    
+                    var userInfo: UserInfo?
+                    
+                    guard let documents = querySnapshot?.documents else {
+                        return
+                    }
+                    
+                    for document in documents {
+                        
+                        do {
+                            
+                            if let user = try document.data(as: UserInfo.self) {
+                                
+                                userInfo = user
+                            }
+                            
+                        } catch {
+                            
+                            print(error)
+                        }
+                    }
+                    
+                    completion(userInfo)
+                }
+                
+            }
+    }
 }

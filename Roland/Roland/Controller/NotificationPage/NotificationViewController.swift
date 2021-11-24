@@ -19,6 +19,8 @@ class NotificationViewController: UIViewController {
         
         didSet {
             
+            notiPageIsEmpty()
+            
             tableView.reloadData()
         }
     }
@@ -29,6 +31,7 @@ class NotificationViewController: UIViewController {
     var selectedEventId: String?
     var selectedUserId: String?
     var selectedDocumentId: String?
+    var noNotiImageView = UIImageView(image: UIImage(named: "尚無通知"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +43,7 @@ class NotificationViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
+        setupNoNotiImageView()
         
     }
     
@@ -54,13 +58,13 @@ class NotificationViewController: UIViewController {
             
             if result.isEmpty {
                 
-                self.tableView.isHidden = true
+//                self.tableView.isHidden = true
                 
                 self.view.backgroundColor = .white
                 
             } else {
                 
-                self.tableView.isHidden = false
+//                self.tableView.isHidden = false
                 
                 self.applyList = result
                 for applyInfo in self.applyList {
@@ -74,6 +78,7 @@ class NotificationViewController: UIViewController {
                     FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
                         guard let result = result else { fatalError("error") }
                         self.userInfo.append(result)
+                        self.notiPageIsEmpty()
                     }
                 }
                 // 從doc的eventid去fetch GroupEvent的eventid
@@ -97,6 +102,30 @@ class NotificationViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setupNoNotiImageView() {
+        noNotiImageView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.addSubview(noNotiImageView)
+        NSLayoutConstraint.activate([
+            noNotiImageView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            noNotiImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            noNotiImageView.heightAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.5),
+            noNotiImageView.widthAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.5)
+
+        ])
+    }
+
+    func notiPageIsEmpty() {
+        
+        if userInfo.count == 0 {
+            
+            noNotiImageView.isHidden = false
+            
+        } else {
+            
+            noNotiImageView.isHidden = true
+        }
     }
 }
 
@@ -127,13 +156,13 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         cell.rejectedButton.addTarget(self, action: #selector(self.rejectTheRequest), for: .touchUpInside)
         cell.rejectedButton.tag = indexPath.row
         
-        self.selectedEventId = self.groupEvent[cell.acceptedButton.tag].eventId
-        self.selectedUserId = self.userInfo[cell.acceptedButton.tag].userId
-        self.selectedDocumentId = self.applyList[cell.acceptedButton.tag].documentId
-        
-        self.selectedEventId = self.groupEvent[cell.rejectedButton.tag].eventId
-        self.selectedUserId = self.userInfo[cell.rejectedButton.tag].userId
-        self.selectedDocumentId = self.applyList[cell.rejectedButton.tag].documentId
+//        self.selectedEventId = self.groupEvent[cell.acceptedButton.tag].eventId
+//        self.selectedUserId = self.userInfo[cell.acceptedButton.tag].userId
+//        self.selectedDocumentId = self.applyList[cell.acceptedButton.tag].documentId
+//
+//        self.selectedEventId = self.groupEvent[cell.rejectedButton.tag].eventId
+//        self.selectedUserId = self.userInfo[cell.rejectedButton.tag].userId
+//        self.selectedDocumentId = self.applyList[cell.rejectedButton.tag].documentId
         
         return cell
     }

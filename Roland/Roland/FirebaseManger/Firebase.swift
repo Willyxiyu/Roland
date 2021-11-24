@@ -27,6 +27,7 @@ class FirebaseManger {
     var comment = [Comment]()
 //    var scalingCardList = [ScalingCardList]()
     var privateComment = [PrivateComment]()
+    var blockList = [String]()
     var message = ""
     var senderId = ""
     var accepterId = ""
