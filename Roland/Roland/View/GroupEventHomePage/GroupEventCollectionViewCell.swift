@@ -92,36 +92,10 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         ellipsisButton.transform = ellipsisButton.transform.rotated(by: .pi / 2)
         ellipsisButton.layer.masksToBounds = true
         ellipsisButton.tintColor = .lightGray
-//        ellipsisButton.addTarget(self, action: #selector(ellipsis), for: .touchUpInside)
         return ellipsisButton
     }()
     
-//    @objc func ellipsis() {
-//
-//        let alert = UIAlertController(title: "檢舉", message: "您的檢舉將會匿名，如果有人有立即的人身安全疑慮，請立即與當地緊急救護服務連絡，把握救援時間！檢舉內容：仇恨言論、符號、垃圾訊息、霸凌或騷擾、自殺或自殘、誤導或詐騙....等等", preferredStyle: .alert)
-//
-//        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-//
-//        let confirm = UIAlertAction(title: "確認檢舉", style: .default, handler: { [weak self] _ in
-//
-//            guard let self = self else { return }
-//
-//            guard let eventId = self.selectedEventId else {
-//                return
-//            }
-//
-//            FirebaseManger.shared.postGroupEventIdtoSelfBlockList(groupEventId: eventId)
-//
-//        })
-//
-//        alert.addAction(cancel)
-//
-//        alert.addAction(confirm)
-//
-//        self.present(alert, animated: true, completion: nil)
-//
-//    }
-//
+
     private func setupEventPhoto() {
         eventPhoto.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventPhoto)
