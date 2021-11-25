@@ -84,15 +84,12 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         
         setupNochatroomImageView()
         
-//        chatRoomIsEmpty()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        
-//        chatRoomIsEmpty()
-        
+                
     }
     
     private lazy var chatRoomListTableView: UITableView = {

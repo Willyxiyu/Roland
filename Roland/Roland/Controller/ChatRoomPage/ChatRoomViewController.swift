@@ -480,6 +480,8 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
         FirebaseManger.shared.sendMessage(chatRoomId: selectedChatroomId, accepterId: accepterId, newMessage: message)
         
+        FirebaseManger.shared.updateLastestMessage(docId: selectedChatroomId, message: text, accepterId: accepterId)
+        
         self.messagesCollectionView.reloadData()
         
         self.messageInputBar.inputTextView.text.removeAll()
