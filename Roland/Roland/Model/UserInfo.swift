@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 struct UserInfo: Codable {
     let name: String
@@ -38,4 +39,11 @@ struct UserInfo: Codable {
         case blockList
 
     }
+}
+
+// todo: remove it
+class SelfUser {
+    
+    static var userId = String()
+
 }

@@ -220,6 +220,12 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                         
                         self.userInfo = result
                         
+                        guard let userId = result?.userId else {
+                            return
+                        }
+                        
+                        SelfUser.userId = userId
+                        
                         if result == nil {
                             let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)
                             nav.modalPresentationStyle = .fullScreen

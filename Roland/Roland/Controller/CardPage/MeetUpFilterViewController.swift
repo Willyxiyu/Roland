@@ -193,7 +193,7 @@ class MeetUpFilterViewController: UIViewController {
                 rootvc.setupCard(CardView(user: userInfo))
             }
             
-            rootvc.useFilter = true
+//            rootvc.useFilter = true
             
             self.navigationController?.popToRootViewController(animated: true)
             
