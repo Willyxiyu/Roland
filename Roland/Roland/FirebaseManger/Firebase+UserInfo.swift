@@ -42,29 +42,26 @@ extension FirebaseManger {
                 if let error = error {
                     
                     print(error)
+                    completion(nil)
                     
                     return
                     
                 } else {
-                    
-                    var userInfo: UserInfo?
-                    
+                                        
                     for document in querySnapshot!.documents {
                         
                         do {
                             
-                            if let user = try document.data(as: UserInfo.self) {
+                            if let userInfo = try document.data(as: UserInfo.self) {
                                 
-                                userInfo = user
-                                
+                                completion(userInfo)
+
                             }
                             
                         } catch {
-                            
+                            completion(nil)
                         }
                     }
-                    
-                    completion(userInfo)
                 }
             }
     }
@@ -234,8 +231,7 @@ extension FirebaseManger {
         }
     }
     
-    func fetchUserInfobyUserIdTesr(userId: String, completion: @escaping (UserInfo?) -> Void ) {
-//        guard let docId = Auth.auth().currentUser?.uid else { return }
+    func fetchOtherUserInfobyUserId(userId: String, completion: @escaping (UserInfo?) -> Void ) {
         database.collection("UserInfo").whereField("userId", isEqualTo: userId)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {

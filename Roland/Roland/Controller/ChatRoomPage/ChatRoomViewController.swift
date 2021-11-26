@@ -69,100 +69,50 @@ class ChatRoomViewController: MessagesViewController {
         return dateFormatter
     }()
     
-    var userInfo: UserInfo? {
-        
-        didSet {
-            
-            guard let photoURL = userInfo?.photo else {
-                fatalError("error")
-            }
-            
-            guard let senderId = userInfo?.userId else {
-                fatalError("error")
-            }
-            
-            guard let displayName = userInfo?.name else {
-                fatalError("error")
-            }
-            
-            var selfSender: Sender? {
-                
-                return Sender(photoURL: photoURL,
-                              senderId: senderId,
-                              displayName: displayName)
-            }
-        }
-    }
+    var currentUserInfo: UserInfo?
+    
+    var otherUserInfo: UserInfo?
     
     var selectedChatroomId: String?
     
-    var userInChatRoom: [String]? {
-        
-        didSet {
-            
-            guard let userId = Auth.auth().currentUser?.uid else { return }
-            
-            if let userInChatRoom = userInChatRoom {
-                
-                for user in userInChatRoom {
-                    
-                    if user != userId {
-                        
-                        accepterId = user
-                    }
-                }
-            }
-        }
-    }
+    var userInChatRoom: [String]?
     
     var isNewConversation = false
     
     var accepterId: String?
     
-    var messages = [Message]() {
-        
-        didSet {
-            
-            self.messagesCollectionView.reloadData()
-        }
-    }
+    var messages = [Message]()
+//    {
+//
+//        didSet {
+//
+//            print("have message")
+//            //            self.messagesCollectionView.reloadData()
+//            self.messagesCollectionView.reloadDataAndKeepOffset()
+//        }
+//    }
     
     let storage = Storage.storage().reference()
     
-    var profilePhoto = UIImage() {
-        
-        didSet {
-            
-            messagesCollectionView.reloadData()
-        }
-    }
+    var profilePhoto = UIImage()
     
     var senderPhotoURL: URL?
     
     var otherSenderPhotoURL: URL?
     
+    var selfSender: Sender?
+    
+    var otherSender: Sender?
+    
     var eventUrlString = String() {
         
         didSet {
             
-            guard let selfSender = self.selfSender  else {
-                return
-            }
-            
-            guard let url = URL(string: self.eventUrlString),
-                  
-                    let placeholder = UIImage(systemName: "plus")
-                    
-            else {
-                
-                return
-            }
-            
-            guard let selectedChatroomId = selectedChatroomId  else {
-                fatalError("error")
-            }
-            
-            guard let accepterId = accepterId else { fatalError("error") }
+            guard let selfSender = self.selfSender,
+                  let url = URL(string: self.eventUrlString),
+                  let placeholder = UIImage(systemName: "plus"),
+                  let selectedChatroomId = selectedChatroomId,
+                  let accepterId = accepterId else { return }
             
             let media = Media(url: url, image: nil, placeholderImage: placeholder, size: .zero)
             
@@ -175,14 +125,9 @@ class ChatRoomViewController: MessagesViewController {
         }
     }
     
-    var selfSender: Sender? {
-        
-        return Sender(photoURL: "photoURL",
-                      senderId: "senderId",
-                      displayName: "displayName")
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -191,32 +136,97 @@ class ChatRoomViewController: MessagesViewController {
         setupInputButton()
         self.hideKeyboardWhenTappedAround()
         
-        guard let selectedChatroomId = selectedChatroomId  else {
-            fatalError("error")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        getCurrentUserInfo {
+                        
+            self.getOtherUserId()
+            
         }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        //        messageInputBar.inputTextView.becomeFirstResponder()
+    }
+    
+    private func getCurrentUserInfo(completion: @escaping () -> Void) {
         
         FirebaseManger.shared.fetchUserInfobyUserId { result in
             
-            self.userInfo = result
+            guard let photoURL = result?.photo,
+                  let senderId = result?.userId,
+                  let displayName = result?.name else { return }
             
+            self.selfSender = Sender(photoURL: photoURL, senderId: senderId, displayName: displayName)
+            
+            self.currentUserInfo = result
+            completion()
+        }
+    }
+    
+    private func getOtherUserInfo(completion: @escaping () -> Void) {
+        
+        if let otherUserId = self.accepterId {
+            
+            FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
+                
+                guard let photoURL = result?.photo,
+                      let senderId = result?.userId,
+                      let displayName = result?.name else { return }
+                
+                self.otherUserInfo = result
+                
+                self.otherSender = Sender(photoURL: photoURL, senderId: senderId, displayName: displayName)
+                completion()
+            }
+        }
+    }
+    
+    private func getOtherUserId() {
+        
+        if let userInChatRoom = self.userInChatRoom {
+            
+            for user in userInChatRoom {
+                
+                if user != self.currentUserInfo?.userId {
+                    
+                    self.accepterId = user
+                }
+            }
+            getOtherUserInfo {
+                self.messageListener()
+            }
+        }
+    }
+    
+    private func messageListener() {
+        
+        guard let selectedChatroomId = self.selectedChatroomId else {
+            fatalError("error")
         }
         
-        FirebaseManger.shared.messageListener(chatRoomId: selectedChatroomId) { results in
+        FirebaseManger.shared.messageListener(chatRoomId: selectedChatroomId) { messages in
             
             self.messages.removeAll()
             
-            results.forEach { result in
+            messages.forEach { message in
                 
-                print(result)
-                
-                guard let sentDate = result.createTime?.dateValue() else {
+                guard let sentDate = message.createTime?.dateValue() else {
                     return
                 }
                 var kind: MessageKind?
                 
-                if result.photoMessage != "" {
+                if message.photoMessage != "" {
                     
-                    guard let imageUrl = URL(string: result.photoMessage ?? ""),
+                    guard let imageUrl = URL(string: message.photoMessage ?? ""),
                           let placeHolder = UIImage(systemName: "plus") else {
                               return
                           }
@@ -224,32 +234,34 @@ class ChatRoomViewController: MessagesViewController {
                     let media = Media(url: imageUrl, image: nil, placeholderImage: placeHolder, size: CGSize(width: 300, height: 300))
                     kind = .photo(media)
                     
-                } else if result.text != "" {
+                } else if message.text != "" {
                     
-                    kind = .text(result.text ?? "")
+                    kind = .text(message.text ?? "")
                 }
                 
                 guard let finalKind = kind else {
                     return
                 }
                 
-                if let selfSender = self.selfSender {
+                if self.selfSender?.senderId == message.senderId {
                     
-                    let message = Message(sender: selfSender, messageId: "", sentDate: sentDate, kind: finalKind)
+                    let message = Message(sender: self.selfSender!, messageId: "", sentDate: sentDate, kind: finalKind)
                     
                     self.messages.append(message)
                     
+                } else {
+                    
+                    let message = Message(sender: self.otherSender!, messageId: "", sentDate: sentDate, kind: finalKind)
+                    
+                    self.messages.append(message)
                 }
+                
             }
             
+            self.messagesCollectionView.reloadData()
+            //            self.messagesCollectionView.reloadDataAndKeepOffset()
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        messageInputBar.inputTextView.becomeFirstResponder()
-    }
-    
     private func setupInputButton() {
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
@@ -261,27 +273,23 @@ class ChatRoomViewController: MessagesViewController {
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
     }
     private func presentInputActionSheet() {
-        let actionSheet = UIAlertController(title: "Attach Media", message: "What would you like to attach", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [weak self] _ in
+        let actionSheet = UIAlertController(title: "取用多媒體", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "照片", style: .default, handler: { [weak self] _ in
             self?.presentPhotoInputActionSheet()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "影片", style: .default, handler: { [weak self] _ in
             self?.presentVideoInputActionSheet()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { _ in
-            
-        }))
-        
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
     }
     
     private func presentPhotoInputActionSheet() {
-        let actionSheet = UIAlertController(title: "Attach Photo", message: "where would you like to attach a photo from", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+        let actionSheet = UIAlertController(title: "取用照片", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "相機", style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .camera
@@ -291,7 +299,7 @@ class ChatRoomViewController: MessagesViewController {
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "相簿", style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
@@ -301,14 +309,14 @@ class ChatRoomViewController: MessagesViewController {
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
     }
     
     private func presentVideoInputActionSheet() {
-        let actionSheet = UIAlertController(title: "Attach Video", message: "where would you like to attach a Video from?", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+        let actionSheet = UIAlertController(title: "取用影片", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "相機", style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .camera
@@ -320,7 +328,7 @@ class ChatRoomViewController: MessagesViewController {
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Library", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "相簿", style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
@@ -332,7 +340,7 @@ class ChatRoomViewController: MessagesViewController {
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
     }
@@ -379,7 +387,7 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
         }
     }
 }
-
+// 決定是從左還是右
 extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     
     func currentSender() -> SenderType {
@@ -388,6 +396,7 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             
             return sender
         }
+        
         fatalError("Self Sender is nil, email should be catched ")
     }
     
@@ -414,63 +423,100 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
             break
         }
     }
+    
+    // color of the text label
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         let sender = message.sender
         
         if sender.senderId == selfSender?.senderId {
             return .link
         }
+        
         return .secondarySystemBackground
     }
     
+    
+    // get both user's profile photo
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        
         let sender = message.sender
         
-        if sender.senderId == selfSender?.senderId {
+        guard let currentUserPhotoString = currentUserInfo?.photo,
+                  let otherUserPhotoString = otherUserInfo?.photo else { return }
+        
+        if sender.senderId == currentUserInfo?.userId {
             
-            if let currentUserImageURL = self.senderPhotoURL {
+            if let currentUserImageURL = URL(string: currentUserPhotoString) {
                 
                 avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
-                
-            } else {
-                // fetch URL
-                FirebaseManger.shared.fetchUserInfobyUserId { result in
-                    if let photoString = result?.photo {
-                        self.senderPhotoURL = URL(string: photoString)
-                    }
-                    
-                }
             }
             
         } else {
             
-            if let otherUserImageURL = self.otherSenderPhotoURL {
+            if let otherUserImageURL = URL(string: otherUserPhotoString) {
                 
                 avatarView.sd_setImage(with: otherUserImageURL, completed: nil)
-                
-            } else {
-                
-                // fetch URL
-                
-                if let accepterId = accepterId {
-                    
-                    FirebaseManger.shared.fetchUserInfobyUserIdTesr(userId: accepterId) { result in
-                        
-                        if let photoString = result?.photo {
-                            
-                            self.otherSenderPhotoURL = URL(string: photoString)
-                        }
-                    }
-                }
             }
         }
     }
 }
+//
+//        guard let currentPhotoString = selfSender?.photoURL else {
+//            return
+//        }
+//        let sender = message.sender
+//
+//        if sender.senderId == selfSender?.senderId {
+//
+//            if let currentUserImageURL = URL(string: currentPhotoString) {
+//
+//                avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
+//
+//            } else {
+//                // fetch URL
+//                FirebaseManger.shared.fetchUserInfobyUserId { result in
+//
+//                    if let photoString = result?.photo {
+//
+//                        self.senderPhotoURL = URL(string: photoString)
+//                    }
+//
+//                }
+//            }
+//
+//        } else {
+//
+//            if let otherUserImageURL = self.otherSenderPhotoURL {
+//
+//                avatarView.sd_setImage(with: otherUserImageURL, completed: nil)
+//
+//            } else {
+//
+//                // fetch URL
+//
+//                if let accepterId = accepterId {
+//
+//                    FirebaseManger.shared.fetchOtherUserInfobyUserId(userId: accepterId) { result in
+//
+//                        if let photoString = result?.photo {
+//
+//                            self.otherSenderPhotoURL = URL(string: photoString)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    }
+
+
+
+// send and update message
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
-        let message = Message(sender: selfSender!, messageId: "", sentDate: Date(), kind: .text(text))
+        let message = Message(sender: currentSender(), messageId: "", sentDate: Date(), kind: .text(text))
         
         guard let selectedChatroomId = selectedChatroomId  else {
             fatalError("error")
@@ -487,26 +533,10 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         self.messageInputBar.inputTextView.text.removeAll()
         
     }
-    
-    func createMessageId() -> String? {
-        // date, otherUserEmail, senderEmail, randomInt
-        
-        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") else {
-            return nil
-        }
-        
-        let dateString = Self.dateFormatter.string(from: Date())
-        
-        guard let accepterId = accepterId else { fatalError("error") }
-        
-        let newIdentifier = "\(accepterId)_\(currentUserEmail)_\(dateString)"
-        
-        print("create message id: \(newIdentifier)")
-        
-        return newIdentifier
-        
-    }
 }
+
+
+// go to photo detail page
 extension ChatRoomViewController: MessageCellDelegate {
     
     func didTapImage(in cell: MessageCollectionViewCell) {

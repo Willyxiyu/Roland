@@ -262,6 +262,7 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         chatRoomListTableView.deselectRow(at: indexPath, animated: true)
         
         let chatRoomViewController = ChatRoomViewController()

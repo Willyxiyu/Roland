@@ -177,7 +177,7 @@ extension FirebaseManger {
         
         let ref = database.collection("ChatRoomList").document(docId)
         guard let userId = Auth.auth().currentUser?.uid else { return }
-
+        
         ref.updateData([
             "latestMessage": [
                 "createTime ": NSDate().timeIntervalSince1970,
@@ -226,7 +226,6 @@ extension FirebaseManger {
                     
                     completion(messagelist)
                 }
-                
             }
     }
     

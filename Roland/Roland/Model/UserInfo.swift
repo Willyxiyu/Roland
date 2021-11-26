@@ -43,7 +43,7 @@ struct UserInfo: Codable {
 
 // todo: remove it
 class SelfUser {
-    
-    static var userId = String()
+
+    static var userInfo: UserInfo?
 
 }

@@ -14,7 +14,7 @@ import FirebaseAuth
 class SignInViewContoller: UIViewController, UITextViewDelegate {
     
     let userProfileSignInViewController = UserProfileSignInViewController()
-    var userInfo: UserInfo?
+//    var userInfo: UserInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -218,13 +218,7 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                     // ...
                     FirebaseManger.shared.fetchUserInfobyUserId { result in
                         
-                        self.userInfo = result
-                        
-                        guard let userId = result?.userId else {
-                            return
-                        }
-                        
-                        SelfUser.userId = userId
+                        SelfUser.userInfo = result
                         
                         if result == nil {
                             let nav = UINavigationController(rootViewController: self.userProfileSignInViewController)

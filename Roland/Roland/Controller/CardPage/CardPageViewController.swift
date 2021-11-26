@@ -32,6 +32,11 @@ class CardPageViewController: UIViewController {
         self.view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         
+        cardView.subviews.forEach {
+            
+            $0.removeFromSuperview()
+        }
+        
         fetchUserLikeAndDislikeList()
     }
     
