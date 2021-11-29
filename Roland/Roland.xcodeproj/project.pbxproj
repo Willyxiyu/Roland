@@ -67,7 +67,6 @@
 		3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */; };
 		3FB49E6A2724177B00B9809D /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E692724177B00B9809D /* ChatRoomViewController.swift */; };
 		3FB49E6C27241A0100B9809D /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6B27241A0100B9809D /* ChatRoomTableViewCell.swift */; };
-		3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6D2724375400B9809D /* NewConversationViewController.swift */; };
 		3FB49E7027245F5A00B9809D /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */; };
 		3FB49E7427255C4300B9809D /* ChatroomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB49E7327255C4300B9809D /* ChatroomListTableViewCell.swift */; };
 		3FD1300C2739845F00179F9C /* MeetUpFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1300B2739845E00179F9C /* MeetUpFilterViewController.swift */; };
@@ -140,7 +139,6 @@
 		3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		3FB49E692724177B00B9809D /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		3FB49E6B27241A0100B9809D /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
-		3FB49E6D2724375400B9809D /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewConversationViewController.swift; path = Roland/Controller/ChatroomlistPage/NewConversationViewController.swift; sourceTree = SOURCE_ROOT; };
 		3FB49E6F27245F5A00B9809D /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		3FB49E7327255C4300B9809D /* ChatroomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomListTableViewCell.swift; sourceTree = "<group>"; };
 		3FD1300B2739845E00179F9C /* MeetUpFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpFilterViewController.swift; sourceTree = "<group>"; };
@@ -441,7 +439,6 @@
 		3F9547AC2722D34E004E8249 /* ChatroomlistPage */ = {
 			isa = PBXGroup;
 			children = (
-				3FB49E6D2724375400B9809D /* NewConversationViewController.swift */,
 				3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */,
 			);
 			path = ChatroomlistPage;
@@ -692,7 +689,6 @@
 				3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */,
 				3F2254282732EEAC0002F135 /* PrivateCommentFooterView.swift in Sources */,
 				3F22540F273106220002F135 /* ApplyList.swift in Sources */,
-				3FB49E6E2724375400B9809D /* NewConversationViewController.swift in Sources */,
 				3FD82C63272686260055C33E /* ChatRoomList.swift in Sources */,
 				3F1A62BB2745E83900E1E6C5 /* NotReadyPageViewController.swift in Sources */,
 				3F1A62B92745476200E1E6C5 /* SettingPageTableViewCell.swift in Sources */,

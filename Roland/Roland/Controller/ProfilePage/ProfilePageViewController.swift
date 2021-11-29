@@ -12,7 +12,6 @@ import FirebaseStorage
 import Kingfisher
 import SafariServices
 
-
 class ProfilePageViewController: UIViewController {
 //    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
     private let storage = Storage.storage().reference()
@@ -83,6 +82,7 @@ class ProfilePageViewController: UIViewController {
         setupSettingButton()
         setupNewPhotoButton()
         setupEditInfoButton()
+        setupLogOutButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -236,9 +236,31 @@ class ProfilePageViewController: UIViewController {
     
     @objc func editInfo() {
         
-        let vc = NotReadyPageViewController() // change this to your class name
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
+        let viewController = NotReadyPageViewController() // change this to your class name
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    lazy var logOutButton: UIButton = {
+        let logOutButton = UIButton()
+        logOutButton.setTitle("登出帳號", for: .normal)
+        logOutButton.setTitleColor(.black, for: .normal)
+        logOutButton.layer.masksToBounds = true
+        logOutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+        return logOutButton
+    }()
+    
+    @objc func logOut() {
+        print("OK")
+    }
+    
+    private func setupLogOutButton() {
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(logOutButton)
+        NSLayoutConstraint.activate([
+            logOutButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            logOutButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
     }
     
     private func setupUserPhotoImageView() {

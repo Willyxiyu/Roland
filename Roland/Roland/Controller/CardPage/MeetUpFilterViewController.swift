@@ -10,33 +10,19 @@ import MultiSlider
 
 class MeetUpFilterViewController: UIViewController {
     
-    var favoriteGender = "全部" {
-        
-        didSet {
-            
-            print(favoriteGender)
-        }
-        
-    }
-    
-    var ageArrangeString = ["20", "30"] {
-        
-        didSet {
-            
-            print(ageArrangeString)
-        }
-    }
+    var favoriteGender = "全部"
+    var ageArrangeString = ["20", "30"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: self, action: #selector(closeFilter))
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        setupCloseFilterButton()
         setupLikeLabel()
         setupFilterSegmentedControl()
         setupAgeLabel()
@@ -44,6 +30,7 @@ class MeetUpFilterViewController: UIViewController {
         setupHorizontalMultiSlider()
         setupConfirmButton()
         setupBorderLineView()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,9 +44,15 @@ class MeetUpFilterViewController: UIViewController {
         confirmButton.layer.cornerRadius = 15
        
     }
+    lazy var closeFilterButton: UIButton = {
+        let closeFilterButton = UIButton()
+        closeFilterButton.addTarget(self, action: #selector(closeFilter), for: .touchUpInside)
+        closeFilterButton.setImage(UIImage.init(systemName: "chevron.backward"), for: .normal)
+        return closeFilterButton
+    }()
     
     @objc func closeFilter() {
-        self.navigationController?.popToRootViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     let filterArray = ["我喜歡...", "年齡", "進階"]
@@ -270,6 +263,15 @@ class MeetUpFilterViewController: UIViewController {
             borderLineView.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20),
             borderLineView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             borderLineView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+    
+    private func setupCloseFilterButton() {
+        closeFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(closeFilterButton)
+        NSLayoutConstraint.activate([
+            closeFilterButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            closeFilterButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20)
         ])
     }
     

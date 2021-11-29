@@ -11,6 +11,9 @@ class CardPageViewController: UIViewController {
     
     var userInfoForScalingCard = [String]()
     var cardView = UIView()
+    
+    private var noNewUserImageView = UIImageView(image: UIImage(named: "探索結束"))
+    
     lazy var rolandImageView: UIImageView = {
         let rolandImageView = UIImageView()
         rolandImageView.image = UIImage(named: "rolandicon")

@@ -24,6 +24,7 @@ class CardView: UIView {
     private let gradientLayer = CAGradientLayer()
     private let nameLabel = CardInfoLabel(labelFont: .medium(size: 40))
     private let ageLabel = CardInfoLabel(labelFont: .medium(size: 40))
+    private let genderLabel = CardInfoLabel(labelFont: .medium(size: 30))
     private var otherUserId: String?
     private lazy var cardIconImage: UIImageView = {
         let cardIconImage = UIImageView()
@@ -41,6 +42,7 @@ class CardView: UIView {
         setupCardIconImage(user: user)
         setupNameLabel(user: user)
         setupAgeLabel(user: user)
+        setupGenderLabel(user: user)
         otherUserId = user.userId
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panCardView))
         self.addGestureRecognizer(panGesture)
@@ -192,6 +194,16 @@ class CardView: UIView {
             ageLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10)
         ])
         ageLabel.text = user.age
+    }
+    
+    private func setupGenderLabel(user: UserInfo) {
+        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(genderLabel)
+        NSLayoutConstraint.activate([
+            genderLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            genderLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor)
+        ])
+        genderLabel.text = user.gender
     }
     
     private func setupGradientLayer() {

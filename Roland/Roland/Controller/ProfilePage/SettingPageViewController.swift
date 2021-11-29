@@ -211,15 +211,15 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
                 
             case 0 :
                 
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
                 
             case 1 :
                 
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
                 
             default: break
                 
@@ -231,9 +231,9 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
                 
             case 0 :
                 
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
                 
             default: break
                 
@@ -244,14 +244,14 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
                 
             case 0 :
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
                 
             case 1 :
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
                 
             default: break
                 
@@ -270,19 +270,19 @@ extension SettingPageViewController: UITableViewDataSource, UITableViewDelegate 
                 present(svc, animated: true, completion: nil)
                 
             case 1 :
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
 
             case 2 :
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
 
             case 3 :
-                let vc = NotReadyPageViewController() // change this to your class name
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
+                let viewController = NotReadyPageViewController() // change this to your class name
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
 
             default: break
             }

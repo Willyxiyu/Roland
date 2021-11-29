@@ -77,28 +77,17 @@ class ChatRoomViewController: MessagesViewController {
     
     var userInChatRoom: [String]?
     
+    var otherUserId: String?
+    
     var isNewConversation = false
     
     var accepterId: String?
     
     var messages = [Message]()
-//    {
-//
-//        didSet {
-//
-//            print("have message")
-//            //            self.messagesCollectionView.reloadData()
-//            self.messagesCollectionView.reloadDataAndKeepOffset()
-//        }
-//    }
-    
+
     let storage = Storage.storage().reference()
     
     var profilePhoto = UIImage()
-    
-    var senderPhotoURL: URL?
-    
-    var otherSenderPhotoURL: URL?
     
     var selfSender: Sender?
     
@@ -189,19 +178,29 @@ class ChatRoomViewController: MessagesViewController {
             }
         }
     }
+// 直接拿前一頁的使用者資料
+    private func getOtherUser() {
+        
+        if let otherUserInfo = self.otherUserInfo {
+            
+            guard let photoURL = otherUserInfo.photo,
+                  let senderId = otherUserInfo.userId else { return }
+      
+            self.otherSender = Sender(photoURL: photoURL, senderId: senderId, displayName: otherUserInfo.name)
+        }
+        
+    }
     
     private func getOtherUserId() {
         
         if let userInChatRoom = self.userInChatRoom {
             
-            for user in userInChatRoom {
-                
-                if user != self.currentUserInfo?.userId {
-                    
+            for user in userInChatRoom where user != self.currentUserInfo?.userId {
+            
                     self.accepterId = user
-                }
             }
             getOtherUserInfo {
+                
                 self.messageListener()
             }
         }
@@ -435,7 +434,6 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
         return .secondarySystemBackground
     }
     
-    
     // get both user's profile photo
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         
@@ -460,56 +458,6 @@ extension ChatRoomViewController: MessagesDataSource, MessagesLayoutDelegate, Me
         }
     }
 }
-//
-//        guard let currentPhotoString = selfSender?.photoURL else {
-//            return
-//        }
-//        let sender = message.sender
-//
-//        if sender.senderId == selfSender?.senderId {
-//
-//            if let currentUserImageURL = URL(string: currentPhotoString) {
-//
-//                avatarView.sd_setImage(with: currentUserImageURL, completed: nil)
-//
-//            } else {
-//                // fetch URL
-//                FirebaseManger.shared.fetchUserInfobyUserId { result in
-//
-//                    if let photoString = result?.photo {
-//
-//                        self.senderPhotoURL = URL(string: photoString)
-//                    }
-//
-//                }
-//            }
-//
-//        } else {
-//
-//            if let otherUserImageURL = self.otherSenderPhotoURL {
-//
-//                avatarView.sd_setImage(with: otherUserImageURL, completed: nil)
-//
-//            } else {
-//
-//                // fetch URL
-//
-//                if let accepterId = accepterId {
-//
-//                    FirebaseManger.shared.fetchOtherUserInfobyUserId(userId: accepterId) { result in
-//
-//                        if let photoString = result?.photo {
-//
-//                            self.otherSenderPhotoURL = URL(string: photoString)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    }
-
-
 
 // send and update message
 extension ChatRoomViewController: InputBarAccessoryViewDelegate {
@@ -534,7 +482,6 @@ extension ChatRoomViewController: InputBarAccessoryViewDelegate {
         
     }
 }
-
 
 // go to photo detail page
 extension ChatRoomViewController: MessageCellDelegate {
