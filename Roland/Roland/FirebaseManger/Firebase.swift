@@ -25,7 +25,6 @@ class FirebaseManger {
     var applyList = [ApplyList]()
     var groupEvent = [GroupEvent]()
     var comment = [Comment]()
-//    var scalingCardList = [ScalingCardList]()
     var privateComment = [PrivateComment]()
     var blockList = [String]()
     var message = ""

@@ -15,9 +15,9 @@ import FirebaseAuth
 extension FirebaseManger {
     
     //  抓自己的userInfo裡的dislikelist & likelist的 userId用foreach 裝到[ ] = userId，排除後，留下的就是可以滑卡的數量
-    func fetchUserListForScalingCard(userId: String, completion: @escaping ([UserInfo]) -> Void) {
-        
-        let ref = database.collection("UserInfo").whereField("userId", isNotEqualTo: userId)
+    func fetchUserListForScalingCard(completion: @escaping ([UserInfo]) -> Void) {
+        guard let ownUserId = Auth.auth().currentUser?.uid else { return }
+        let ref = database.collection("UserInfo").whereField("userId", isNotEqualTo: ownUserId)
         ref.getDocuments {  (querySnapshot, error) in
             
             if let error = error {

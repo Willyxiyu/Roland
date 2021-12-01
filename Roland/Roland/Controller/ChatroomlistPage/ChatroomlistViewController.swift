@@ -13,44 +13,36 @@ import Kingfisher
 // class ChatroomlistViewController: UIViewController {
 class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    private let spinner = JGProgressHUD(style: .dark)
-    
     private var chatRoomList = [ChatRoomList]() {
         
         didSet {
-            
-            chatRoomIsEmpty()
-            
             chatRoomListTableView.reloadData()
         }
-        
     }
     
-    var searchChatRoomList  = [ChatRoomList]()
+    private var searchChatRoomList  = [ChatRoomList]()
     
-    var searchUserInfosResult: [String: UserInfo] = [:]
+    private var searchUserInfosResult: [String: UserInfo] = [:]
     
-    var userInfos: [String: UserInfo] = [:]
+    private var userInfos: [String: UserInfo] = [:]
     
-    var searchUserInfos: [String: UserInfo] = [:]
+    private var searchUserInfos: [String: UserInfo] = [:]
     
-    var searching = false
+    private var searching = false
     
     private let searchController = UISearchController()
     
-    var chatRoomOtherUserId = [String]()
+    private var chatRoomOtherUserId = [String]()
     
-    var isDeleting = false
+    private var isDeleting = false
     
-    var noChatroomImageView = UIImageView(image: UIImage(named: "尚無聊天室"))
+    private var noChatroomImageView = UIImageView(image: UIImage(named: "尚無聊天室"))
     
     override func viewDidLoad() {
         
         setupChatRoomListTableView()
         
-        chatRoomListTableView.separatorStyle = .none
-        
-        chatRoomListTableView.backgroundColor = .white
+        setupNochatroomImageView()
         
         self.hideKeyboardWhenTappedAround()
         
@@ -58,11 +50,41 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         
         configureSearchController()
         
-        FirebaseManger.shared.chatRoomListListener { results in
+        chatRoomListListener()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+    }
+    
+    private lazy var chatRoomListTableView: UITableView = {
+        let chatRoomListTableView = UITableView()
+        return chatRoomListTableView
+    }()
+
+    private func chatRoomListListener() {
+        
+        FirebaseManger.shared.chatRoomListListener { chatRoomList in
+            
+            if chatRoomList.count == 0 {
+                
+                self.noChatroomImageView.isHidden = false
+                
+            } else {
+                
+                self.noChatroomImageView.isHidden = true
+            }
             
             self.chatRoomList.removeAll()
             
-            results.forEach { chatRoom in
+            chatRoomList.forEach { chatRoom in
                 
                 FirebaseManger.shared.fetchOtherUserInfo(otherUserId: chatRoom.otherUserID) { [weak self] result in
                     
@@ -78,55 +100,9 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
                     self.searchChatRoomList.append(chatRoom)
                     
                 }
-                
             }
         }
-        
-        setupNochatroomImageView()
-        
-//        chatRoomIsEmpty()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-//        chatRoomIsEmpty()
-        
-    }
-    
-    private lazy var chatRoomListTableView: UITableView = {
-        let chatRoomListTableView = UITableView()
-        return chatRoomListTableView
-    }()
-    
-    private func setupChatRoomListTableView() {
-        chatRoomListTableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(chatRoomListTableView)
-        chatRoomListTableView.register(ChatroomListTableViewCell.self, forCellReuseIdentifier: String(describing: ChatroomListTableViewCell.self))
-        chatRoomListTableView.dataSource = self
-        chatRoomListTableView.delegate = self
-        
-        NSLayoutConstraint.activate([
-            chatRoomListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            chatRoomListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            chatRoomListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            chatRoomListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
-    
-    private func setupNochatroomImageView() {
-        noChatroomImageView.translatesAutoresizingMaskIntoConstraints = false
-        chatRoomListTableView.addSubview(noChatroomImageView)
-        NSLayoutConstraint.activate([
-            noChatroomImageView.centerXAnchor.constraint(equalTo: chatRoomListTableView.centerXAnchor),
-            noChatroomImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            noChatroomImageView.heightAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5),
-            noChatroomImageView.widthAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5)
-
-        ])
-    }
-    
     private func configureSearchController() {
         searchController.loadViewIfNeeded()
         searchController.searchResultsUpdater = self
@@ -168,7 +144,6 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
             searchUserInfos = userInfos
             
             searchChatRoomList = chatRoomList
-            
         }
         
         self.chatRoomListTableView.reloadData()
@@ -183,19 +158,34 @@ class ChatroomlistViewController: UIViewController, UISearchResultsUpdating, UIS
         self.chatRoomListTableView.reloadData()
     }
     
-    func chatRoomIsEmpty() {
+    private func setupChatRoomListTableView() {
+        chatRoomListTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(chatRoomListTableView)
+        chatRoomListTableView.register(ChatroomListTableViewCell.self, forCellReuseIdentifier: String(describing: ChatroomListTableViewCell.self))
+        chatRoomListTableView.dataSource = self
+        chatRoomListTableView.delegate = self
+        chatRoomListTableView.separatorStyle = .none
+        chatRoomListTableView.backgroundColor = .white
         
-        if chatRoomList.count == 0 {
-            
-            noChatroomImageView.isHidden = false
-            
-        } else {
-            
-            noChatroomImageView.isHidden = true
-        }
-        
+        NSLayoutConstraint.activate([
+            chatRoomListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            chatRoomListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            chatRoomListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            chatRoomListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
     
+    private func setupNochatroomImageView() {
+        noChatroomImageView.translatesAutoresizingMaskIntoConstraints = false
+        chatRoomListTableView.addSubview(noChatroomImageView)
+        NSLayoutConstraint.activate([
+            noChatroomImageView.centerXAnchor.constraint(equalTo: chatRoomListTableView.centerXAnchor),
+            noChatroomImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            noChatroomImageView.heightAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5),
+            noChatroomImageView.widthAnchor.constraint(equalTo: chatRoomListTableView.widthAnchor, multiplier: 0.5)
+            
+        ])
+    }
 }
 
 extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource {
@@ -265,6 +255,7 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         chatRoomListTableView.deselectRow(at: indexPath, animated: true)
         
         let chatRoomViewController = ChatRoomViewController()
@@ -272,6 +263,10 @@ extension ChatroomlistViewController: UITableViewDelegate, UITableViewDataSource
         chatRoomViewController.selectedChatroomId = chatRoomList[indexPath.row].chatRoomId
         
         chatRoomViewController.userInChatRoom = chatRoomList[indexPath.row].userId
+        
+        chatRoomViewController.otherUserId = chatRoomList[indexPath.row].otherUserID
+        
+        chatRoomViewController.otherUserInfo = userInfos[chatRoomList[indexPath.row].otherUserID]
         
         chatRoomViewController.navigationItem.largeTitleDisplayMode = .never
         

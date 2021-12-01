@@ -9,27 +9,13 @@ import UIKit
 
 class CardInfoLabel: UILabel {
     
-    init(frame: CGRect, labelText: String, labelColor: UIColor) {
-        super.init(frame: frame)
-        font = .boldSystemFont(ofSize: 45)
-        text = labelText
-        textColor = labelColor
-        layer.borderWidth = 3
-        layer.borderColor = labelColor.cgColor
-        layer.cornerRadius = 10
-        
-        textAlignment = .center
-        alpha = 0
-        
-    }
-    
-    init(frame: CGRect, labelText: String, labelFont: UIFont) {
-        super.init(frame: frame)
+    init(labelFont: UIFont?) {
+        super.init(frame: .zero)
         font = labelFont
         textColor = .white
-        text = labelText
         lineBreakMode = .byWordWrapping
         numberOfLines = 0
+        textAlignment = .left
     }
     
     required init?(coder: NSCoder) {

@@ -173,6 +173,28 @@ extension FirebaseManger {
         }
     }
     
+    public func updateLastestMessage(docId: String, message: String, accepterId: String) {
+        
+        let ref = database.collection("ChatRoomList").document(docId)
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        ref.updateData([
+            "latestMessage": [
+                "createTime ": NSDate().timeIntervalSince1970,
+                "isRead": true,
+                "text": message,
+                "accepterId": accepterId,
+                "senderId": userId
+            ]
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
     public func messageListener(chatRoomId: String, completion: @escaping([Messagelist]) -> Void  ) {
         
         database.collection("ChatRoomList").document(chatRoomId).collection("Messagelist").order(by: "createTime")
@@ -204,7 +226,6 @@ extension FirebaseManger {
                     
                     completion(messagelist)
                 }
-                
             }
     }
     

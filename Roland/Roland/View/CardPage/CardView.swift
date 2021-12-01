@@ -7,34 +7,33 @@
 
 import UIKit
 import Kingfisher
-import FirebaseFirestore
-import FirebaseAuth
 
-protocol CardInfoProtocol: AnyObject {
+protocol SlingCardUserIdDelegate: AnyObject {
     
-    func didDislikeUser(_ card: CardView)
+    func sendingUserIdFromLeft(_ userId: String)
     
-    func didLikeUser(_ card: CardView)
+    func sendingUserIdFromRight(_ userId: String)
+
 }
 
 class CardView: UIView {
-    
-    weak var delegate: CardInfoProtocol?
-    
+
     // MARK: - UIViews
+    // later update will add residenceLabel and introductionLabel to complete the info of card.
     private let cardImageView = CardImageView()
     private let gradientLayer = CAGradientLayer()
-    private let nameLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
-    private let ageLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 40, weight: .heavy))
-    private let residenceLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 15, weight: .regular))
-     let userIdLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
-    private let introductionLabel = CardInfoLabel(frame: .zero, labelText: "", labelFont: .systemFont(ofSize: 20, weight: .regular))
+    private let nameLabel = CardInfoLabel(labelFont: .medium(size: 40))
+    private let ageLabel = CardInfoLabel(labelFont: .medium(size: 40))
+    private let genderLabel = CardInfoLabel(labelFont: .medium(size: 30))
+    private var otherUserId: String?
     private lazy var cardIconImage: UIImageView = {
         let cardIconImage = UIImageView()
         cardIconImage.image = UIImage(named: "heart")
         cardIconImage.alpha = 0
         return cardIconImage
     }()
+    
+    weak var delegate: SlingCardUserIdDelegate?
     
     init(user: UserInfo) {
         super.init(frame: .zero)
@@ -43,21 +42,20 @@ class CardView: UIView {
         setupCardIconImage(user: user)
         setupNameLabel(user: user)
         setupAgeLabel(user: user)
-        setupResidenceLabel(user: user)
-        setupUserIdLabel(user: user)
-        setupIntroductionLabel(user: user)
-        userIdLabel.alpha = 0
+        setupGenderLabel(user: user)
+        otherUserId = user.userId
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panCardView))
         self.addGestureRecognizer(panGesture)
     }
-   
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         gradientLayer.frame = self.bounds
-
+        
     }
     
     @objc func panCardView(gesture: UIPanGestureRecognizer) {
@@ -76,7 +74,7 @@ class CardView: UIView {
         }
     }
     
-     func handlePanChange(translation: CGPoint) {
+    func handlePanChange(translation: CGPoint) {
         let degree: CGFloat = translation.x / 20
         let angle = degree * .pi / 100
         
@@ -93,13 +91,13 @@ class CardView: UIView {
         } else if translation.x < 0 {
             self.cardIconImage.alpha = -ratioValue
             self.cardIconImage.image = UIImage(named: "no-entry")
-
+            
         }
     }
     
     func handlePanEnded(view: UIView, translation: CGPoint) {
-           
-        if translation.x <= -120 {  // 左滑
+        
+        if translation.x <= -120 {  // sliding left
             
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: []) {
                 let degree: CGFloat = -600 / 40
@@ -111,20 +109,18 @@ class CardView: UIView {
                 
             } completion: { _ in
                 
-//                左滑不喜歡，將對方的ID加入到自己的dislikeList
-                
-                guard let userId = self.userIdLabel.text else {
-                    return
+                // sliding left adding other's id to self dislikeList and remove the card form the screen
+              
+                if let userId = self.otherUserId {
+                    
+                    self.delegate?.sendingUserIdFromLeft(userId)
+                                        
+                    self.removeFromSuperview()
+
                 }
                 
-                FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
-                
-//                print("dislike")
-                
-                self.removeFromSuperview()
-                
             }
-        } else if translation.x >= 120 {  // 右滑
+        } else if translation.x >= 120 {  // sliding right
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: []) {
                 let degree: CGFloat = 600 / 40
                 let angle = degree * .pi / 180
@@ -135,34 +131,18 @@ class CardView: UIView {
                 
             } completion: { _ in
                 
-                guard let userId = self.userIdLabel.text else {
+                guard let userId = self.otherUserId else {
                     return
                 }
                 
-                FirebaseManger.shared.fetchlikeListOfUserId(accepterId: userId) { result in
-                    
-                    if result.isEmpty == true {
-                        
-                        FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
-                        
-                    } else {
-                        
-                        FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
-                        
-                        let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("Hi 很高興認識你"))
-                        
-                        FirebaseManger.shared.createNewChatRoom(accepterId: userId, firstMessage: message)
-                        
-                        print("建立聊天室")
-                        
-                    }
-                }
-                
+                self.delegate?.sendingUserIdFromRight(userId)
+                // sliding right adding other's id in self likeList and remove the card form the screen
                 self.removeFromSuperview()
                 
             }
             
         } else {
+            
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: []) {
                 self.transform = .identity
                 self.layoutIfNeeded()
@@ -183,7 +163,7 @@ class CardView: UIView {
         if let photo = user.photo {
             
             cardImageView.kf.setImage(with: URL(string: photo))
-
+            
         }
         
     }
@@ -215,33 +195,15 @@ class CardView: UIView {
         ])
         ageLabel.text = user.age
     }
-    private func setupResidenceLabel(user: UserInfo) {
-        residenceLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardImageView.addSubview(residenceLabel)
-        NSLayoutConstraint.activate([
-            residenceLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            residenceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15)
-        ])
-    }
     
-    private func setupUserIdLabel(user: UserInfo) {
-        userIdLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardImageView.addSubview(userIdLabel)
+    private func setupGenderLabel(user: UserInfo) {
+        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(genderLabel)
         NSLayoutConstraint.activate([
-            userIdLabel.topAnchor.constraint(equalTo: residenceLabel.bottomAnchor),
-            userIdLabel.leadingAnchor.constraint(equalTo: residenceLabel.leadingAnchor)
+            genderLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            genderLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor)
         ])
-        userIdLabel.text = user.userId
-    }
-    
-    private func setupIntroductionLabel(user: UserInfo) {
-        introductionLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardImageView.addSubview(introductionLabel)
-        NSLayoutConstraint.activate([
-            introductionLabel.leadingAnchor.constraint(equalTo: userIdLabel.leadingAnchor),
-            introductionLabel.topAnchor.constraint(equalTo: userIdLabel.bottomAnchor),
-            introductionLabel.widthAnchor.constraint(equalToConstant: 200)
-        ])
+        genderLabel.text = user.gender
     }
     
     private func setupGradientLayer() {

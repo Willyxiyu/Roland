@@ -37,34 +37,32 @@ extension FirebaseManger {
     
     func fetchUserInfobyUserId(completion: @escaping (UserInfo?) -> Void ) {
         guard let docId = Auth.auth().currentUser?.uid else { return }
+                
         database.collection("UserInfo").whereField("userId", isEqualTo: docId)
             .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    
-                    print(error)
+             
+                if ((querySnapshot?.documents.isEmpty) != nil) {
+
+                    completion(nil)
                     
                     return
                     
                 } else {
                     
-                    var userInfo: UserInfo?
-                    
                     for document in querySnapshot!.documents {
                         
                         do {
                             
-                            if let user = try document.data(as: UserInfo.self) {
+                            if let userInfo = try document.data(as: UserInfo.self) {
                                 
-                                userInfo = user
+                                completion(userInfo)
                                 
                             }
                             
                         } catch {
-                            
+                            completion(nil)
                         }
                     }
-                    
-                    completion(userInfo)
                 }
             }
     }
@@ -234,8 +232,7 @@ extension FirebaseManger {
         }
     }
     
-    func fetchUserInfobyUserIdTesr(userId: String, completion: @escaping (UserInfo?) -> Void ) {
-//        guard let docId = Auth.auth().currentUser?.uid else { return }
+    func fetchOtherUserInfobyUserId(userId: String, completion: @escaping (UserInfo?) -> Void ) {
         database.collection("UserInfo").whereField("userId", isEqualTo: userId)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -332,5 +329,15 @@ extension FirebaseManger {
                 }
                 
             }
+    }
+    
+    public func deleteUserId() {
+        database.collection("UserInfo").document("JYIMhWrpaBVNrxgjknogWHutey93").delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
     }
 }

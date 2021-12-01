@@ -12,5 +12,11 @@ extension UIImageView {
         self.layer.cornerRadius = self.frame.width / 2
         self.layer.masksToBounds = true
     }
+    
+    func setImageColor(color: UIColor) {
+        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+        self.image = templateImage
+        self.tintColor = color
+    }
 
 }
