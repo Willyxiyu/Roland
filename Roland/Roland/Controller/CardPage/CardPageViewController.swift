@@ -6,52 +6,16 @@
 // closure 記得加[weak self]
 
 import UIKit
-import FirebaseFirestore
-import FirebaseAuth
 
 class CardPageViewController: UIViewController {
     
-    var useFilter: Bool = false
     var userInfoForScalingCard = [String]()
-    
-    let meetUpFilterViewController = MeetUpFilterViewController()
     var cardView = UIView()
-    private var userInfo = [UserInfo]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupCardView()
-        setupRolandImageView()
-//        setupFilterButton()
-        // Do any additional setup after loading the view.
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
-        
-        if !useFilter {
-            
-        }
-        
-        cardView.subviews.forEach {
-            $0.removeFromSuperview()
-            
-        }
-        
-        fetchUserLikeAndDislikeList()
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
-        
-    }
+    private var noNewUserImageView = UIImageView(image: UIImage(named: "探索結束"))
     
     lazy var rolandImageView: UIImageView = {
         let rolandImageView = UIImageView()
-        
         rolandImageView.image = UIImage(named: "rolandicon")
         rolandImageView.setImageColor(color: UIColor.themeColor!)
         rolandImageView.contentMode = .scaleAspectFit
@@ -59,17 +23,30 @@ class CardPageViewController: UIViewController {
         return rolandImageView
     }()
     
-    lazy var filterButton: UIButton = {
-        let filterButton = UIButton()
-        filterButton.setImage(UIImage(named: "filter"), for: .normal)
-        filterButton.contentMode = .scaleAspectFit
-        filterButton.alpha = 0.5
-        filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
-        return filterButton
-    }()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCardView()
+        setupRolandImageView()
+        
+        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
+        
+        cardView.subviews.forEach {
+            
+            $0.removeFromSuperview()
+        }
+        
+        fetchUserLikeAndDislikeList()
+    }
     
-    @objc func openFilter() {
-        navigationController?.pushViewController(meetUpFilterViewController, animated: true)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+        
     }
     
     private func setupRolandImageView() {
@@ -83,18 +60,6 @@ class CardPageViewController: UIViewController {
         ])
     }
     
-    private func setupFilterButton() {
-        filterButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(filterButton)
-        NSLayoutConstraint.activate([
-            filterButton.centerYAnchor.constraint(equalTo: rolandImageView.centerYAnchor, constant: -5),
-            filterButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -10),
-            filterButton.widthAnchor.constraint(equalToConstant: 30),
-            filterButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-    }
-    
     func setupCard(_ card: CardView) {
         card.translatesAutoresizingMaskIntoConstraints = false
         self.cardView.addSubview(card)
@@ -104,6 +69,8 @@ class CardPageViewController: UIViewController {
             card.leadingAnchor.constraint(equalTo: self.cardView.leadingAnchor),
             card.trailingAnchor.constraint(equalTo: self.cardView.trailingAnchor)
         ])
+        
+        card.delegate = self
     }
     
     private func setupCardView() {
@@ -119,13 +86,15 @@ class CardPageViewController: UIViewController {
     }
     
     func fetchUserLikeAndDislikeList() {
-        // 抓我自己的使用者Info
-        guard let ownUserId = Auth.auth().currentUser?.uid else { return }
         // fetch the userId in userInfo's likelist and dislikelist array
         FirebaseManger.shared.fetchUserInfobyUserId { result in
-            // add ourself's userId in the array, later will to the notIn function
-            self.userInfoForScalingCard = [ownUserId]
+            // add ourself's userId in the array
             
+            if let userId = result?.userId {
+                
+                self.userInfoForScalingCard = [userId]
+                
+            }
             if let likeList = result?.likeList {
                 
                 for userId in likeList {
@@ -133,7 +102,7 @@ class CardPageViewController: UIViewController {
                     self.userInfoForScalingCard.append(userId)
                 }
             }
-                        
+            
             if let  dislikeList = result?.dislikeList {
                 
                 for userId in dislikeList {
@@ -141,30 +110,55 @@ class CardPageViewController: UIViewController {
                     self.userInfoForScalingCard.append(userId)
                 }
             }
-
-            // use isnotequalto function, make the card show up with correct user without user in both lists and ourself.
             
-            self.userInfo.removeAll()
+            self.fetchUserListForScalingCard()
+        }
+    }
+    
+    func fetchUserListForScalingCard() {
+        // make the card show up with correct user without user in both lists and ourself.
+        FirebaseManger.shared.fetchUserListForScalingCard { result in
+            let array = result.filter { userInfo -> Bool in
+                guard let idd = userInfo.userId else { return false }
+                return !(self.userInfoForScalingCard.contains(idd))
+            }
             
-            // 除了我以外的使用者Info
-            FirebaseManger.shared.fetchUserListForScalingCard(userId: ownUserId) { result in
-                let array = result.filter { userInfo -> Bool in
-                    guard let idd = userInfo.userId else { return false }
-                    return !(self.userInfoForScalingCard.contains(idd))
-                }
-            
-                array.forEach { (userInfo) in
-                    
-                    self.setupCard(CardView(user: userInfo))
-                }
+            array.forEach { (userInfo) in
+                
+                self.setupCard(CardView(user: userInfo))
             }
         }
     }
 }
-extension UIImageView {
-    func setImageColor(color: UIColor) {
-        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
-        self.image = templateImage
-        self.tintColor = color
+
+extension CardPageViewController: SlingCardUserIdDelegate {
+    
+    func sendingUserIdFromLeft(_ userId: String) {
+        
+        FirebaseManger.shared.postAccepterIdtoSelfDislikeList(accepterId: userId)
+        
+    }
+    
+    func sendingUserIdFromRight(_ userId: String) {
+        // sliding right adding other's id to self dislikeList and remove the card form the screen
+        
+        FirebaseManger.shared.fetchlikeListOfUserId(accepterId: userId) { result in
+            
+            if result.isEmpty == true {
+                
+                FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
+                
+            } else {
+                
+                FirebaseManger.shared.postAccepterIdtoSelflikeList(accepterId: userId)
+                
+                let message = Message(sender: Sender(photoURL: "", senderId: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text("Hi 很高興認識你"))
+                
+                FirebaseManger.shared.createNewChatRoom(accepterId: userId, firstMessage: message)
+                
+                print("建立聊天室")
+                
+            }
+        }
     }
 }

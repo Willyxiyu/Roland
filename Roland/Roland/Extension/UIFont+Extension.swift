@@ -8,7 +8,7 @@
 
 import UIKit
 
-private enum STFontName: String {
+private enum ROFontName: String {
 
     case regular = "NotoSansChakma-Regular"
 }
@@ -17,7 +17,7 @@ extension UIFont {
 
     static func medium(size: CGFloat) -> UIFont? {
 
-        var descriptor = UIFontDescriptor(name: STFontName.regular.rawValue, size: size)
+        var descriptor = UIFontDescriptor(name: ROFontName.regular.rawValue, size: size)
 
         descriptor = descriptor.addingAttributes(
             [UIFontDescriptor.AttributeName.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.medium]]
@@ -30,10 +30,10 @@ extension UIFont {
 
     static func regular(size: CGFloat) -> UIFont? {
 
-        return STFont(.regular, size: size)
+        return ROFont(.regular, size: size)
     }
 
-    private static func STFont(_ font: STFontName, size: CGFloat) -> UIFont? {
+    private static func ROFont(_ font: ROFontName, size: CGFloat) -> UIFont? {
 
         return UIFont(name: font.rawValue, size: size)
     }
