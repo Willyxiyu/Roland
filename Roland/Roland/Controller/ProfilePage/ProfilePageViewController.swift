@@ -11,12 +11,13 @@ import Lottie
 import FirebaseStorage
 import Kingfisher
 import SafariServices
+import FirebaseAuth
 
 class ProfilePageViewController: UIViewController {
-//    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
+    //    let animationView = AnimationView(name: "72933-likelove-icon-micro-interaction")
     private let storage = Storage.storage().reference()
     private let gradientLayer = CAGradientLayer()
-
+    
     var eventUrlString = String() {
         
         didSet {
@@ -25,7 +26,7 @@ class ProfilePageViewController: UIViewController {
                 
                 return
             }
-        
+            
             FirebaseManger.shared.updateUserInfo(name: userInfo.name, email: userInfo.email, age: userInfo.age, gender: userInfo.gender, photo: eventUrlString)
             
             FirebaseManger.shared.fetchUserInfobyUserId { result in
@@ -42,7 +43,7 @@ class ProfilePageViewController: UIViewController {
                 
                 return
             }
-                
+            
             userPhotoImageView.kf.setImage(with: URL(string: userProfilePhoto ))
             
             self.reloadInputViews()
@@ -50,9 +51,9 @@ class ProfilePageViewController: UIViewController {
             if let userName = userInfo?.name {
                 
                 userNameLabel.text = userName
-
-            }
                 
+            }
+            
         }
     }
     
@@ -90,19 +91,19 @@ class ProfilePageViewController: UIViewController {
         FirebaseManger.shared.fetchUserInfobyUserId { result in
             self.userInfo = result
         }
-//        setupAnimation()
+        //        setupAnimation()
     }
-//
-//    func setupAnimation() {
-//
-//        animationView.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-//        animationView.center = self.view.center
-//        animationView.contentMode = .scaleAspectFill
-//        animationView.loopMode = .loop
-//        animationView.animationSpeed = 0.75
-//        view.addSubview(animationView)
-//        animationView.play()
-//    }
+    //
+    //    func setupAnimation() {
+    //
+    //        animationView.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+    //        animationView.center = self.view.center
+    //        animationView.contentMode = .scaleAspectFill
+    //        animationView.loopMode = .loop
+    //        animationView.animationSpeed = 0.75
+    //        view.addSubview(animationView)
+    //        animationView.play()
+    //    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -207,9 +208,9 @@ class ProfilePageViewController: UIViewController {
         
         present(svc, animated: true, completion: nil)
         
-//        let vc = SettingPageViewController() // change this to your class name
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true, completion: nil)
+        //        let vc = SettingPageViewController() // change this to your class name
+        //        vc.modalPresentationStyle = .fullScreen
+        //        self.present(vc, animated: true, completion: nil)
     }
     
     lazy var newPhotoButton: UIButton = {
@@ -251,9 +252,24 @@ class ProfilePageViewController: UIViewController {
     }()
     
     @objc func logOut() {
-        print("OK")
+        print("logout")
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+
+        let loginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignInViewContoller")
+
+        guard let loginVC = loginVC as? SignInViewContoller else { return }
+
+        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return }
+                    window.rootViewController = loginVC
+                    window.makeKeyAndVisible()
+
     }
-    
+
     private func setupLogOutButton() {
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logOutButton)
@@ -333,7 +349,7 @@ class ProfilePageViewController: UIViewController {
         NSLayoutConstraint.activate([
             settingLabel.topAnchor.constraint(equalTo: settingBackgroundView.bottomAnchor, constant: 15),
             settingLabel.centerXAnchor.constraint(equalTo: settingBackgroundView.centerXAnchor)
-        
+            
         ])
     }
     

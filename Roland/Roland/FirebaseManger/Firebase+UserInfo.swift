@@ -37,17 +37,18 @@ extension FirebaseManger {
     
     func fetchUserInfobyUserId(completion: @escaping (UserInfo?) -> Void ) {
         guard let docId = Auth.auth().currentUser?.uid else { return }
+                
         database.collection("UserInfo").whereField("userId", isEqualTo: docId)
             .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    
-                    print(error)
+             
+                if ((querySnapshot?.documents.isEmpty) != nil) {
+
                     completion(nil)
                     
                     return
                     
                 } else {
-                                        
+                    
                     for document in querySnapshot!.documents {
                         
                         do {
@@ -55,7 +56,7 @@ extension FirebaseManger {
                             if let userInfo = try document.data(as: UserInfo.self) {
                                 
                                 completion(userInfo)
-
+                                
                             }
                             
                         } catch {
@@ -328,5 +329,15 @@ extension FirebaseManger {
                 }
                 
             }
+    }
+    
+    public func deleteUserId() {
+        database.collection("UserInfo").document("JYIMhWrpaBVNrxgjknogWHutey93").delete { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
     }
 }

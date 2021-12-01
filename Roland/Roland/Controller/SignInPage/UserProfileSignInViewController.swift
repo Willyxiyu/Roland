@@ -103,8 +103,10 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         
         guard let tabBarVC = tabBarVC as? TabBarViewController else { return }
         
-        show(tabBarVC, sender: nil)
-        
+        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return }
+                    window.rootViewController = tabBarVC
+                    window.makeKeyAndVisible()
+            
     }
     
 }

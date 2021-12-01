@@ -14,7 +14,7 @@ import FirebaseAuth
 class SignInViewContoller: UIViewController, UITextViewDelegate {
     
     let userProfileSignInViewController = UserProfileSignInViewController()
-//    var userInfo: UserInfo?
+    //    var userInfo: UserInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +22,7 @@ class SignInViewContoller: UIViewController, UITextViewDelegate {
         setupLogingButton()
         setupAppIconImage()
         setupTextView()
+
         
     }
     
@@ -176,7 +177,6 @@ class SignInViewContoller: UIViewController, UITextViewDelegate {
         
         return hashString
     }
-    
 }
 
 extension SignInViewContoller: ASAuthorizationControllerDelegate {
@@ -213,6 +213,8 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                     
                     self.userProfileSignInViewController.userName = name
                     self.userProfileSignInViewController.userEmail = email
+                
+                    
                     
                     // User is signed in to Firebase with Apple.
                     // ...
@@ -234,9 +236,7 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                             self.show(tabBarVC, sender: nil)
                         }
                     }
-                    
                 }
-                return
             }
             
             func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
@@ -244,9 +244,7 @@ extension SignInViewContoller: ASAuthorizationControllerDelegate {
                 print("Sign in with Apple errored: \(error)")
             }
         }
-        
     }
-    
 }
 
 extension SignInViewContoller: ASAuthorizationControllerPresentationContextProviding {
@@ -258,5 +256,4 @@ extension SignInViewContoller: ASAuthorizationControllerPresentationContextProvi
         
         return window
     }
-    
 }
