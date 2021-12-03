@@ -14,7 +14,7 @@ We think Roland will help you create a beautiful, wonderful life, with your conf
 ### Beautiful user experiences
 
 We want to enable users to make new friends here without being worried. We seek those people who have the curiosity to exploring through the world and try to start a new relationship. Roland includes two features, first is "swiped cards" as many apps in the world. You can easily find the person you might be interested in the first impressions when the card which contents that person's info. After you "swiped right" the card just wait for Jupiter to do his job. If You notice there is a new chat room showing up which means you both have an interest in each other. Second, "group event" is any creative event all you can find it here, this feature lets people can create and join an event.
-![image](https://github.com/Willyxiyu/Roland/blob/main/roland%20readme%20file/%E6%88%AA%E5%9C%96%202021-12-02%20%E4%B8%8B%E5%8D%885.05.50.png?raw=true)
+![image](https://github.com/Willyxiyu/Roland/blob/main/roland%20readme%20file/%E6%88%AA%E5%9C%96%202021-12-03%20%E4%B8%8B%E5%8D%882.30.55.png?raw=true)
 
 
 ### Group Event
