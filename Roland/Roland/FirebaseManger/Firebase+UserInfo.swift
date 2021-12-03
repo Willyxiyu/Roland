@@ -24,7 +24,10 @@ extension FirebaseManger {
             "photo": photo,
             "email": email,
             "userId": docId,
-            "createTime": Timestamp(date: Date())
+            "createTime": Timestamp(date: Date()),
+            "likeList": [],
+            "dislikeList": [],
+            "blockList": []
         ]
         ref.document(docId).setData(userInfo) { (error) in
             if let error = error {
@@ -41,7 +44,13 @@ extension FirebaseManger {
         database.collection("UserInfo").whereField("userId", isEqualTo: docId)
             .getDocuments { (querySnapshot, error) in
              
-                if ((querySnapshot?.documents.isEmpty) != nil) {
+                guard let querySnapshot = querySnapshot else {
+                    completion(nil)
+                    return
+                    
+                }
+                
+                if querySnapshot.documents.isEmpty {
 
                     completion(nil)
                     
@@ -49,7 +58,7 @@ extension FirebaseManger {
                     
                 } else {
                     
-                    for document in querySnapshot!.documents {
+                    for document in querySnapshot.documents {
                         
                         do {
                             

@@ -34,15 +34,10 @@ class CardPageViewController: UIViewController {
         super.viewWillAppear(animated)
         self.view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
-        
-        cardView.subviews.forEach {
-            
-            $0.removeFromSuperview()
-        }
-        
+     
         fetchUserLikeAndDislikeList()
-    }
     
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
@@ -88,7 +83,6 @@ class CardPageViewController: UIViewController {
     func fetchUserLikeAndDislikeList() {
         // fetch the userId in userInfo's likelist and dislikelist array
         FirebaseManger.shared.fetchUserInfobyUserId { result in
-            // add ourself's userId in the array
             
             if let userId = result?.userId {
                 

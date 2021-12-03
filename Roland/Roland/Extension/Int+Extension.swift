@@ -1,9 +1,8 @@
 //
-//  File.swift
-//  STYLiSH
+//  Int+Extension.swift
+//  Roland
 //
-//  Created by WU CHIH WEI on 2019/3/6.
-//  Copyright © 2019 WU CHIH WEI. All rights reserved.
+//  Created by 林希語 on 2021/10/27.
 //
 
 import Foundation
