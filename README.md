@@ -52,9 +52,7 @@ In this feature, you should feel free to create any event you want to share your
 
 # Support
 
-If you need assistance or want to ask a question about the iOS app or have found a bug, you are welcome to ask for support by sending an email to willy.xiyu@gmail.com. 
-
-or you can [find my here](https://www.linkedin.com/in/willy-xiyu/)
+If you need assistance or want to ask a question about the iOS app or have found a bug, you are welcome to ask for support by sending an email to willy.xiyu@gmail.com.   or you can [find my here](https://www.linkedin.com/in/willy-xiyu/)
 
 # TestFlight
 
