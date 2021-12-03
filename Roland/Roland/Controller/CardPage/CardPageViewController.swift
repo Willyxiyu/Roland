@@ -25,8 +25,9 @@ class CardPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCardView()
         setupRolandImageView()
+        setupNoNewUserImageView()
+        setupCardView()
         
         // Do any additional setup after loading the view.
     }
@@ -42,6 +43,17 @@ class CardPageViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
         
+    }
+    
+    private func setupNoNewUserImageView() {
+        noNewUserImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(noNewUserImageView)
+        NSLayoutConstraint.activate([
+            noNewUserImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            noNewUserImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            noNewUserImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
+            noNewUserImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
+        ])
     }
     
     private func setupRolandImageView() {
