@@ -238,7 +238,7 @@ class ProfilePageViewController: UIViewController {
     
     @objc func editInfo() {
         
-        let viewController = NotReadyPageViewController() // change this to your class name
+        let viewController = AccountUpdateViewController() // change this to your class name
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true, completion: nil)
     }

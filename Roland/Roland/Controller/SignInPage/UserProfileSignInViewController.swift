@@ -24,6 +24,8 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     var userEmail: String?
     
+    var userIntro: String?
+    
     var userAge: String?
     
     var userGender: String?
@@ -110,6 +112,9 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
 }
 
 extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDelegate, CellDelegate {
+    func introChange(intro: String) {
+        userIntro = intro
+    }
     
     func nameChange(name: String) {
         
@@ -168,7 +173,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileFirstIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileFirstIntroTableViewCell else { fatalError("Error") }
-            cell.introLabel.text = "I am happy to join with you today in what will go down in history as the greatest demonstration for freedom in the history of our nation."
+            cell.introLabel.text = "所留資訊，請勿包含言語暴力、霸凌、歧視等用語，讓我們共同維護這個美好的環境，簡介是讓對方第一任是你的地方喔！"
             
             return cell
         case 4:
@@ -196,7 +201,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileSecondIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileSecondIntroTableViewCell else { fatalError("Error") }
             // swiftlint:disable:next line_length
-            cell.introLabel.text = "Five score years ago, a great American, in whose symbolic shadow we stand today, signed the Emancipation Proclamation. This momentous decree came as a great beacon light of hope to millions of Negro slaves who had been seared in the flames of withering injustice. It came as a joyous daybreak to end the long night of their captivity."
+            cell.introLabel.text = "年齡與性別可以幫助我們在未來有篩選功能時，能夠讓您篩選相關的數據與資訊"
             return cell
         default:
             break

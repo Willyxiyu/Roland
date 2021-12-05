@@ -20,6 +20,8 @@ protocol CellDelegate: AnyObject {
     
     func emailChange(email: String)
     
+    func introChange(intro: String)
+    
 }
 
 enum NameEmailCell {
@@ -27,7 +29,10 @@ enum NameEmailCell {
     case nameCell
     
     case emailCell
+    
+    case introCell
 }
+
 
 class UserProfileSignInTableViewCell: UITableViewCell {
     
@@ -222,6 +227,8 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
             
             delegate?.emailChange(email: text)
             
+        case .introCell:
+            delegate?.introChange(intro: text)
         }
         
     }

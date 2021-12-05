@@ -130,6 +130,24 @@ extension FirebaseManger {
         }
     }
     
+    func updateUserInfoIneditPage(name: String, email: String, age: String, gender: String, intro: String) {
+        guard let docId = Auth.auth().currentUser?.uid else { return }
+        let ref = database.collection("UserInfo").document(docId)
+        ref.updateData([
+            "name": name,
+            "gender": gender,
+            "age": age,
+            "intro": intro,
+            "email": email
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
     func postEventIdtoMeEventIdArray(docId: String, eventId: String) {
         let ref = database.collection("UserInfo").document(docId)
         ref.updateData(["myEventId": FieldValue.arrayUnion([eventId])])
