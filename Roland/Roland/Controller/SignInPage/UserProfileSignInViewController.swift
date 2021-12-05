@@ -14,8 +14,6 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
 
     let tableView = UITableView()
     
-    let storage = Storage.storage().reference()
-    
     let userProfileAgeTableViewCell = UserProfileAgeTableViewCell()
     
     let userProfileGenderTableViewCell = UserProfileGenderTableViewCell()
@@ -97,7 +95,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
         guard let userEmail = userEmail else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-        FirebaseManger.shared.postNewUserInfo(name: userName, gender: userGender, age: userAge, photo: eventUrlString, email: userEmail)
+        FirebaseManger.shared.postNewUserInfo(name: userName, gender: userGender, age: userAge, photo: profilePhoto, email: userEmail)
         
         let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
@@ -250,30 +248,30 @@ extension UserProfileSignInViewController: UIImagePickerControllerDelegate, UINa
         
         profilePhoto = editedImage
         
-        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+//        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+//
+//        profilePhoto = originalImage
         
-        profilePhoto = originalImage
-        
-        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
-            return
-        }
-        
-        let uniqueString = NSUUID().uuidString
-        storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
-            guard error == nil else {
-                print("Failed to upload")
-                return
-            }
-            self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
-                guard let url = url, error == nil else {
-                    return
-                }
-                let urlString = url.absoluteString
-                print("Download URL: \(urlString)")
-                self.eventUrlString = urlString
-                UserDefaults.standard.set(urlString, forKey: "url")
-            })
-        }
+//        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
+//            return
+//        }
+//
+//        let uniqueString = NSUUID().uuidString
+//        storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
+//            guard error == nil else {
+//                print("Failed to upload")
+//                return
+//            }
+//            self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
+//                guard let url = url, error == nil else {
+//                    return
+//                }
+//                let urlString = url.absoluteString
+//                print("Download URL: \(urlString)")
+//                self.eventUrlString = urlString
+//                UserDefaults.standard.set(urlString, forKey: "url")
+//            })
+//        }
     }
 }
 

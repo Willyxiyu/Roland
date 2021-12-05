@@ -11,29 +11,65 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
+import FirebaseStorage
 
 extension FirebaseManger {
     
-    func postNewUserInfo(name: String, gender: String, age: String, photo: String, email: String) {
-        let ref = database.collection("UserInfo")
-        guard let docId = Auth.auth().currentUser?.uid else { return }
-        let userInfo: [String: Any] = [
-            "name": name,
-            "gender": gender,
-            "age": age,
-            "photo": photo,
-            "email": email,
-            "userId": docId,
-            "createTime": Timestamp(date: Date()),
-            "likeList": [],
-            "dislikeList": [],
-            "blockList": []
-        ]
-        ref.document(docId).setData(userInfo) { (error) in
-            if let error = error {
-                print("Error writing document: \(error)")
-            } else {
-                print("Document data: \(userInfo)")
+    func postNewUserInfo(name: String, gender: String, age: String, photo: UIImage, email: String) {
+        
+        let storage = Storage.storage().reference()
+        var eventUrlString: String?
+        
+        guard let imageData = photo.jpegData(compressionQuality: 0.25) else {
+            return
+        }
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+        dispatchQueue.async {
+            
+            let uniqueString = NSUUID().uuidString
+            storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
+                guard error == nil else {
+                    print("Failed to upload")
+                    return
+                }
+             storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
+                    guard let url = url, error == nil else {
+                        semaphore.signal()
+                        return
+                    }
+                    let urlString = url.absoluteString
+                    print("Download URL: \(urlString)")
+                    eventUrlString = urlString
+                    UserDefaults.standard.set(urlString, forKey: "url")
+                    semaphore.signal()
+                })
+            }
+            
+            semaphore.wait()
+            
+            let ref = self.database.collection("UserInfo")
+            guard let docId = Auth.auth().currentUser?.uid,
+            let eventUrlString = eventUrlString else { return }
+            let userInfo: [String: Any] = [
+                "name": name,
+                "gender": gender,
+                "age": age,
+                "photo": eventUrlString,
+                "email": email,
+                "userId": docId,
+                "createTime": Timestamp(date: Date()),
+                "likeList": [],
+                "dislikeList": [],
+                "blockList": []
+            ]
+            ref.document(docId).setData(userInfo) { (error) in
+                if let error = error {
+                    print("Error writing document: \(error)")
+                } else {
+                    print("Document data: \(userInfo)")
+                }
             }
         }
     }

@@ -40,11 +40,12 @@ class ProfilePageViewController: UIViewController {
         didSet {
             
             guard let userProfilePhoto = userInfo?.photo else {
-                
+                print("no pic")
                 return
             }
             
-            userPhotoImageView.kf.setImage(with: URL(string: userProfilePhoto ))
+//            userPhotoImageView.kf.indicatorType = .activity
+            userPhotoImageView.kf.setImage(with: URL(string: userProfilePhoto), placeholder: UIImage(systemName: "person.circle.fill"))
             
             self.reloadInputViews()
             
@@ -245,14 +246,20 @@ class ProfilePageViewController: UIViewController {
     lazy var logOutButton: UIButton = {
         let logOutButton = UIButton()
         logOutButton.setTitle("登出帳號", for: .normal)
-        logOutButton.setTitleColor(.black, for: .normal)
+        logOutButton.setTitleColor(.white, for: .normal)
         logOutButton.layer.masksToBounds = true
         logOutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+        logOutButton.backgroundColor = .themeColor
+        logOutButton.layer.cornerRadius = 5
         return logOutButton
     }()
     
     @objc func logOut() {
-        print("logout")
+        
+        let alert = UIAlertController(title: "登出帳號", message: "登出後將無法收到更新訊息", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "先不要", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "確認登出", style: .default, handler: { _ in
+        
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
@@ -267,6 +274,15 @@ class ProfilePageViewController: UIViewController {
         guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return }
                     window.rootViewController = loginVC
                     window.makeKeyAndVisible()
+            
+            print("logout")
+
+        })
+            alert.addAction(confirm)
+            
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
 
     }
 
@@ -275,7 +291,8 @@ class ProfilePageViewController: UIViewController {
         self.view.addSubview(logOutButton)
         NSLayoutConstraint.activate([
             logOutButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            logOutButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            logOutButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            logOutButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.4)
         ])
     }
     
