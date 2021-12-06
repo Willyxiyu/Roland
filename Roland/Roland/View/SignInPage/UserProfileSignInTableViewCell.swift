@@ -33,7 +33,6 @@ enum NameEmailCell {
     case introCell
 }
 
-
 class UserProfileSignInTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
@@ -124,6 +123,10 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         let changePhotoButton = UIButton()
         changePhotoButton.setTitle("Change Photo", for: .normal)
         changePhotoButton.setTitleColor(UIColor.themeColor, for: .normal)
+        changePhotoButton.backgroundColor = .white
+        changePhotoButton.layer.masksToBounds = true
+        changePhotoButton.layer.cornerRadius = 5
+        
         return changePhotoButton
     }()
     
@@ -132,7 +135,7 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         self.contentView.addSubview(userPhotoImageView)
         NSLayoutConstraint.activate([
             userPhotoImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 50),
-            userPhotoImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -50),
+
             userPhotoImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             userPhotoImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
             userPhotoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5)
@@ -145,7 +148,8 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             changePhotoButton.topAnchor.constraint(equalTo: userPhotoImageView.bottomAnchor, constant: 25),
             changePhotoButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20),
-            changePhotoButton.centerXAnchor.constraint(equalTo: userPhotoImageView.centerXAnchor)
+            changePhotoButton.centerXAnchor.constraint(equalTo: userPhotoImageView.centerXAnchor),
+            changePhotoButton.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.4)
             
         ])
     }
@@ -155,7 +159,6 @@ class UserProfilePhotoTableViewCell: UITableViewCell {
         self.contentView.addSubview(view)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 50),
-            view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -50),
             view.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             view.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
             view.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5)
@@ -212,10 +215,6 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
     }()
     
     @objc func editEnd() {
-        
-//        guard let text = userNameEmailTextField.text else {
-//           return
-//        }
         
         switch name {
             
