@@ -28,12 +28,31 @@ class AccountUpdateViewController: UIViewController, UITextViewDelegate, UITextF
     
     var userGender: String?
     
-    let profileList: [String] = ["name", "email", "inro","intro1", "age", "gender", "intro2"]
+    var userInfo: UserInfo?
+    
+    let profileList: [String] = ["name", "email", "inro", "intro1", "age", "gender", "intro2"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .white
         tableView.separatorStyle = .none
+        FirebaseManger.shared.fetchUserInfobyUserId { userInfo in
+            
+            if let userInfo =  userInfo {
+                
+                self.userName = userInfo.name
+                
+                self.userEmail = userInfo.email
+                
+                self.userIntro = userInfo.intro
+                
+                self.userAge = userInfo.age
+                
+                self.userGender = userInfo.gender
+                
+                self.tableView.reloadData()
+            }
+        }
         
         self.hideKeyboardWhenTappedAround()
         setupCloseSettingPageButton()
@@ -112,7 +131,7 @@ class AccountUpdateViewController: UIViewController, UITextViewDelegate, UITextF
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: closeSettingPageButton.bottomAnchor,  constant: 10),
+            tableView.topAnchor.constraint(equalTo: closeSettingPageButton.bottomAnchor, constant: 50),
             tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
@@ -165,6 +184,8 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
             
             nameEmailCell.delegate = self
             
+            nameEmailCell.userNameEmailTextField.tag = indexPath.row
+            
             return nameEmailCell
             
         case 1:
@@ -178,6 +199,8 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
             nameEmailCell.name = .emailCell
             
             nameEmailCell.delegate = self
+            
+            nameEmailCell.userNameEmailTextField.tag = indexPath.row
             
             return nameEmailCell
             
@@ -193,6 +216,8 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
             
             nameEmailCell.delegate = self
             
+            nameEmailCell.userNameEmailTextField.tag = indexPath.row
+            
             return nameEmailCell
             
         case 3:
@@ -206,7 +231,9 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileAgeTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileAgeTableViewCell else { fatalError("Error") }
-            cell.ageTextField.text = cell.age[0]
+//            cell.ageTextField.text = cell.age[0]
+            
+            cell.ageTextField.text = self.userAge
             
             userAge = cell.ageTextField.text
             
@@ -217,7 +244,9 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
         case 5:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileGenderTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileGenderTableViewCell else { fatalError("Error") }
-            cell.genderTextField.text = cell.gender[0]
+//            cell.genderTextField.text = cell.gender[0]
+            
+            cell.genderTextField.text = self.userGender
             
             userGender = cell.genderTextField.text
             
@@ -228,14 +257,13 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileSecondIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileSecondIntroTableViewCell else { fatalError("Error") }
-            // swiftlint:disable:next line_length
             cell.introLabel.text = "年齡與性別可以幫助我們在未來有篩選功能時，能夠讓您篩選相關的數據與資訊"
             return cell
         default:
             break
             
         }
-        
+                
         return UITableViewCell()
         
     }
@@ -251,6 +279,12 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
     func introChange(intro: String) {
         userIntro = intro
     }
+    
+    
+    
+    
+    
+    
     
 }
 

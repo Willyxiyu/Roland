@@ -152,6 +152,8 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             
         case 1:
             
+            nameEmailCell.userNameEmailTextField.placeholder = "姓名"
+            
             nameEmailCell.userNameEmailTextField.text = userName
                                     
             nameEmailCell.name = .nameCell
@@ -161,6 +163,8 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
             return nameEmailCell
             
         case 2:
+            
+            nameEmailCell.userNameEmailTextField.placeholder = "email"
             
             nameEmailCell.userNameEmailTextField.text = userEmail
                         
