@@ -14,13 +14,11 @@ class DateClass {
     // MARK: 比較時間先後，oneDay為String
     static func compareOneDay(oneDay: String, withAnotherDay anotherDay: Date) -> Int {
         let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd.HH:mm a"
-        dateFormatter.locale = Locale(identifier: "en")
-//        let oneDayStr: String = dateFormatter.string(from: oneDay)
-        let anotherDayStr: String = dateFormatter.string(from: anotherDay)
+        dateFormatter.dateFormat = "yyyy.MM.dd.hh:mm a"
+//        let anotherDayStr: String = dateFormatter.string(from: anotherDay)
         let dateA = dateFormatter.date(from: oneDay)
-        let dateB = dateFormatter.date(from: anotherDayStr)
-        let result: ComparisonResult = (dateA?.compare(dateB!))!
+//        let dateB = dateFormatter.date(from: anotherDayStr)
+        let result: ComparisonResult = (dateA?.compare(anotherDay))!
         
         // Date1  is in the future
         if result == ComparisonResult.orderedDescending {
@@ -43,8 +41,8 @@ class DateClass {
     // MARK: 比較時間先後，Both都為String
     static func compareOneDayWithBothSting(oneDay: String, withAnotherDay: String) -> Int {
         let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd.HH:mm a"
-        dateFormatter.locale = Locale(identifier: "en")
+        dateFormatter.dateFormat = "yyyy.MM.dd.hh:mm a"
+//        dateFormatter.locale = Locale(identifier: "en")
 //        let oneDayStr: String = dateFormatter.string(from: oneDay)
 //        let anotherDayStr: String = dateFormatter.string(from: anotherDay)
         let dateA = dateFormatter.date(from: oneDay)

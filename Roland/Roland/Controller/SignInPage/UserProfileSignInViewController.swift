@@ -177,7 +177,7 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileFirstIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileFirstIntroTableViewCell else { fatalError("Error") }
-            cell.introLabel.text = "所留資訊，請勿包含言語暴力、霸凌、歧視等用語，讓我們共同維護這個美好的環境，簡介是讓對方第一任是你的地方喔！"
+            cell.introLabel.text = "所留資訊，請勿包含言語暴力、霸凌、歧視等用語，讓我們共同維護這個美好的環境，簡介是讓對方快速認識你，很好的開始喔！"
             
             return cell
         case 4:

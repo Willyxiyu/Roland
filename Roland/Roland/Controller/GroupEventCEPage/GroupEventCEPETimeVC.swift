@@ -134,7 +134,7 @@ class GroupEventCEPETimeVC: UIViewController, UITextViewDelegate, UITextFieldDel
             
         } else if  startTimeDateTimeInt == 2 || endTimeDateTimeInt == 2 {
             
-            // 開始時間或結束時間其一晚於當下時刻
+            // 開始時間或結束時間其一早於當下時刻
             
             let alert = UIAlertController(title: "輸入無效", message: "開始或結束時間不得在過去", preferredStyle: .alert)
             let confirm = UIAlertAction(title: "ok", style: .default, handler: nil)
