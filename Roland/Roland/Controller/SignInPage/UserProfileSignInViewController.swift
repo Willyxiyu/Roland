@@ -30,7 +30,7 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     var userGender: String?
     
-    var profilePhoto = UIImage() {
+    var profilePhoto = UIImage.init(systemName: "person.fill") {
         
         didSet {
             
@@ -93,11 +93,11 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
     
     @objc func createNewProfile() {
         
-        guard let userName = userName else { return }
-        guard let userEmail = userEmail else { return }
+//        guard let userName = userName else { return }
+        guard let photo = profilePhoto else { return }
         guard let userAge = userAge else { return }
         guard let userGender = userGender else { return }
-        FirebaseManger.shared.postNewUserInfo(name: userName, gender: userGender, age: userAge, photo: profilePhoto, email: userEmail)
+        FirebaseManger.shared.postNewUserInfo(name: self.userName ?? "", gender: userGender, age: userAge, photo: photo, email: userEmail ?? "")
         
         let tabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController")
         
@@ -204,7 +204,6 @@ extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDel
         case 6:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: "\(UserProfileSecondIntroTableViewCell.self)"),
                                                            for: indexPath) as? UserProfileSecondIntroTableViewCell else { fatalError("Error") }
-            // swiftlint:disable:next line_length
             cell.introLabel.text = "年齡與性別可以幫助我們在未來有篩選功能時，能夠讓您篩選相關的數據與資訊"
             return cell
         default:
@@ -256,31 +255,7 @@ extension UserProfileSignInViewController: UIImagePickerControllerDelegate, UINa
         guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         
         profilePhoto = editedImage
-        
-//        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-//
-//        profilePhoto = originalImage
-        
-//        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
-//            return
-//        }
-//
-//        let uniqueString = NSUUID().uuidString
-//        storage.child("imgae/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
-//            guard error == nil else {
-//                print("Failed to upload")
-//                return
-//            }
-//            self.storage.child("imgae/\(uniqueString)").downloadURL(completion: { url, error in
-//                guard let url = url, error == nil else {
-//                    return
-//                }
-//                let urlString = url.absoluteString
-//                print("Download URL: \(urlString)")
-//                self.eventUrlString = urlString
-//                UserDefaults.standard.set(urlString, forKey: "url")
-//            })
-//        }
+
     }
 }
 
