@@ -62,6 +62,7 @@
 		3F754025271D66DB00F9092E /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754024271D66DA00F9092E /* UIFont+Extension.swift */; };
 		3F754027271D671200F9092E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754026271D671200F9092E /* Int+Extension.swift */; };
 		3F754029271D672600F9092E /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F754028271D672600F9092E /* UIScreen+Extension.swift */; };
+		3F7D0D08275D0E390084C639 /* AccountUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0D07275D0E390084C639 /* AccountUpdateViewController.swift */; };
 		3F7EED3F271E968D00DF151F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7EED3E271E968D00DF151F /* TabBarViewController.swift */; };
 		3F9547AE2722D360004E8249 /* ChatroomlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */; };
 		3F9547B02722D72F004E8249 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */; };
@@ -134,6 +135,7 @@
 		3F754024271D66DA00F9092E /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		3F754026271D671200F9092E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		3F754028271D672600F9092E /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		3F7D0D07275D0E390084C639 /* AccountUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUpdateViewController.swift; sourceTree = "<group>"; };
 		3F7EED3E271E968D00DF151F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3F9547AD2722D360004E8249 /* ChatroomlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatroomlistViewController.swift; sourceTree = "<group>"; };
 		3F9547AF2722D72F004E8249 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1A62BA2745E83900E1E6C5 /* NotReadyPageViewController.swift */,
+				3F7D0D07275D0E390084C639 /* AccountUpdateViewController.swift */,
 				3F22542D2734D24D0002F135 /* SignInPage */,
 				3F22541827325BE00002F135 /* GroupEventCommentPage */,
 				3F225410273259BC0002F135 /* NotificationPage */,
@@ -645,6 +648,7 @@
 				3F22541227325A410002F135 /* NotificationViewController.swift in Sources */,
 				3F2254262732EE370002F135 /* GEPrivateCommentCell.swift in Sources */,
 				3F754011271D1EA800F9092E /* CardPageViewController.swift in Sources */,
+				3F7D0D08275D0E390084C639 /* AccountUpdateViewController.swift in Sources */,
 				3F75400D271D1EA800F9092E /* AppDelegate.swift in Sources */,
 				3F0D2AF62728ECED00B90B4D /* UIImageView+Extension.swift in Sources */,
 				3F0D2AF327285EE000B90B4D /* GroupEventCollectionViewCell.swift in Sources */,
@@ -852,7 +856,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Roland/Roland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -886,7 +890,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Roland/Roland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = GVM3XCMPNR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roland/Info.plist;

@@ -17,6 +17,7 @@ struct UserInfo: Codable {
     let email: String
     let createTime: Timestamp
     let phoneNumber: Int64?
+    let intro: String?
     let photo: String?
     let userId: String?
     let accountState: Bool?
@@ -29,6 +30,7 @@ struct UserInfo: Codable {
         case gender
         case age
         case phoneNumber
+        case intro
         case photo
         case userId
         case createTime
