@@ -16,11 +16,11 @@ protocol PickerViewDelegate: AnyObject {
 
 protocol CellDelegate: AnyObject {
     
-    func nameChange(name: String)
+    func nameChange(name: String?)
     
-    func emailChange(email: String)
+    func emailChange(email: String?)
     
-    func introChange(intro: String)
+    func introChange(intro: String?)
     
 }
 
@@ -213,22 +213,22 @@ class UserProfileNameEmailTableViewCell: UITableViewCell {
     
     @objc func editEnd() {
         
-        guard let text = userNameEmailTextField.text else {
-            fatalError("error")
-        }
+//        guard let text = userNameEmailTextField.text else {
+//           return
+//        }
         
         switch name {
             
         case .nameCell:
             
-            delegate?.nameChange(name: text)
+            delegate?.nameChange(name: userNameEmailTextField.text)
             
         case .emailCell:
             
-            delegate?.emailChange(email: text)
+            delegate?.emailChange(email: userNameEmailTextField.text)
             
         case .introCell:
-            delegate?.introChange(intro: text)
+            delegate?.introChange(intro: userNameEmailTextField.text)
         }
         
     }

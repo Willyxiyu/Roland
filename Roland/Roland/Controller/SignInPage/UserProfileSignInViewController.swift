@@ -112,16 +112,16 @@ class UserProfileSignInViewController: UIViewController, UITextViewDelegate, UIT
 }
 
 extension UserProfileSignInViewController: UITableViewDataSource, UITableViewDelegate, CellDelegate {
-    func introChange(intro: String) {
+    func introChange(intro: String?) {
         userIntro = intro
     }
     
-    func nameChange(name: String) {
+    func nameChange(name: String?) {
         
         userName = name
     }
     
-    func emailChange(email: String) {
+    func emailChange(email: String?) {
         
         userEmail = email
     }

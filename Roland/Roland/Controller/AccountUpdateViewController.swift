@@ -59,6 +59,7 @@ class AccountUpdateViewController: UIViewController, UITextViewDelegate, UITextF
         setupTitleLabel()
         setupTableView()
         setupUpdateUserInfoButton()
+        finishEdit()
         
         tableView.register(UserProfileNameEmailTableViewCell.self, forCellReuseIdentifier: String(describing: UserProfileNameEmailTableViewCell.self))
         
@@ -93,12 +94,12 @@ class AccountUpdateViewController: UIViewController, UITextViewDelegate, UITextF
     lazy var updateUserInfoButton: UIButton = {
         let updateUserInfoButton = UIButton()
         updateUserInfoButton.setTitle("確認更新", for: .normal)
-        updateUserInfoButton.setTitleColor(.white, for: .normal)
+        updateUserInfoButton.setTitleColor(.gray, for: .normal)
         updateUserInfoButton.layer.masksToBounds = true
         updateUserInfoButton.addTarget(self, action: #selector(update), for: .touchUpInside)
         updateUserInfoButton.backgroundColor = .themeColor
         updateUserInfoButton.layer.cornerRadius = 5
-//        updateUserInfoButton.isEnabled = false
+//        updateUserInfoButton.isEnabled = true
         return updateUserInfoButton
     }()
     
@@ -268,24 +269,36 @@ extension AccountUpdateViewController: UITableViewDataSource, UITableViewDelegat
         
     }
     
-    func nameChange(name: String) {
+    func nameChange(name: String?) {
         userName = name
+        
+        finishEdit()
     }
     
-    func emailChange(email: String) {
+    func emailChange(email: String?) {
         userEmail = email
+        
+        finishEdit()
+
     }
     
-    func introChange(intro: String) {
+    func introChange(intro: String?) {
         userIntro = intro
+        
+        finishEdit()
+
     }
-    
-    
-    
-    
-    
-    
-    
+    func finishEdit() {
+        
+        if userName != "" && userEmail != "" && userIntro != "" {
+            updateUserInfoButton.isEnabled = true
+            updateUserInfoButton.setTitleColor(.white, for: .normal)
+        } else {
+            updateUserInfoButton.isEnabled = false
+            updateUserInfoButton.setTitleColor(.gray, for: .normal)
+        }
+    }
+
 }
 
 extension AccountUpdateViewController: PickerViewDelegate {
