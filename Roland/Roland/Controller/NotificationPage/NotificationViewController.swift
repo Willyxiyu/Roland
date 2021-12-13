@@ -15,15 +15,7 @@ class NotificationViewController: UIViewController {
     let tableView = UITableView()
     let dispatchGroup = DispatchGroup()
     var applyList = [ApplyList]()
-    var userInfo = [UserInfo]() {
-        
-        didSet {
-            
-            notiPageIsEmpty()
-            
-            tableView.reloadData()
-        }
-    }
+    var userInfo = [UserInfo]()
     var groupEvent = [GroupEvent]()
     var applyListRequestSenderId = [String]()
     var applyListEventId = [String]()
@@ -52,39 +44,65 @@ class NotificationViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
         
         // 幫團長拿申請doc
+        
         FirebaseManger.shared.fetchApplyListforHost { result in
             
             self.applyList.removeAll()
             self.applyListRequestSenderId.removeAll()
             self.applyListEventId.removeAll()
-        
-                self.applyList = result
+            self.userInfo.removeAll()
+            self.groupEvent.removeAll()
+            self.applyList = result
+                                
+            let queA = DispatchQueue(label: "Serial")
+            queA.async {
+                
+                let simphore = DispatchSemaphore(value: 0)
+                
                 for applyInfo in self.applyList {
                     self.applyListRequestSenderId.append(applyInfo.requestSenderId)
                     self.applyListEventId.append(applyInfo.eventId)
                 }
                 
                 // 從doc的otherUserid去fetchUserInfo的userid
-                self.userInfo.removeAll()
+            
                 for otherUserId in self.applyListRequestSenderId {
+                    self.dispatchGroup.enter()
                     FirebaseManger.shared.fetchOtherUserInfo(otherUserId: otherUserId) { result in
-                        guard let result = result else { fatalError("error") }
+                        guard let result = result else { simphore.signal()
+                            fatalError("error")
+                           }
                         self.userInfo.append(result)
                         self.notiPageIsEmpty()
+                        self.dispatchGroup.leave()
+                        simphore.signal()
                     }
+                    simphore.wait()
                 }
+                
                 // 從doc的eventid去fetch GroupEvent的eventid
-                self.groupEvent.removeAll()
                 for groupEventId in self.applyListEventId {
+                    self.dispatchGroup.enter()
                     FirebaseManger.shared.fetchGroupEventforHost(eventId: groupEventId) { result in
                         guard let result = result else {
                             fatalError("error")
+                            simphore.signal()
                         }
                         self.groupEvent.append(result)
+                        self.dispatchGroup.leave()
+                        simphore.signal()
                     }
+                    simphore.wait()
                 }
+                self.dispatchGroup.notify(queue: .main) {
+                    self.tableView.reloadData()
+                }
+                
             }
+            
         }
+       
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
@@ -182,7 +200,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         FirebaseManger.shared.updateAttendeeId(docId: selectedEventId, attendeeId: selectedUserId)
         
         FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-                
+        
+        self.tableView.reloadData()
+        
     }
     
     @objc func rejectTheRequest(sender: UIButton) {
@@ -196,6 +216,8 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         guard let selectedDocumentId = self.selectedDocumentId else { fatalError("error") }
         
         FirebaseManger.shared.deleteUserIdFromApplyList(documentId: selectedDocumentId)
-            
+        
+        self.tableView.reloadData()
+        
     }
 }

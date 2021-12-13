@@ -25,7 +25,7 @@ class CardView: UIView {
     private let nameLabel = CardInfoLabel(labelFont: .medium(size: 40))
     private let ageLabel = CardInfoLabel(labelFont: .medium(size: 40))
     private let genderLabel = CardInfoLabel(labelFont: .medium(size: 30))
-    private let introLabel = CardInfoLabel(labelFont: .medium(size: 30))
+    private let introLabel = CardInfoLabel(labelFont: .medium(size: 15))
     private var otherUserId: String?
     private lazy var cardIconImage: UIImageView = {
         let cardIconImage = UIImageView()
@@ -213,7 +213,8 @@ class CardView: UIView {
         cardImageView.addSubview(introLabel)
         NSLayoutConstraint.activate([
             introLabel.leadingAnchor.constraint(equalTo: genderLabel.leadingAnchor),
-            introLabel.topAnchor.constraint(equalTo: genderLabel.bottomAnchor)
+            introLabel.topAnchor.constraint(equalTo: genderLabel.bottomAnchor),
+            introLabel.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: -10)
         ])
         introLabel.text = user.intro
     }

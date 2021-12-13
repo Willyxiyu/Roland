@@ -14,7 +14,7 @@ class CardInfoLabel: UILabel {
         font = labelFont
         textColor = .white
         lineBreakMode = .byWordWrapping
-        numberOfLines = 0
+        numberOfLines = 2
         textAlignment = .left
     }
     
