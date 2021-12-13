@@ -128,6 +128,7 @@ class CardPageViewController: UIViewController {
                 guard let idd = userInfo.userId else { return false }
                 return !(self.userInfoForScalingCard.contains(idd))
             }
+            self.cardView.subviews.forEach { $0.removeFromSuperview() }
             
             array.forEach { (userInfo) in
                 
