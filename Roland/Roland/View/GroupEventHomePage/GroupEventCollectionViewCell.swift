@@ -29,7 +29,7 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         let eventPhoto = UIImageView()
         eventPhoto.contentMode = .scaleAspectFill
         eventPhoto.image = UIImage(named: "GroupPhoto")
-        eventPhoto.layer.cornerRadius = 15
+//        eventPhoto.layer.cornerRadius = 15
         eventPhoto.clipsToBounds = true
         eventPhoto.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return eventPhoto
@@ -95,7 +95,6 @@ class GroupEventCollectionViewCell: UICollectionViewCell {
         return ellipsisButton
     }()
     
-
     private func setupEventPhoto() {
         eventPhoto.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(eventPhoto)
